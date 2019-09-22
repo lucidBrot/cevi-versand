@@ -1,3 +1,4 @@
+extern crate printpdf;
 fn main() {
     println!("Hello, world!");
     sample_page();
