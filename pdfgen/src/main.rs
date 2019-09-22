@@ -2,6 +2,7 @@ fn main() {
     println!("Hello, world!");
     sample_page();
     sample_graphical_page();
+    sample_image();
 }
 
 fn sample_page(){
@@ -21,7 +22,7 @@ fn sample_graphical_page(){
     use std::io::BufWriter;
     use std::iter::FromIterator;
 
-    let (doc, page1, layer1) = PdfDocument::new("printpdf graphics test", Mm(297.0), Mm(210.0), "Layer 1");
+    let (doc, page1, layer1) = PdfDocument::new("printpdf graphics test", Mm(500.0), Mm(500.0), "Layer 1");
     let current_layer = doc.get_page(page1).get_layer(layer1);
 
     // Quadratic shape. The "false" determines if the next (following)
@@ -85,4 +86,50 @@ fn sample_graphical_page(){
 
     //save 
     doc.save(&mut BufWriter::new(File::create("test_graphic.pdf").unwrap())).unwrap();
+}
+
+fn sample_image(){
+    // imports the `image` library with the exact version that we are using
+    use printpdf::*;
+
+    use std::convert::From;
+    use std::fs::File;
+    use std::io::BufWriter;
+
+    
+        let (doc, page1, layer1) = PdfDocument::new("PDF_Document_title", Mm(247.0), Mm(210.0), "Layer 1");
+        let current_layer = doc.get_page(page1).get_layer(layer1);
+
+        // currently, the only reliable file format is bmp (jpeg works, but not in release mode)
+        // this is an issue of the image library, not a fault of printpdf
+        let mut image_file = File::open("1200px-Cevi.svg.bmp").unwrap();
+        let image = Image::try_from(image::bmp::BMPDecoder::new(&mut image_file).unwrap()).unwrap();
+
+        // translate x, translate y, rotate, scale x, scale y
+        // by default, an image is optimized to 300 DPI (if scale is None)
+        // rotations and translations are always in relation to the lower left corner
+        image.add_to_layer(current_layer.clone(), None, None, None, None, None, None);
+
+        /*
+        // you can also construct images manually from your data:
+        let mut image_file_2 = ImageXObject {
+            width: Px(200),
+            height: Px(200),
+            color_space: ColorSpace::Greyscale,
+            bits_per_component: ColorBits::Bit8,
+            interpolate: true,
+            /* put your bytes here. Make sure the total number of bytes =
+               width * height * (bytes per component * number of components)
+               (e.g. 2 (bytes) x 3 (colors) for RGB 16bit) */
+            image_data: Vec::new(),
+            image_filter: None, /* does not work yet */
+            clipping_bbox: None, /* doesn't work either, untested */
+        };
+
+        let image2 = Image::from(image_file_2);
+        */
+
+        //save 
+        doc.save(&mut BufWriter::new(File::create("test_image.pdf").unwrap())).unwrap();
+    
 }
