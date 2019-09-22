@@ -102,13 +102,18 @@ fn sample_image(){
 
         // currently, the only reliable file format is bmp (jpeg works, but not in release mode)
         // this is an issue of the image library, not a fault of printpdf
-        let mut image_file = File::open("1200px-Cevi.svg.bmp").unwrap();
-        let image = Image::try_from(image::bmp::BMPDecoder::new(&mut image_file).unwrap()).unwrap();
+        let image_bytes = include_bytes!("1200px-cevi.svg.bmp");
+        let mut reader = std::io::Cursor::new(image_bytes.as_ref());
+        let decoder = image::bmp::BMPDecoder::new(&mut reader).unwrap();
+        let image = Image::try_from(decoder).unwrap();
+
+        //let mut image_file = File::open("1200px-Cevi.svg.bmp").unwrap();
+        //let image = Image::try_from(image::bmp::BMPDecoder::new(&mut image_file).unwrap()).unwrap();
 
         // translate x, translate y, rotate, scale x, scale y
         // by default, an image is optimized to 300 DPI (if scale is None)
         // rotations and translations are always in relation to the lower left corner
-        image.add_to_layer(current_layer.clone(), None, None, None, None, None, None);
+        image.add_to_layer(current_layer.clone(), None, None, None, None, Some(600.0), Some(600.0));
 
         /*
         // you can also construct images manually from your data:
