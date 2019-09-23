@@ -17,11 +17,11 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
 
     // document config
     let document_title = "Versand";
-    let main_font_size = 14;
+    let main_font_size = 12;
     let page_width = Mm(162.0);
     let page_height = Mm(114.0);
-    let address_offset_x = Mm(100.0);
-    let address_offset_y = Mm(60.0);
+    let address_offset_x = Mm(110.0);
+    let address_offset_y = Mm(50.0);
     let names_offset_x = Mm(22.0);
     let names_offset_y = page_height - Mm(20.0);
     
