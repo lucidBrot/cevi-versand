@@ -13,7 +13,7 @@ pub fn main() {
     // currently, the only reliable file format is bmp (jpeg works, but not in release mode)
     // this is an issue of the image library, not a fault of printpdf
 
-    let image_bytes = include_bytes!("whitebg.bmp");
+    let image_bytes = include_bytes!("transparent.bmp");
     let mut reader = Cursor::new(image_bytes.as_ref());
 
     let decoder = BMPDecoder::new(&mut reader).unwrap();
