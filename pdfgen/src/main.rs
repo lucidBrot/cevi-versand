@@ -57,8 +57,23 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
         current_layer.end_text_section();
     }
 
+    // add logo
+    add_bitmap_to_layer(&current_layer);
+
     return doc;
 } 
+
+fn add_bitmap_to_layer(current_layer : &printpdf::PdfLayerReference) {
+    use printpdf::*;
+    use std::io::Cursor;
+    use image::bmp::BMPDecoder;
+    use std::io::BufWriter;
+    let mut image_file = std::fs::File::open("res/images/logo.bmp").unwrap();
+    let decoder = BMPDecoder::new(&mut image_file).unwrap();
+    let image = Image::try_from(decoder).unwrap();
+    // translate x, translate y, rotate, scale x, scale y
+    image.add_to_layer(current_layer.clone(), None, None, None, None, None, None);
+}
 
 fn sample_page(){
     use printpdf::*;
