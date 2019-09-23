@@ -24,6 +24,12 @@ Siehe [API docs](wiki.cevi.ch/index.php/CeviDB_API):
 > 5 token = res.json()["people"][0]["authentication_token"]
 > ```
 
+endpoint Versand: https://db.cevi.ch/groups/116/people.json?filter_id=319
+
+sortiert Versand: https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email=secret@mail.ch&user_token=placeholder&sort=address
+
+mitgliederbeitragfilter: filter_id=591
+
 ### Filter
 
 * Leiter 
