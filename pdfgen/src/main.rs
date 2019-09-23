@@ -20,7 +20,6 @@ fn sample_page(){
     //text
     let text = "unicod";
     let font = doc.add_external_font(File::open("src/assets/fonts/calibri.ttf").unwrap()).unwrap();
-    let font2 = doc.add_external_font(File::open("src/assets/fonts/academicons.ttf").unwrap()).unwrap();
     // text, font size, x from left edge, y from top edge, font
     doc.get_page(page1).get_layer(layer1).use_text(text, 48, Mm(200.0), Mm(200.0), &font);
 
