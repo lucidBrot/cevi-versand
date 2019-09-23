@@ -4,7 +4,7 @@ fn main() {
     println!("Hello, world!");
     sample_page();
     sample_graphical_page();
-    sample_image();
+    //sample_image();
     //sample_im2();
 
     images::main();
@@ -107,7 +107,7 @@ fn sample_image(){
 
         // currently, the only reliable file format is bmp (jpeg works, but not in release mode)
         // this is an issue of the image library, not a fault of printpdf
-        let mut image_file = File::open(("1200px-cevi.svg.bmp")).unwrap();
+        let mut image_file = File::open(("cevisvg.bmp")).unwrap();
         let decoder = image::bmp::BMPDecoder::new(&mut image_file).unwrap();
         let image = printpdf::Image::try_from(decoder).unwrap();
 
@@ -157,7 +157,7 @@ fn sample_im2() {
     // currently, the only reliable file format is bmp (jpeg works, but not in release mode)
     // this is an issue of the image library, not a fault of printpdf
 
-    let image_bytes = include_bytes!("1200px-cevi.svg.bmp");
+    let image_bytes = include_bytes!("cevisvg.bmp");
     let mut reader = Cursor::new(image_bytes.as_ref());
 
     let decoder = BMPDecoder::new(&mut reader).unwrap();
