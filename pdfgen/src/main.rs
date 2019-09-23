@@ -22,7 +22,7 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     let page_height = Mm(114.0);
     let address_offset_x = Mm(100.0);
     let address_offset_y = Mm(60.0);
-    let names_offset_x = Mm(20.0);
+    let names_offset_x = Mm(22.0);
     let names_offset_y = page_height - Mm(20.0);
     
     // sample couvert config
@@ -32,10 +32,18 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     let (doc, page1, layer1) : (PdfDocumentReference, indices::PdfPageIndex, indices::PdfLayerIndex) = PdfDocument::new(document_title, page_width, page_height, /*initial_layer_name*/"Layer 1");
     // load a font
     let font1 = doc.add_external_font(std::fs::File::open("res/fonts/calibri.ttf").unwrap()).unwrap();
-
-    // position the sample text
+    // prepare usage variables
     let current_page = doc.get_page(page1);
     let current_layer = current_page.get_layer(layer1);
+
+    // place the logo first, so that it is in the background
+    // original logo is at 300 dpi approx 16/0.15 = 106mm
+    add_bitmap_to_layer(&current_layer,
+                        Some(Mm(5.0)), Some(page_height - Mm(16.0) - Mm(5.0) ),
+                        Some(0.15), Some(0.15)
+                        );
+
+    // position the sample text
     current_layer.use_text(sample_text, main_font_size, names_offset_x, names_offset_y, &font1);
 
     // position sample address
@@ -57,13 +65,14 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
         current_layer.end_text_section();
     }
 
-    // add logo
-    add_bitmap_to_layer(&current_layer);
-
     return doc;
 } 
 
-fn add_bitmap_to_layer(current_layer : &printpdf::PdfLayerReference) {
+fn add_bitmap_to_layer(current_layer : &printpdf::PdfLayerReference, 
+                       posx : Option<printpdf::Mm>,
+                       posy : Option<printpdf::Mm>,
+                       scalex : Option<f64>,
+                       scaley : Option<f64>) {
     use printpdf::*;
     use std::io::Cursor;
     use image::bmp::BMPDecoder;
@@ -71,8 +80,8 @@ fn add_bitmap_to_layer(current_layer : &printpdf::PdfLayerReference) {
     let mut image_file = std::fs::File::open("res/images/logo.bmp").unwrap();
     let decoder = BMPDecoder::new(&mut image_file).unwrap();
     let image = Image::try_from(decoder).unwrap();
-    // translate x, translate y, rotate, scale x, scale y
-    image.add_to_layer(current_layer.clone(), None, None, None, None, None, None);
+    // translate x, translate y, rotate, scale x, scale y, dpi
+    image.add_to_layer(current_layer.clone(), posx, posy, None, scalex, scaley, None);
 }
 
 fn sample_page(){
