@@ -18,10 +18,10 @@ fn sample_page(){
     let (doc, page1, layer1) = PdfDocument::new("PDF_Document_title", Mm(247.0), Mm(210.0), "Layer 1");
 
     //text
-    let text = "unicod";
+    let text = "unicode: как теба завут?";
     let font = doc.add_external_font(File::open("src/assets/fonts/calibri.ttf").unwrap()).unwrap();
-    // text, font size, x from left edge, y from top edge, font
-    doc.get_page(page1).get_layer(layer1).use_text(text, 48, Mm(200.0), Mm(200.0), &font);
+    // text, font size, x from left edge, y from bottom edge, font
+    doc.get_page(page1).get_layer(layer1).use_text(text, 48, Mm(10.0), Mm(10.0), &font);
 
     let (page2, layer1) = doc.add_page(Mm(10.0), Mm(250.0),"Page 2, Layer 1");
 
