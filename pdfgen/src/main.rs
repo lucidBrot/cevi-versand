@@ -17,21 +17,25 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
 
     // document config
     let document_title = "Versand";
-    let main_font_size = 20;
-    let address_offset_x = Mm(150.0);
-    let address_offset_y = Mm(80.0);
+    let main_font_size = 14;
+    let page_width = Mm(162.0);
+    let page_height = Mm(114.0);
+    let address_offset_x = Mm(100.0);
+    let address_offset_y = Mm(60.0);
+    let names_offset_x = Mm(20.0);
+    let names_offset_y = page_height - Mm(20.0);
     
     // sample couvert config
-    let sample_text = "sample text";
+    let sample_text = "Levanzo";
 
     // create the document
-    let (doc, page1, layer1) : (PdfDocumentReference, indices::PdfPageIndex, indices::PdfLayerIndex) = PdfDocument::new(document_title, Mm(114.0), Mm(162.0), /*initial_layer_name*/"Layer 1");
+    let (doc, page1, layer1) : (PdfDocumentReference, indices::PdfPageIndex, indices::PdfLayerIndex) = PdfDocument::new(document_title, page_width, page_height, /*initial_layer_name*/"Layer 1");
     // load a font
     let font1 = doc.add_external_font(std::fs::File::open("res/fonts/calibri.ttf").unwrap()).unwrap();
 
     // position the sample text
     let current_page = doc.get_page(page1);
-    let current_layer = current_page.get_layer(layer1).use_text(sample_text, main_font_size, address_offset_x, address_offset_y, &font1);
+    let current_layer = current_page.get_layer(layer1).use_text(sample_text, main_font_size, names_offset_x, names_offset_y, &font1);
 
     return doc;
 } 
