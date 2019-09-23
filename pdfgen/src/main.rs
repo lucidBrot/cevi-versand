@@ -35,7 +35,27 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
 
     // position the sample text
     let current_page = doc.get_page(page1);
-    let current_layer = current_page.get_layer(layer1).use_text(sample_text, main_font_size, names_offset_x, names_offset_y, &font1);
+    let current_layer = current_page.get_layer(layer1);
+    current_layer.use_text(sample_text, main_font_size, names_offset_x, names_offset_y, &font1);
+
+    // position sample address
+    {
+        current_layer.begin_text_section();
+        current_layer.set_font(&font1, main_font_size);
+        current_layer.set_text_cursor(Mm(10.0), Mm(10.0));
+        current_layer.set_line_height(main_font_size);
+        current_layer.set_word_spacing(3000);
+        current_layer.set_character_spacing(10);
+        current_layer.set_text_rendering_mode(/*Fill, Stroke, FillStroke, Invisible, FillClip, StrokeClip, FillStrokeClip, Clip*/TextRenderingMode::StrokeClip);
+
+        let address = vec!["Familie Mink", "Neuwiesenstr. 2", "8332 Russikon"];
+        for line in address {
+            current_layer.write_text(line, &font1);
+            current_layer.add_line_break();
+        }
+
+        current_layer.end_text_section();
+    }
 
     return doc;
 } 
