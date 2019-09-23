@@ -42,11 +42,11 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     {
         current_layer.begin_text_section();
         current_layer.set_font(&font1, main_font_size);
-        current_layer.set_text_cursor(Mm(10.0), Mm(10.0));
+        current_layer.set_text_cursor(address_offset_x, address_offset_y);
         current_layer.set_line_height(main_font_size);
         current_layer.set_word_spacing(3000);
-        current_layer.set_character_spacing(10);
-        current_layer.set_text_rendering_mode(/*Fill, Stroke, FillStroke, Invisible, FillClip, StrokeClip, FillStrokeClip, Clip*/TextRenderingMode::StrokeClip);
+        current_layer.set_character_spacing(0);
+        current_layer.set_text_rendering_mode(/*Fill, Stroke, FillStroke, Invisible, FillClip, StrokeClip, FillStrokeClip, Clip*/TextRenderingMode::Fill);
 
         let address = vec!["Familie Mink", "Neuwiesenstr. 2", "8332 Russikon"];
         for line in address {
