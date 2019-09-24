@@ -76,6 +76,11 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
                    pos_y: printpdf::Mm) {
     use printpdf::{Point, Line, Mm};
 
+    // point relative to lower left corner (pos_x, pos_y)
+    fn point (posx: f64, posy: f64) -> Point {
+        Point::new(Mm(pos_x + posx), Mm(pos_y + posy));
+    }
+
     // The "false" determines if the next (following)
     // point is a bezier handle (for curves)
     // If you want holes, simply reorder the winding of the points to be
