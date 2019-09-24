@@ -18,6 +18,7 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     // document config
     let document_title = "Versand";
     let main_font_size = 12;
+    let names_font_size = 11;
     let page_width = Mm(162.0);
     let page_height = Mm(114.0);
     let address_offset_x = Mm(110.0);
@@ -31,7 +32,8 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     // create the document
     let (doc, page1, layer1) : (PdfDocumentReference, indices::PdfPageIndex, indices::PdfLayerIndex) = PdfDocument::new(document_title, page_width, page_height, /*initial_layer_name*/"Layer 1");
     // load a font
-    let font1 = doc.add_external_font(std::fs::File::open("res/fonts/calibri.ttf").unwrap()).unwrap();
+    let font_calibri = doc.add_external_font(std::fs::File::open("res/fonts/calibri.ttf").unwrap()).unwrap();
+    let font_calibri_light = doc.add_external_font(std::fs::File::open("res/fonts/calibril.ttf").unwrap()).unwrap();
     // prepare usage variables
     let current_page = doc.get_page(page1);
     let current_layer = current_page.get_layer(layer1);
@@ -43,13 +45,14 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
                         Some(0.15), Some(0.15)
                         );
 
-    // position the sample text
-    current_layer.use_text(sample_text, main_font_size, names_offset_x, names_offset_y, &font1);
+    // position the names
+    current_layer.use_text(sample_text, names_font_size, names_offset_x, names_offset_y, &font_calibri);
 
     // position sample address
     {
+        let font_addresses = font_calibri_light;
         current_layer.begin_text_section();
-        current_layer.set_font(&font1, main_font_size);
+        current_layer.set_font(&font_addresses, main_font_size);
         current_layer.set_text_cursor(address_offset_x, address_offset_y);
         current_layer.set_line_height(main_font_size);
         current_layer.set_word_spacing(3000);
@@ -58,7 +61,7 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
 
         let address = vec!["Familie Mink", "Neuwiesenstr. 2", "8332 Russikon"];
         for line in address {
-            current_layer.write_text(line, &font1);
+            current_layer.write_text(line, &font_addresses);
             current_layer.add_line_break();
         }
 
