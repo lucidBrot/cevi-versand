@@ -71,6 +71,35 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     return doc;
 } 
 
+fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
+                   pos_x: printpdf::Mm,
+                   pos_y: printpdf::Mm) {
+    use printpdf::{Point, Line, Mm};
+
+    // The "false" determines if the next (following)
+    // point is a bezier handle (for curves)
+    // If you want holes, simply reorder the winding of the points to be
+    // counterclockwise instead of clockwise.
+    let points1 = vec![
+        (Point::new(Mm(100.0), Mm(100.0)), false),
+        (Point::new(Mm(100.0), Mm(200.0)), false),
+        (Point::new(Mm(300.0), Mm(200.0)), false),
+        (Point::new(Mm(300.0), Mm(100.0)), false)
+    ];
+
+    // Is the shape stroked? Is the shape closed? Is the shape filled?
+    let line1 = Line {
+        points: points1,
+        is_closed: true,
+        has_fill: true,
+        has_stroke: true,
+        is_clipping_path: false,
+    };
+
+    // draw
+    current_layer.add_shape(line1);
+}
+
 fn add_bitmap_to_layer(current_layer : &printpdf::PdfLayerReference, 
                        posx : Option<printpdf::Mm>,
                        posy : Option<printpdf::Mm>,
