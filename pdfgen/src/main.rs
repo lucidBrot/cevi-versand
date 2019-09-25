@@ -68,6 +68,9 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
         current_layer.end_text_section();
     }
 
+    // position sample sidebadge
+    draw_sidebadge(&current_layer, Mm(0.0), Mm(40.0));
+
     return doc;
 } 
 
@@ -75,6 +78,8 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
                    origin_x: printpdf::Mm,
                    origin_y: printpdf::Mm) {
     use printpdf::{Point, Line, Mm};
+
+    let badge_height = Mm(20.0);
 
     // point relative to lower left corner (pos_x, pos_y)
     let mut point = |posx: f64, posy: f64| -> Point {
@@ -88,7 +93,7 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
     // If you want holes, simply reorder the winding of the points to be
     // counterclockwise instead of clockwise.
     let points1 = vec![
-        (Point::new(Mm(100.0), Mm(100.0)), false),
+        (Point::new(origin_x, badge_height + origin_y), false),
         (Point::new(Mm(100.0), Mm(200.0)), false),
         (Point::new(Mm(300.0), Mm(200.0)), false),
         (Point::new(Mm(300.0), Mm(100.0)), false)
