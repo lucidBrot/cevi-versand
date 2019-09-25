@@ -80,6 +80,7 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
     use printpdf::{Point, Line, Mm};
 
     let badge_height = Mm(20.0);
+    let badge_width = Mm(40.0);
 
     // point relative to lower left corner (pos_x, pos_y)
     let mut point = |posx: f64, posy: f64| -> Point {
@@ -93,10 +94,10 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
     // If you want holes, simply reorder the winding of the points to be
     // counterclockwise instead of clockwise.
     let points1 = vec![
-        (Point::new(origin_x, badge_height + origin_y), false),
-        (Point::new(Mm(100.0), Mm(200.0)), false),
-        (Point::new(Mm(300.0), Mm(200.0)), false),
-        (Point::new(Mm(300.0), Mm(100.0)), false)
+        (Point::new(origin_x              , badge_height + origin_y), false),
+        (Point::new(origin_x + badge_width, origin_y + badge_height), false),
+        (Point::new(origin_x + badge_width, origin_y               ), false),
+        (Point::new(origin_x              , origin_y               ), false)
     ];
 
     // Is the shape stroked? Is the shape closed? Is the shape filled?
