@@ -7,6 +7,7 @@ A better tool for generating envelopes from our database
 * Allow user to intuitively filter who should receive the consignment
 * Generate PDF with relevant information for manual sending, in correct order
 * No dependency on office if possible
+* Acceptable couverts by post standards
 
 ### Extract Data
 
@@ -47,6 +48,9 @@ Wer Leiter ist, ist nicht gleichzeitig Teilnehmer. Wer Ehemalig ist, ist nicht g
 * Adresse in Adressfeld
 * Unten links Balken "# Leiter", "# Teilnehmer", "# Ehemalige" etc. Wenn Anzahl 0 dann nicht anzeigen
 * Ausgabe sortiert nach Stufen des ältesten Empfängers
-```
-
-```
+* Linker Rand: 12mm Abstand bis Werbebereich
+  Unten Rechts: Codierzone 140 x 15 mm
+  Rechter Rand: 12mm Abstand bis Adressfeld
+  Adressfeld: nicht mit Werbung überlappen, nicht mit codierzone überlappen
+  Adressfeld: min (10+38)mm abstand nach oben, min (12+22)mm abstand nach links
+  ![layout couvert post](N:\Files\projects\cevi-versand\post\screenshot1.png)
