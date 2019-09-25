@@ -69,7 +69,9 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     }
 
     // position sample sidebadge
-    draw_sidebadge(&current_layer, Mm(0.0), Mm(40.0));
+    let badge_height = Mm(40.0);
+    draw_sidebadge(&current_layer, Mm(0.0), badge_height);
+    current_layer.use_text("Leiter", names_font_size, Mm(5.0), badge_height, &font_calibri);
 
     return doc;
 } 
@@ -107,7 +109,7 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
     let line1 = Line {
         points: points1,
         is_closed: true,
-        has_fill: true,
+        has_fill: false, // TODO: True
         has_stroke: true,
         is_clipping_path: false,
     };
