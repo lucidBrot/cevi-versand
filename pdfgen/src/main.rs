@@ -72,14 +72,16 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
 } 
 
 fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
-                   pos_x: printpdf::Mm,
-                   pos_y: printpdf::Mm) {
+                   origin_x: printpdf::Mm,
+                   origin_y: printpdf::Mm) {
     use printpdf::{Point, Line, Mm};
 
     // point relative to lower left corner (pos_x, pos_y)
-    fn point (posx: f64, posy: f64) -> Point {
-        Point::new(Mm(pos_x + posx), Mm(pos_y + posy));
-    }
+    let mut point = |posx: f64, posy: f64| -> Point {
+        let printpdf::Mm(pos_x) = origin_x;
+        let printpdf::Mm(pos_y) = origin_y;
+        Point::new(Mm(pos_x + posx), Mm(pos_y + posy))
+    };
 
     // The "false" determines if the next (following)
     // point is a bezier handle (for curves)
