@@ -79,8 +79,8 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
                    origin_y: printpdf::Mm) {
     use printpdf::{Point, Line, Mm};
 
-    let badge_height = Mm(20.0);
-    let badge_width = Mm(40.0);
+    let badge_height = Mm(10.0);
+    let badge_width = Mm(20.0);
     let badge_dent_width = badge_width / 10.0;
 
     // point relative to lower left corner (pos_x, pos_y)
