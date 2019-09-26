@@ -69,7 +69,7 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
 
     // position sample sidebadge
     let badge_height = Mm(40.0);
-    draw_sidebadge(&current_layer, Mm(0.0), badge_height, font_calibri, badge_text_font_size);
+    draw_sidebadge(&current_layer, border_wh + Mm(0.0), badge_height, font_calibri, badge_text_font_size);
 
     return doc;
 } 
@@ -119,7 +119,7 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
     // create text
     let fill_color = printpdf::Color::Cmyk(printpdf::Cmyk::new(0.0, 0.0, 0.0, 0.0, None));
     current_layer.set_fill_color(fill_color);
-    current_layer.use_text("Leiter", font_size, Mm(5.0), origin_y + Mm(badge_height/2.0) - Mm(0.8), &font);
+    current_layer.use_text("Leiter", font_size, origin_x + Mm(5.0), origin_y + Mm(badge_height/2.0) - Mm(0.8), &font);
 }
 
 fn add_bitmap_to_layer(current_layer : &printpdf::PdfLayerReference, 
