@@ -16,6 +16,7 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     let document_title = "Versand";
     let main_font_size = 12;
     let names_font_size = 11;
+    let badge_text_font_size = 11;
     let page_width = Mm(162.0);
     let page_height = Mm(114.0);
     let address_offset_x = Mm(110.0);
@@ -67,23 +68,21 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
 
     // position sample sidebadge
     let badge_height = Mm(40.0);
-    draw_sidebadge(&current_layer, Mm(0.0), badge_height);
-    current_layer.use_text("Leiter", names_font_size, Mm(5.0), badge_height, &font_calibri);
+    draw_sidebadge(&current_layer, Mm(0.0), badge_height, font_calibri, badge_text_font_size);
 
     return doc;
 } 
 
 fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
                    origin_x: printpdf::Mm,
-                   origin_y: printpdf::Mm) {
+                   origin_y: printpdf::Mm,
+                   font: printpdf::IndirectFontRef,
+                   font_size: i64) {
     use printpdf::{Point, Line, Mm};
 
     let badge_height = 10.0;
     let badge_width = 20.0;
     let badge_dent_width = badge_width / 10.0;
-
-    let fill_color = printpdf::Color::Cmyk(printpdf::Cmyk::new(0.0, 0.23, 0.0, 0.0, None));
-    current_layer.set_fill_color(fill_color);
 
     // point relative to lower left corner (pos_x, pos_y)
     let point = |posx: f64, posy: f64| -> Point {
@@ -115,6 +114,11 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
 
     // draw
     current_layer.add_shape(line1);
+
+    // create text
+    let fill_color = printpdf::Color::Cmyk(printpdf::Cmyk::new(0.0, 0.23, 0.0, 0.0, None));
+    current_layer.set_fill_color(fill_color);
+    current_layer.use_text("Leiter", font_size, Mm(5.0), Mm(badge_height), &font);
 }
 
 fn add_bitmap_to_layer(current_layer : &printpdf::PdfLayerReference, 
