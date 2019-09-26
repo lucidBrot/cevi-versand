@@ -21,7 +21,8 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     let page_height = Mm(162.0);
     let address_offset_x = Mm(110.0);
     let address_offset_y = Mm(50.0);
-    let names_offset_x = Mm(22.0);
+    let border_wh = Mm(12.0);
+    let names_offset_x = border_wh + Mm(20.0);
     let names_offset_y = page_height - Mm(20.0);
     
     // sample couvert config
@@ -39,7 +40,7 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     // place the logo first, so that it is in the background
     // original logo is at 300 dpi approx 16/0.15 = 106mm
     add_bitmap_to_layer(&current_layer,
-                        Some(Mm(5.0)), Some(page_height - Mm(16.0) - Mm(5.0) ),
+                        Some(border_wh), Some(page_height - Mm(16.0) - border_wh ),
                         Some(0.15), Some(0.15)
                         );
 
