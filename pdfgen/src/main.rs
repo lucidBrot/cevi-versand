@@ -127,7 +127,7 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
     // create text
     let fill_color_white = printpdf::Color::Cmyk(printpdf::Cmyk::new(0.0, 0.0, 0.0, 0.0, None));
     current_layer.set_fill_color(fill_color_white);
-    current_layer.use_text(text, font_size, origin_x + Mm(5.0), origin_y + Mm(badge_height/2.0) - Mm(0.8), &font);
+    current_layer.use_text(text, font_size, origin_x + Mm(2.5), origin_y + Mm(badge_height/2.0) - Mm(0.8), &font);
 }
 
 fn add_bitmap_to_layer(current_layer : &printpdf::PdfLayerReference, 
