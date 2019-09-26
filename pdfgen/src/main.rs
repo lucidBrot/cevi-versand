@@ -107,7 +107,7 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
     let line1 = Line {
         points: points1,
         is_closed: true,
-        has_fill: false, // TODO: True
+        has_fill: true,
         has_stroke: true,
         is_clipping_path: false,
     };
@@ -116,9 +116,9 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
     current_layer.add_shape(line1);
 
     // create text
-    let fill_color = printpdf::Color::Cmyk(printpdf::Cmyk::new(0.0, 0.23, 0.0, 0.0, None));
+    let fill_color = printpdf::Color::Cmyk(printpdf::Cmyk::new(0.0, 0.0, 0.0, 0.0, None));
     current_layer.set_fill_color(fill_color);
-    current_layer.use_text("Leiter", font_size, Mm(5.0), Mm(badge_height), &font);
+    current_layer.use_text("Leiter", font_size, Mm(5.0), origin_y + Mm(badge_height/2.0) - Mm(0.8), &font);
 }
 
 fn add_bitmap_to_layer(current_layer : &printpdf::PdfLayerReference, 
