@@ -19,8 +19,8 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     let badge_text_font_size = 11;
     let page_width = Mm(229.0);
     let page_height = Mm(162.0);
-    let address_offset_x = Mm(110.0);
-    let address_offset_y = Mm(50.0);
+    let address_offset_x = Mm(120.0);
+    let address_offset_y = Mm(70.0);
     let border_wh = Mm(12.0);
     let names_offset_x = border_wh + Mm(20.0);
     let names_offset_y = page_height - Mm(20.0);
@@ -68,12 +68,14 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     }
 
     // position sample sidebadge
-    let badge_pos_y = Mm(40.0);
+    let badge_pos_y = border_wh;
     let badge_spacing_y = Mm(15.0);
     draw_sidebadge(&current_layer, border_wh + Mm(0.0), badge_pos_y,
+                   &font_calibri, badge_text_font_size, &"1 Trägerkreis");
+    draw_sidebadge(&current_layer, border_wh + Mm(0.0), badge_pos_y + badge_spacing_y,
                    &font_calibri, badge_text_font_size, &"1 Leiter");
     // second sample sidebadge
-    draw_sidebadge(&current_layer, border_wh + Mm(0.0), badge_pos_y + badge_spacing_y, 
+    draw_sidebadge(&current_layer, border_wh + Mm(0.0), badge_pos_y + badge_spacing_y*2f64, 
                    &font_calibri, badge_text_font_size, &"1 Teilnehmer");
 
     return doc;
