@@ -17,8 +17,8 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     let main_font_size = 12;
     let names_font_size = 11;
     let badge_text_font_size = 11;
-    let page_width = Mm(162.0);
-    let page_height = Mm(114.0);
+    let page_width = Mm(229.0);
+    let page_height = Mm(162.0);
     let address_offset_x = Mm(110.0);
     let address_offset_y = Mm(50.0);
     let names_offset_x = Mm(22.0);
