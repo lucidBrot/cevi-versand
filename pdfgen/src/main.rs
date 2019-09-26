@@ -14,13 +14,13 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
 
     // document config
     let document_title = "Versand";
-    let main_font_size = 12;
+    let address_font_size = 18;
     let names_font_size = 11;
     let badge_text_font_size = 11;
     let page_width = Mm(229.0);
     let page_height = Mm(162.0);
     let address_offset_x = Mm(120.0);
-    let address_offset_y = Mm(70.0);
+    let address_offset_y = Mm(65.0);
     let border_wh = Mm(12.0);
     let names_offset_x = border_wh + Mm(20.0);
     let names_offset_y = page_height - Mm(20.0);
@@ -51,9 +51,9 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     {
         let font_addresses = font_calibri_light;
         current_layer.begin_text_section();
-        current_layer.set_font(&font_addresses, main_font_size);
+        current_layer.set_font(&font_addresses, address_font_size);
         current_layer.set_text_cursor(address_offset_x, address_offset_y);
-        current_layer.set_line_height(main_font_size);
+        current_layer.set_line_height(address_font_size);
         current_layer.set_word_spacing(3000);
         current_layer.set_character_spacing(0);
         current_layer.set_text_rendering_mode(/*Fill, Stroke, FillStroke, Invisible, FillClip, StrokeClip, FillStrokeClip, Clip*/TextRenderingMode::Fill);
