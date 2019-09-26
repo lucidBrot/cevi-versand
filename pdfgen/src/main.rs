@@ -68,8 +68,13 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     }
 
     // position sample sidebadge
-    let badge_height = Mm(40.0);
-    draw_sidebadge(&current_layer, border_wh + Mm(0.0), badge_height, font_calibri, badge_text_font_size);
+    let badge_pos_y = Mm(40.0);
+    let badge_spacing_y = Mm(15.0);
+    draw_sidebadge(&current_layer, border_wh + Mm(0.0), badge_pos_y,
+                   &font_calibri, badge_text_font_size, &"1 Leiter");
+    // second sample sidebadge
+    draw_sidebadge(&current_layer, border_wh + Mm(0.0), badge_pos_y + badge_spacing_y, 
+                   &font_calibri, badge_text_font_size, &"1 Teilnehmer");
 
     return doc;
 } 
@@ -77,12 +82,13 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
 fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
                    origin_x: printpdf::Mm,
                    origin_y: printpdf::Mm,
-                   font: printpdf::IndirectFontRef,
-                   font_size: i64) {
+                   font: &printpdf::IndirectFontRef,
+                   font_size: i64,
+                   text: &str) {
     use printpdf::{Point, Line, Mm};
 
     let badge_height = 10.0;
-    let badge_width = 20.0;
+    let badge_width = 30.0;
     let badge_dent_width = badge_width / 10.0;
 
     // point relative to lower left corner (pos_x, pos_y)
@@ -114,12 +120,14 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
     };
 
     // draw
+    let fill_color_black = printpdf::Color::Cmyk(printpdf::Cmyk::new(0.0, 0.0, 0.0, 1.0, None));
+    current_layer.set_fill_color(fill_color_black);
     current_layer.add_shape(line1);
 
     // create text
-    let fill_color = printpdf::Color::Cmyk(printpdf::Cmyk::new(0.0, 0.0, 0.0, 0.0, None));
-    current_layer.set_fill_color(fill_color);
-    current_layer.use_text("Leiter", font_size, origin_x + Mm(5.0), origin_y + Mm(badge_height/2.0) - Mm(0.8), &font);
+    let fill_color_white = printpdf::Color::Cmyk(printpdf::Cmyk::new(0.0, 0.0, 0.0, 0.0, None));
+    current_layer.set_fill_color(fill_color_white);
+    current_layer.use_text(text, font_size, origin_x + Mm(5.0), origin_y + Mm(badge_height/2.0) - Mm(0.8), &font);
 }
 
 fn add_bitmap_to_layer(current_layer : &printpdf::PdfLayerReference, 
