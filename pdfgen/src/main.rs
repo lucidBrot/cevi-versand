@@ -82,6 +82,9 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
     let badge_width = 20.0;
     let badge_dent_width = badge_width / 10.0;
 
+    let fill_color = printpdf::Color::Cmyk(printpdf::Cmyk::new(0.0, 0.23, 0.0, 0.0, None));
+    current_layer.set_fill_color(fill_color);
+
     // point relative to lower left corner (pos_x, pos_y)
     let point = |posx: f64, posy: f64| -> Point {
         let printpdf::Mm(pos_x) = origin_x;
