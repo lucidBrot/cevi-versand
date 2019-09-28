@@ -81,6 +81,7 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     return doc;
 } 
 
+/// overwrites the fill color of the current layer and draws a badge at (origin_x, origin_y)
 fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
                    origin_x: printpdf::Mm,
                    origin_y: printpdf::Mm,
