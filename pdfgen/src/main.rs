@@ -1,9 +1,5 @@
-mod images;
-
 fn main() {
     println!("Hello, world!");
-    //sample_graphical_page();
-    //images::main();
     
     let filename = "sample_couvert.pdf";
     couvert_doc().save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
