@@ -1,4 +1,5 @@
 mod pluralizable;
+use pluralizable::Pluralizable;
 
 fn main() {
     println!("Hello, world!");
@@ -67,10 +68,11 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
 
     // position sample sidebadge
     let badge_spacing_y = Mm(15.0);
+    let t = |sin: &str, plu: &str| pluralizable::Text::new(sin, plu);
     draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
                     (border_wh, border_wh), badge_spacing_y,
-                    vec!["Trägerkreis", "Leiter", "Teilnehmer", "Ehemalige"],
-                    vec![0, 2, 0, 0]);
+                    vec![t("Trägerkreis", "Trägerkreis"), t("Leiter", "Leiter"), t("Teilnehmer", "Teilnehmer"), t("Ehemaliger", "Ehemalige")],
+                    vec![0, 2, 0, 1]);
 
     return doc;
 } 
@@ -80,16 +82,16 @@ fn draw_sidebadges (current_layer: &printpdf::PdfLayerReference,
                    font_size: i64,
                    (start_x, start_y): (printpdf::Mm, printpdf::Mm),
                    badge_spacing_y: printpdf::Mm,
-                   texts: Vec<&str>,
+                   texts: Vec<pluralizable::Text>,
                    numbers: Vec<usize>) {
     assert_eq!(texts.len(), numbers.len(), "texts and numbers vectors need to have the same length");
-    use pluralizable::Pluralizable;
     
     let mut y = start_y;
     for (num, text_ref) in texts.iter().enumerate() {
 //        let text = format!("{} {}", numbers[num], text_ref);
-        let tmp: pluralizable::Text = pluralizable::Text::new("single", "taken");
-        let text: String = tmp.for_num(numbers[num]);
+//        let tmp: pluralizable::Text = pluralizable::Text::new("single", "taken");
+//        let text: String = tmp.for_num(numbers[num]);
+        let text: String = text_ref.for_num(numbers[num]);
         draw_sidebadge(&current_layer, start_x, y,
                    &font, font_size, &text);
         y += badge_spacing_y;
