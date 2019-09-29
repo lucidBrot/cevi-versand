@@ -68,10 +68,9 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     }
 
     // position sample sidebadge
-    let badge_pos_y = border_wh;
     let badge_spacing_y = Mm(15.0);
     draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
-                    (border_wh, badge_spacing_y,
+                    (border_wh, border_wh), badge_spacing_y,
                     vec!["Trägerkreis", "Leiter", "Teilnehmer"]);
 
     return doc;
