@@ -88,12 +88,10 @@ fn draw_sidebadges (current_layer: &printpdf::PdfLayerReference,
     
     let mut y = start_y;
     for (num, text_ref) in texts.iter().enumerate() {
-//        let text = format!("{} {}", numbers[num], text_ref);
-//        let tmp: pluralizable::Text = pluralizable::Text::new("single", "taken");
-//        let text: String = tmp.for_num(numbers[num]);
-        let text: String = text_ref.for_num(numbers[num]);
+        let txt: String = text_ref.for_num(numbers[num]);
+        let text = format!("{} {}", numbers[num], txt);
         draw_sidebadge(&current_layer, start_x, y,
-                   &font, font_size, &text);
+                       &font, font_size, &text);
         y += badge_spacing_y;
     }
 }
