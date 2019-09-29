@@ -78,8 +78,28 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     draw_sidebadge(&current_layer, border_wh + Mm(0.0), badge_pos_y + badge_spacing_y*2f64, 
                    &font_calibri, badge_text_font_size, &"1 Teilnehmer");
 
+    // draw using function
+    draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
+                    (border_wh + border_wh, border_wh + border_wh), badge_spacing_y,
+                    vec!["Alpha", "Beta", "Gamma"]);
+
     return doc;
 } 
+
+fn draw_sidebadges (current_layer: &printpdf::PdfLayerReference,
+                   font: &printpdf::IndirectFontRef,
+                   font_size: i64,
+                   (start_x, start_y): (printpdf::Mm, printpdf::Mm),
+                   badge_spacing_y: printpdf::Mm,
+                   texts: Vec<&str>) {
+    
+    let mut y = start_y;
+    for text_ref in texts {
+        draw_sidebadge(&current_layer, start_x, y,
+                   &font, font_size, text_ref);
+        y += badge_spacing_y;
+    }
+}
 
 /// overwrites the fill color of the current layer and draws a badge at (origin_x, origin_y)
 fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
