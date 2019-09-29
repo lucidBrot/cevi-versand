@@ -67,7 +67,8 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     let badge_spacing_y = Mm(15.0);
     draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
                     (border_wh, border_wh), badge_spacing_y,
-                    vec!["Trägerkreis", "Leiter", "Teilnehmer"]);
+                    vec!["Trägerkreis", "Leiter", "Teilnehmer", "Ehemalige"],
+                    vec![0, 2, 0, 0]);
 
     return doc;
 } 
@@ -77,12 +78,15 @@ fn draw_sidebadges (current_layer: &printpdf::PdfLayerReference,
                    font_size: i64,
                    (start_x, start_y): (printpdf::Mm, printpdf::Mm),
                    badge_spacing_y: printpdf::Mm,
-                   texts: Vec<&str>) {
+                   texts: Vec<&str>,
+                   numbers: Vec<usize>) {
+    assert_eq!(texts.len(), numbers.len(), "texts and numbers vectors need to have the same length");
     
     let mut y = start_y;
-    for text_ref in texts {
+    for (num, text_ref) in texts.iter().enumerate() {
+        let text = format!("{} {}", numbers[num], text_ref);
         draw_sidebadge(&current_layer, start_x, y,
-                   &font, font_size, text_ref);
+                   &font, font_size, &text);
         y += badge_spacing_y;
     }
 }
