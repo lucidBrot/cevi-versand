@@ -70,18 +70,9 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     // position sample sidebadge
     let badge_pos_y = border_wh;
     let badge_spacing_y = Mm(15.0);
-    draw_sidebadge(&current_layer, border_wh + Mm(0.0), badge_pos_y,
-                   &font_calibri, badge_text_font_size, &"1 Trägerkreis");
-    draw_sidebadge(&current_layer, border_wh + Mm(0.0), badge_pos_y + badge_spacing_y,
-                   &font_calibri, badge_text_font_size, &"1 Leiter");
-    // second sample sidebadge
-    draw_sidebadge(&current_layer, border_wh + Mm(0.0), badge_pos_y + badge_spacing_y*2f64, 
-                   &font_calibri, badge_text_font_size, &"1 Teilnehmer");
-
-    // draw using function
     draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
-                    (border_wh + border_wh, border_wh + border_wh), badge_spacing_y,
-                    vec!["Alpha", "Beta", "Gamma"]);
+                    (border_wh, badge_spacing_y,
+                    vec!["Trägerkreis", "Leiter", "Teilnehmer"]);
 
     return doc;
 } 
