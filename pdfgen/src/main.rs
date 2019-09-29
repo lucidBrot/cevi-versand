@@ -1,5 +1,4 @@
 mod pluralizable;
-use crate::pluralizable::Pluralizable;
 
 fn main() {
     println!("Hello, world!");
@@ -84,6 +83,7 @@ fn draw_sidebadges (current_layer: &printpdf::PdfLayerReference,
                    texts: Vec<&str>,
                    numbers: Vec<usize>) {
     assert_eq!(texts.len(), numbers.len(), "texts and numbers vectors need to have the same length");
+    use pluralizable::Pluralizable;
     
     let mut y = start_y;
     for (num, text_ref) in texts.iter().enumerate() {
