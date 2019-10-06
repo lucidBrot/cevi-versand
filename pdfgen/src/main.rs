@@ -77,6 +77,7 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     return doc;
 } 
 
+// TODO: call in main
 fn draw_names (current_layer: &printpdf::PdfLayerReference,
                font: &printpdf::IndirectFontRef,
                font_size: i64,
