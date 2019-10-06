@@ -84,12 +84,6 @@ fn draw_names (current_layer: &printpdf::PdfLayerReference,
                names_and_groups: Vec<(&str, &str)>){
     let line_distance_y = printpdf::Mm(5.0);
 
-    // find out why a vector of &str tuples results in a &&str
-    let testvec: Vec<(&str, &str)> = vec![(&"test", &"vec")];
-    let testtup: (&str, &str) = testvec[0];
-    let testelem: &str = testtup.0;
-    let mappedvec: Vec<(&str, &str)> = testvec.iter().map(|(a, _b)| a).collect::<Vec<&str>>();
-
     let names_str = names_and_groups.iter()
         .map(|(name, _group)| name)
         .map(|stri:&&str| *stri)
