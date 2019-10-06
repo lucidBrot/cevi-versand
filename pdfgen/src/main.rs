@@ -85,12 +85,14 @@ fn draw_names (current_layer: &printpdf::PdfLayerReference,
     let line_distance_y = printpdf::Mm(5.0);
 
     let names_str = names_and_groups.iter()
-        .map(|(name, group)| name)
-        .collect::<Vec<String>>().join(", ");
+        .map(|(name, _group)| name)
+        .map(|stri:&&str| *stri)
+        .collect::<Vec<&str>>().join(", ");
 
     let groups_str = names_and_groups.iter()
-        .map(|(name, group)| group)
-        .collect::<Vec>String>>().join(", ");
+        .map(|(_name, group)| group)
+        .map(|stri:&&str| *stri)
+        .collect::<Vec<&str>>().join(", ");
 
     // position the names
     current_layer.use_text(
@@ -98,11 +100,10 @@ fn draw_names (current_layer: &printpdf::PdfLayerReference,
         font_size,
         start_x, start_y,
         &font);
-    // TODO: use this function in main
 
     // position the group names
     current_layer.use_text(
-        croups_str,
+        groups_str,
         font_size,
         start_x, start_y - line_distance_y,
         &font);
