@@ -1,3 +1,4 @@
+#[derive(Debug, Clone)]
 pub struct Text {
     singular_text : String,
     plural_text : String,

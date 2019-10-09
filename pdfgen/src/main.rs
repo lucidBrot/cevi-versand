@@ -274,7 +274,7 @@ struct Receiver {
 }
 
 /// Used for the sidebadges
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone)]
 pub enum Role {
     Leiter,
     Teilnehmer,
@@ -283,9 +283,18 @@ pub enum Role {
 }
 
 impl Role {
-    pub fn get_text_for_num(num: usize) -> String {
-        // TODO: how to store a pluralizable for each enum variant?
-        return String::from("Todoerinho");
+    fn value(&self) -> impl pluralizable::Pluralizable {
+        let t = |sin: &str, plu: &str| pluralizable::Text::new(sin, plu);
+        match *self {
+            Role::Leiter =>  t("Leiter", "Leiter"),
+            Role::Teilnehmer => t("Teilnehmer", "Teilnehmer"),
+            Role::Traegerkreis => t("Trägerkreis", "Trägerkreis"),
+            Role::Ehemalige => t("Ehemaliger", "Ehemalige"),
+        }
+    }
+
+    fn get_text_for_num(&self, num: usize) -> String {
+        self.value().for_num(num)
     }
 }
 
