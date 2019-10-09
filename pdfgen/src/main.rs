@@ -23,9 +23,6 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     let border_wh = Mm(12.0);
     let names_offset_x = border_wh + Mm(20.0);
     let names_offset_y = page_height - Mm(20.0);
-    
-    // sample couvert config
-    let sample_name = "Levanzo";
 
     // create the document
     let (doc, page1, layer1) : (PdfDocumentReference, indices::PdfPageIndex, indices::PdfLayerIndex) = PdfDocument::new(document_title, page_width, page_height, /*initial_layer_name*/"Layer 1");
@@ -43,8 +40,10 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
                         Some(0.15), Some(0.15)
                         );
 
-    // position the names
-    current_layer.use_text(sample_name, names_font_size, names_offset_x, names_offset_y, &font_calibri);
+    // draw names
+    draw_names(&current_layer, &font_calibri, names_font_size, (names_offset_x, names_offset_y),
+        vec![("name1", "group1"), ("name2", "group2")]
+        );
 
     // position sample address
     {
@@ -77,7 +76,6 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     return doc;
 } 
 
-// TODO: call in main
 fn draw_names (current_layer: &printpdf::PdfLayerReference,
                font: &printpdf::IndirectFontRef,
                font_size: i64,
