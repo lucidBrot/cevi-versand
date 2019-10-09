@@ -70,7 +70,7 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     let t = |sin: &str, plu: &str| pluralizable::Text::new(sin, plu);
     draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
                     (border_wh, border_wh), badge_spacing_y,
-                    vec![t("Trägerkreis", "Trägerkreis"), t("Leiter", "Leiter"), t("Teilnehmer", "Teilnehmer"), t("Ehemaliger", "Ehemalige")],
+                    vec![t("Trägerkreis", "Trägerkreis"), t("Leiter", "Leiter"), t("Teilnehmer", "Teilnehmer"), t("Ehemaliger", "Ehemalige")], // TODO: use an enum for that?
                     vec![0, 2, 0, 1]);
 
     return doc;
@@ -265,5 +265,27 @@ fn sample_graphical_page(){
 
     //save 
     doc.save(&mut BufWriter::new(File::create("test_graphic.pdf").unwrap())).unwrap();
+}
+
+struct Receiver {
+    nickname: String,
+    group: String,
+    role: Role,
+}
+
+/// Used for the sidebadges
+#[derive(Debug, Copy, Clone)]
+pub enum Role {
+    Leiter,
+    Teilnehmer,
+    Traegerkreis,
+    Ehemalige,
+}
+
+impl Role {
+    pub fn get_text_for_num(num: usize) -> String {
+        // TODO: how to store a pluralizable for each enum variant?
+        return String::from("Todoerinho");
+    }
 }
 
