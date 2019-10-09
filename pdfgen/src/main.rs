@@ -22,7 +22,7 @@ fn couvert_doc() -> printpdf::PdfDocumentReference {
     let address_offset_y = Mm(65.0);
     let border_wh = Mm(12.0);
     let names_offset_x = border_wh + Mm(20.0);
-    let names_offset_y = page_height - Mm(20.0);
+    let names_offset_y = page_height - Mm(18.0);
 
     // create the document
     let (doc, page1, layer1) : (PdfDocumentReference, indices::PdfPageIndex, indices::PdfLayerIndex) = PdfDocument::new(document_title, page_width, page_height, /*initial_layer_name*/"Layer 1");
