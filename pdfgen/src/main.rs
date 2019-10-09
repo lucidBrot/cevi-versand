@@ -5,10 +5,17 @@ fn main() {
     println!("Hello, world!");
     
     let filename = "sample_couvert.pdf";
+
+    let receiver = Receiver {
+        nickname: "Focus",
+        group: "Skapande",
+        role: Role::Leiter,
+    };
+    let receivers = vec![receiver];
     couvert_doc().save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
 }
 
-fn couvert_doc() -> printpdf::PdfDocumentReference {
+fn couvert_doc(receivers: Vec<Receiver>) -> printpdf::PdfDocumentReference {
     use printpdf::*;
 
     // document config
@@ -274,7 +281,7 @@ struct Receiver {
 }
 
 /// Used for the sidebadges
-#[derive(Debug, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub enum Role {
     Leiter,
     Teilnehmer,
