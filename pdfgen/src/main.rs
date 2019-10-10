@@ -74,11 +74,9 @@ fn couvert_doc(receivers: Vec<Receiver>) -> printpdf::PdfDocumentReference {
 
     // position sample sidebadge
     let badge_spacing_y = Mm(15.0);
-    let plurs = receivers.iter().map(|rec| Box::new(rec.role.value()) as Box<dyn pluralizable::Pluralizable>).collect::<Vec<Box<dyn pluralizable::Pluralizable>>>();
     let t = |sin: &str, plu: &str| pluralizable::Text::new(sin, plu);
     draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
                     (border_wh, border_wh), badge_spacing_y,
-                    plurs,
                     vec![0,0,0,1]);
 
     return doc;
@@ -122,12 +120,11 @@ fn draw_sidebadges (current_layer: &printpdf::PdfLayerReference,
                    font_size: i64,
                    (start_x, start_y): (printpdf::Mm, printpdf::Mm),
                    badge_spacing_y: printpdf::Mm,
-                   texts: Vec<Box<pluralizable::Pluralizable>>,
                    numbers: Vec<usize>) {
     assert_eq!(texts.len(), numbers.len(), "texts and numbers vectors need to have the same length");
     
     let mut y = start_y;
-    for (num, text_ref) in texts.iter().enumerate() {
+    for (num, text_ref) in Role::role.iter().enumerate() {
         let txt: String = text_ref.for_num(numbers[num]);
         let text = format!("{} {}", numbers[num], txt);
         draw_sidebadge(&current_layer, start_x, y,
