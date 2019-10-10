@@ -7,12 +7,12 @@ fn main() {
     let filename = "sample_couvert.pdf";
 
     let receiver = Receiver {
-        nickname: "Focus",
-        group: "Skapande",
+        nickname: String::from("Focus"),
+        group: String::from("Skapande"),
         role: Role::Leiter,
     };
     let receivers = vec![receiver];
-    couvert_doc().save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
+    couvert_doc(receivers).save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
 }
 
 fn couvert_doc(receivers: Vec<Receiver>) -> printpdf::PdfDocumentReference {
