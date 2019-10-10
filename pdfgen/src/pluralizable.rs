@@ -5,7 +5,7 @@ pub struct Text {
 }
 
 pub trait Pluralizable {
-    fn new(singular: &str, plural: &str) -> Self;
+    fn new(singular: &str, plural: &str) -> Self where Self: Sized;
     
     /// get the singular version of the given Text
     fn singular(&self) -> &str;

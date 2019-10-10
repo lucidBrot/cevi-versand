@@ -74,6 +74,7 @@ fn couvert_doc(receivers: Vec<Receiver>) -> printpdf::PdfDocumentReference {
 
     // position sample sidebadge
     let badge_spacing_y = Mm(15.0);
+    let plurs = receivers.iter().map(|rec| Box::new(rec.role.value()) as Box<dyn pluralizable::Pluralizable>).collect::<Vec<Box<dyn pluralizable::Pluralizable>>>();
     let t = |sin: &str, plu: &str| pluralizable::Text::new(sin, plu);
     draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
                     (border_wh, border_wh), badge_spacing_y,
