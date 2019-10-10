@@ -78,7 +78,7 @@ fn couvert_doc(receivers: Vec<Receiver>) -> printpdf::PdfDocumentReference {
     let t = |sin: &str, plu: &str| pluralizable::Text::new(sin, plu);
     draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
                     (border_wh, border_wh), badge_spacing_y,
-                    vec![t("Trägerkreis", "Trägerkreis"), t("Leiter", "Leiter"), t("Teilnehmer", "Teilnehmer"), t("Ehemaliger", "Ehemalige")], // TODO: use an enum for that?
+                    plurs,
                     vec![0, 2, 0, 1]);
 
     return doc;
@@ -122,7 +122,7 @@ fn draw_sidebadges (current_layer: &printpdf::PdfLayerReference,
                    font_size: i64,
                    (start_x, start_y): (printpdf::Mm, printpdf::Mm),
                    badge_spacing_y: printpdf::Mm,
-                   texts: Vec<pluralizable::Text>,
+                   texts: Vec<Box<pluralizable::Pluralizable>>,
                    numbers: Vec<usize>) {
     assert_eq!(texts.len(), numbers.len(), "texts and numbers vectors need to have the same length");
     

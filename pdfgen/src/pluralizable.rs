@@ -5,6 +5,7 @@ pub struct Text {
 }
 
 pub trait Pluralizable {
+    /// see [stackoverflow](https://stackoverflow.com/a/30941589/2550406) for an explanation why Sized of Self is needed
     fn new(singular: &str, plural: &str) -> Self where Self: Sized;
     
     /// get the singular version of the given Text
