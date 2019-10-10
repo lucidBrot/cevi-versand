@@ -301,5 +301,7 @@ impl Role {
     fn get_text_for_num(&self, num: usize) -> String {
         self.value().for_num(num)
     }
+
+    fn list() -> 
 }
 
