@@ -121,11 +121,12 @@ fn draw_sidebadges (current_layer: &printpdf::PdfLayerReference,
                    (start_x, start_y): (printpdf::Mm, printpdf::Mm),
                    badge_spacing_y: printpdf::Mm,
                    numbers: Vec<usize>) {
+    let texts = Role::values();
     assert_eq!(texts.len(), numbers.len(), "texts and numbers vectors need to have the same length");
     
     let mut y = start_y;
-    for (num, text_ref) in Role::role.iter().enumerate() {
-        let txt: String = text_ref.for_num(numbers[num]);
+    for (num, role) in texts.iter().enumerate() {
+        let txt: String = role.value().for_num(numbers[num]);
         let text = format!("{} {}", numbers[num], txt);
         draw_sidebadge(&current_layer, start_x, y,
                        &font, font_size, &text);
@@ -302,6 +303,8 @@ impl Role {
         self.value().for_num(num)
     }
 
-    fn list() -> 
+    fn values() -> Vec<Role> {
+        return vec![Role::Leiter, Role::Teilnehmer, Role::Traegerkreis, Role::Ehemalige];
+    }
 }
 
