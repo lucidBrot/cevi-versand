@@ -49,7 +49,7 @@ fn couvert_doc(receivers: Vec<Receiver>) -> printpdf::PdfDocumentReference {
 
     // draw names
     draw_names(&current_layer, &font_calibri, names_font_size, (names_offset_x, names_offset_y),
-        vec![("name1", "group1"), ("name2", "group2")]
+        receivers.iter().map(|r:&Receiver| (&r.nickname as &str, &r.group as &str)).collect()
         );
 
     // position sample address
@@ -74,7 +74,6 @@ fn couvert_doc(receivers: Vec<Receiver>) -> printpdf::PdfDocumentReference {
 
     // position sample sidebadge
     let badge_spacing_y = Mm(15.0);
-    let t = |sin: &str, plu: &str| pluralizable::Text::new(sin, plu);
     draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
                     (border_wh, border_wh), badge_spacing_y,
                     vec![0,0,0,1]);
