@@ -78,6 +78,7 @@ fn couvert_doc(receivers: Vec<Receiver>, address: Vec<&str>) -> printpdf::PdfDoc
     draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
                     (border_wh, border_wh), badge_spacing_y,
                     vec![0,0,0,1]);
+    //TODO: number to be displayed next to sidebadge
 
     return doc;
 } 
