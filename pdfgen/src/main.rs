@@ -12,10 +12,12 @@ fn main() {
         role: Role::Leiter,
     };
     let receivers = vec![receiver];
-    couvert_doc(receivers).save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
+    
+    let address = vec!["Familie Mink", "Neuwiesenstr. 2", "8332 Russikon"];
+    couvert_doc(receivers, address).save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
 }
 
-fn couvert_doc(receivers: Vec<Receiver>) -> printpdf::PdfDocumentReference {
+fn couvert_doc(receivers: Vec<Receiver>, address: Vec<&str>) -> printpdf::PdfDocumentReference {
     use printpdf::*;
 
     // document config
@@ -63,7 +65,6 @@ fn couvert_doc(receivers: Vec<Receiver>) -> printpdf::PdfDocumentReference {
         current_layer.set_character_spacing(0);
         current_layer.set_text_rendering_mode(/*Fill, Stroke, FillStroke, Invisible, FillClip, StrokeClip, FillStrokeClip, Clip*/TextRenderingMode::Fill);
 
-        let address = vec!["Familie Mink", "Neuwiesenstr. 2", "8332 Russikon"];
         for line in address {
             current_layer.write_text(line, &font_addresses);
             current_layer.add_line_break();
@@ -91,9 +92,6 @@ fn draw_names<'a> (current_layer: &printpdf::PdfLayerReference,
     let names_str = names_and_groups.clone()
         .map(|(name, _group)| name)
         .collect::<Vec<&str>>().join(", ");
-
-    // TODO: verwendung von iterator fixen und dann diff zu version mit vec statt iterator.
-    // Verstehe ich alle änderungen?
 
     let groups_str = names_and_groups
         .map(|(_name, group)| group)
