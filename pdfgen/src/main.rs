@@ -49,7 +49,7 @@ fn couvert_doc(receivers: Vec<Receiver>) -> printpdf::PdfDocumentReference {
 
     // draw names
     draw_names(&current_layer, &font_calibri, names_font_size, (names_offset_x, names_offset_y),
-        receivers.iter().map(|r:&Receiver| (&r.nickname as &str, &r.group as &str)).collect()
+        receivers.iter().map(|r:&Receiver| (&r.nickname as &str, &r.group as &str))
         );
 
     // position sample address
@@ -81,21 +81,22 @@ fn couvert_doc(receivers: Vec<Receiver>) -> printpdf::PdfDocumentReference {
     return doc;
 } 
 
-fn draw_names (current_layer: &printpdf::PdfLayerReference,
+fn draw_names<'a> (current_layer: &printpdf::PdfLayerReference,
                font: &printpdf::IndirectFontRef,
                font_size: i64,
                (start_x, start_y): (printpdf::Mm, printpdf::Mm),
-               names_and_groups: Vec<(&str, &str)>){
+               names_and_groups: impl Iterator<Item=(&'a str, &'a str)> + Clone){
     let line_distance_y = printpdf::Mm(5.0);
 
-    let names_str = names_and_groups.iter()
+    let names_str = names_and_groups.clone()
         .map(|(name, _group)| name)
-        .map(|stri:&&str| *stri)
         .collect::<Vec<&str>>().join(", ");
 
-    let groups_str = names_and_groups.iter()
+    // TODO: verwendung von iterator fixen und dann diff zu version mit vec statt iterator.
+    // Verstehe ich alle änderungen?
+
+    let groups_str = names_and_groups
         .map(|(_name, group)| group)
-        .map(|stri:&&str| *stri)
         .collect::<Vec<&str>>().join(", ");
 
     // position the names
@@ -272,6 +273,7 @@ fn sample_graphical_page(){
     doc.save(&mut BufWriter::new(File::create("test_graphic.pdf").unwrap())).unwrap();
 }
 
+#[derive(Debug, Clone)]
 struct Receiver {
     nickname: String,
     group: String,
