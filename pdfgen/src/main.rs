@@ -73,12 +73,17 @@ fn couvert_doc(receivers: Vec<Receiver>, address: Vec<&str>) -> printpdf::PdfDoc
         current_layer.end_text_section();
     }
 
+    // numbers in sidebadge
+    let number_vec : Vec<&usize> = Vec::new();
+    for (rec : receivers){
+        let rol = rec.role;
+        // TODO: vector of all role counts.
+    }
     // position sample sidebadge
     let badge_spacing_y = Mm(15.0);
     draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
                     (border_wh, border_wh), badge_spacing_y,
                     vec![0,0,0,1]);
-    //TODO: number to be displayed next to sidebadge
 
     return doc;
 } 
