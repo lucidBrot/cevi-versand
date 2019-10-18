@@ -7,12 +7,22 @@ fn main() {
     
     let filename = "sample_couvert.pdf";
 
-    let receiver = Receiver {
+    let receiver1 = Receiver {
         nickname: String::from("Focus"),
         group: String::from("Skapande"),
         role: Role::Leiter,
     };
-    let receivers = vec![receiver];
+    let receiver2 = Receiver {
+        nickname: String::from("Levanzo"),
+        group: String::from("Holon"),
+        role: Role::Leiter,
+    };
+    let receiver3 = Receiver {
+        nickname: String::from("Pseudo"),
+        group: String::from("Trägerkreis"),
+        role: Role::Traegerkreis,
+    };
+    let receivers = vec![receiver1, receiver2, receiver3];
     
     let address = vec!["Familie Mink", "Neuwiesenstr. 2", "8332 Russikon"];
     couvert_doc(receivers, address).save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
