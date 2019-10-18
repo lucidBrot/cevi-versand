@@ -75,9 +75,12 @@ fn couvert_doc(receivers: Vec<Receiver>, address: Vec<&str>) -> printpdf::PdfDoc
 
     // numbers in sidebadge
     let number_vec : Vec<&usize> = Vec::new();
+    let all_roles = Role::values();
+    let rolecount_vec = Vec::with_capacity(all_roles.leni())
     for (rec : receivers){
         let rol = rec.role;
-        // TODO: vector of all role counts.
+        
+        // TODO: increment vector of all role counts
     }
     // position sample sidebadge
     let badge_spacing_y = Mm(15.0);
