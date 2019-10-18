@@ -129,14 +129,11 @@ fn draw_sidebadges (current_layer: &printpdf::PdfLayerReference,
                    (start_x, start_y): (printpdf::Mm, printpdf::Mm),
                    badge_spacing_y: printpdf::Mm,
                    numbers: HashMap<Role,usize>) {
-    // TODO: only create flags that exist in numbers map
-    let texts = Role::values();
-    assert_eq!(texts.len(), numbers.len(), "texts and numbers vectors need to have the same length");
     
     let mut y = start_y;
-    for (num, role) in texts.iter().enumerate() {
-        let txt: String = role.value().for_num(numbers[num]);
-        let text = format!("{} {}", numbers[num], txt);
+    for (role, num) in numbers {
+        let txt: String = role.value().for_num(num);
+        let text = format!("{} {}", num, txt);
         draw_sidebadge(&current_layer, start_x, y,
                        &font, font_size, &text);
         y += badge_spacing_y;
