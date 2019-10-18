@@ -1,5 +1,6 @@
 mod pluralizable;
 use pluralizable::Pluralizable;
+use std::collections::HashMap;
 
 fn main() {
     println!("Hello, world!");
@@ -74,19 +75,19 @@ fn couvert_doc(receivers: Vec<Receiver>, address: Vec<&str>) -> printpdf::PdfDoc
     }
 
     // numbers in sidebadge
-    let number_vec : Vec<&usize> = Vec::new();
-    let all_roles = Role::values();
-    let rolecount_vec = Vec::with_capacity(all_roles.leni())
-    for (rec : receivers){
-        let rol = rec.role;
-        
-        // TODO: increment vector of all role counts
-    }
+    let rolecount_dict : HashMap<Role, usize> = receivers.iter().fold(
+        /*init:*/ HashMap::new(),
+        /*f(map, item):*/ |mut map, &Receiver{role:item,..}| {
+            map.insert(item, 1 + map.get(&item).unwrap_or(&0));
+            return map;
+        }
+        );
+
     // position sample sidebadge
     let badge_spacing_y = Mm(15.0);
     draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
                     (border_wh, border_wh), badge_spacing_y,
-                    vec![0,0,0,1]);
+                    rolecount_dict);
 
     return doc;
 } 
@@ -127,7 +128,8 @@ fn draw_sidebadges (current_layer: &printpdf::PdfLayerReference,
                    font_size: i64,
                    (start_x, start_y): (printpdf::Mm, printpdf::Mm),
                    badge_spacing_y: printpdf::Mm,
-                   numbers: Vec<usize>) {
+                   numbers: HashMap<Role,usize>) {
+    // TODO: only create flags that exist in numbers map
     let texts = Role::values();
     assert_eq!(texts.len(), numbers.len(), "texts and numbers vectors need to have the same length");
     
@@ -288,7 +290,7 @@ struct Receiver {
 }
 
 /// Used for the sidebadges
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Role {
     Leiter,
     Teilnehmer,
