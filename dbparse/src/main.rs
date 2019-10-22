@@ -1,5 +1,6 @@
 use serde::{Serialize, Deserialize};
 use serde_json;
+use std::fs;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Point {
