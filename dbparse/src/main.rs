@@ -37,4 +37,11 @@ fn setup_config(){
     if let serde_yaml::Value::String(name) = first_name {
         println!("FirstName: {}", name);
     }
+    // TODO: deserialize DB_Conf object
+}
+
+#[derive(Serialize, Deserialize)]
+struct DB_Conf {
+    login_name: String,
+    api_token: String,
 }
