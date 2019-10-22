@@ -28,11 +28,11 @@ fn main() {
 }
 
 fn setup_config(){
-    let file = fs::File::open("text.yaml")
+    let file = fs::File::open("config.yaml")
         .expect("file should open read only");
-    let json: serde_yaml::Value = serde_yaml::from_reader(file)
+    let yaml: serde_yaml::Value = serde_yaml::from_reader(file)
         .expect("file should be proper YAML");
-    let first_name = json.get("FirstName")
+    let first_name = yaml.get("debug_first_name")
         .expect("file should have FirstName key");
     if let serde_yaml::Value::String(name) = first_name {
         println!("FirstName: {}", name);
