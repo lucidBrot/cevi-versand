@@ -22,3 +22,13 @@ fn main() {
     // Prints deserialized = Point { x: 1, y: 2 }
     println!("deserialized = {:?}", deserialized);
 }
+
+fn setup_config(){
+    let file = fs::File::open("text.yaml")
+        .expect("file should open read only");
+    let json: serde_yaml::Value = serde_yaml::from_reader(file)
+        .expect("file should be proper JSON");
+    let first_name = json.get("FirstName")
+        .expect("file should have FirstName key");
+    println!("FirstName: {}", first_name);
+}
