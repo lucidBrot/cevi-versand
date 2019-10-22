@@ -22,14 +22,19 @@ fn main() {
 
     // Prints deserialized = Point { x: 1, y: 2 }
     println!("deserialized = {:?}", deserialized);
+
+    // load database API token
+    setup_config();
 }
 
 fn setup_config(){
     let file = fs::File::open("text.yaml")
         .expect("file should open read only");
     let json: serde_yaml::Value = serde_yaml::from_reader(file)
-        .expect("file should be proper JSON");
+        .expect("file should be proper YAML");
     let first_name = json.get("FirstName")
         .expect("file should have FirstName key");
-    println!("FirstName: {}", first_name);
+    if let serde_yaml::Value::String(name) = first_name {
+        println!("FirstName: {}", name);
+    }
 }
