@@ -1,5 +1,4 @@
 use serde::{Serialize, Deserialize};
-use serde_json;
 use std::fs;
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -28,19 +27,23 @@ fn main() {
 }
 
 fn setup_config(){
-    let file = fs::File::open("config.yaml")
+    let fil = fs::File::open("config.yaml")
         .expect("file should open read only");
-    let yaml: serde_yaml::Value = serde_yaml::from_reader(file)
+    let yaml: serde_yaml::Value = serde_yaml::from_reader(fil)
         .expect("file should be proper YAML");
     let first_name = yaml.get("debug_first_name")
         .expect("file should have FirstName key");
     if let serde_yaml::Value::String(name) = first_name {
         println!("FirstName: {}", name);
     }
+    
     // TODO: deserialize DB_Conf object
+    let db_conf_in_yaml = yaml.get("db_conf").unwrap();
+    let db_conf : DB_Conf = serde_yaml::from_value(db_conf_in_yaml).unwrap();
+    println!("deserialized = {:?}", db_conf);
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 struct DB_Conf {
     login_name: String,
     api_token: String,
