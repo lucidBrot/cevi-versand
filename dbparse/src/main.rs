@@ -38,14 +38,23 @@ fn setup_config() -> DB_Conf {
     return db_conf;
 }
 
+
 #[derive(Serialize, Deserialize, Debug)]
 #[allow(non_camel_case_types)]
 struct DB_Conf {
     login_name: String,
     api_token: String,
+    login_email: String,
+    versand_endpoint_sorted_by_address_fmtstr: String,
 }
 impl DB_Conf {
     // used in yaml to be filled in at runtime
-    const PLACEHOLDER_LOGIN_EMAIL : &'static str = "login_email";
     const PLACEHOLDER_API_TOKEN : &'static str = "api_token";
+    const PLACEHOLDER_LOGIN_EMAIL : &'static str = "login_email";
+
+    fn versand_endpoint_sorted_by_address(&self) -> String{
+        self.versand_endpoint_sorted_by_address_fmtstr
+            .replace(DB_Conf::PLACEHOLDER_LOGIN_EMAIL, &self.login_email)
+            .replace(DB_Conf::PLACEHOLDER_API_TOKEN, &self.api_token)
+    }
 }
