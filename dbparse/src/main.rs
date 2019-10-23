@@ -23,10 +23,10 @@ fn main() {
     println!("deserialized = {:?}", deserialized);
 
     // load database API token
-    setup_config();
+    let config = setup_config();
 }
 
-fn setup_config(){
+fn setup_config() -> DB_Conf {
     let fil = fs::File::open("config.yaml")
         .expect("file should open read only");
     let yaml: serde_yaml::Value = serde_yaml::from_reader(fil)
@@ -39,11 +39,13 @@ fn setup_config(){
     
     // TODO: deserialize DB_Conf object
     let db_conf_in_yaml : &serde_yaml::Value = yaml.get("db_conf").unwrap();
-    let db_conf : DB_Conf = serde_yaml::from_value((db_conf_in_yaml.clone())).unwrap();
+    let db_conf : DB_Conf = serde_yaml::from_value(db_conf_in_yaml.clone()).unwrap();
     println!("deserialized = {:?}", db_conf);
+    return db_conf;
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+#[allow(non_camel_case_types)]
 struct DB_Conf {
     login_name: String,
     api_token: String,
