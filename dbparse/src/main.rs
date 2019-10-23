@@ -31,13 +31,7 @@ fn setup_config() -> DB_Conf {
         .expect("file should open read only");
     let yaml: serde_yaml::Value = serde_yaml::from_reader(fil)
         .expect("file should be proper YAML");
-    let first_name = yaml.get("debug_first_name")
-        .expect("file should have FirstName key");
-    if let serde_yaml::Value::String(name) = first_name {
-        println!("FirstName: {}", name);
-    }
     
-    // TODO: deserialize DB_Conf object
     let db_conf_in_yaml : &serde_yaml::Value = yaml.get("db_conf").unwrap();
     let db_conf : DB_Conf = serde_yaml::from_value(db_conf_in_yaml.clone()).unwrap();
     println!("deserialized = {:?}", db_conf);
@@ -49,4 +43,9 @@ fn setup_config() -> DB_Conf {
 struct DB_Conf {
     login_name: String,
     api_token: String,
+}
+impl DB_Conf {
+    // used in yaml to be filled in at runtime
+    const PLACEHOLDER_LOGIN_EMAIL : &'static str = "login_email";
+    const PLACEHOLDER_API_TOKEN : &'static str = "api_token";
 }
