@@ -106,6 +106,7 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<String, reqwest::Er
  */
 #[derive(Serialize, Deserialize, Debug)]
 struct Person {
+    #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
     id: usize,
     href: String,
     first_name: String,
@@ -116,5 +117,5 @@ struct Person {
     zip_code: String,
     town: String,
     name_parents: String,
-    roles: Vec<usize>,
+    roles: Vec<String>,
 }
