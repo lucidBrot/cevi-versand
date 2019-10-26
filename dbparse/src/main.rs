@@ -64,5 +64,6 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<(), reqwest::Error>
     let body = reqwest::get(&db_conf.versand_endpoint_sorted_by_address())?
     .text()?;
     println!("body = {:?}", body);
+    println!("link = {}", db_conf.versand_endpoint_sorted_by_address());
     Ok(())
 }
