@@ -50,8 +50,8 @@ struct DB_Conf {
 }
 impl DB_Conf {
     // used in yaml to be filled in at runtime
-    const PLACEHOLDER_API_TOKEN : &'static str = "api_token";
-    const PLACEHOLDER_LOGIN_EMAIL : &'static str = "login_email";
+    const PLACEHOLDER_API_TOKEN : &'static str = "{api_token}";
+    const PLACEHOLDER_LOGIN_EMAIL : &'static str = "{login_email}";
 
     fn versand_endpoint_sorted_by_address(&self) -> String{
         self.versand_endpoint_sorted_by_address_fmtstr
