@@ -53,4 +53,4 @@ Wer Leiter ist, ist nicht gleichzeitig Teilnehmer. Wer Ehemalig ist, ist nicht g
   Rechter Rand: 12mm Abstand bis Adressfeld
   Adressfeld: nicht mit Werbung überlappen, nicht mit codierzone überlappen
   Adressfeld: min (10+38)mm abstand nach oben, min (12+22)mm abstand nach links
-  ![layout couvert post](N:\Files\projects\cevi-versand\post\screenshot1.png)
+  ![layout couvert post](.\post\screenshot1.png)

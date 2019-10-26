@@ -24,6 +24,7 @@ fn main() {
 
     // load database API token
     let config = setup_config();
+    get_data_sorted_by_address(&config);
 }
 
 fn setup_config() -> DB_Conf {
@@ -57,4 +58,11 @@ impl DB_Conf {
             .replace(DB_Conf::PLACEHOLDER_LOGIN_EMAIL, &self.login_email)
             .replace(DB_Conf::PLACEHOLDER_API_TOKEN, &self.api_token)
     }
+}
+
+fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<(), reqwest::Error> {
+    let body = reqwest::get(&db_conf.versand_endpoint_sorted_by_address())?
+    .text()?;
+    println!("body = {:?}", body);
+    Ok(())
 }
