@@ -1,5 +1,6 @@
 use serde::{Serialize, Deserialize};
 use std::fs;
+use std::collections::HashMap;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Point {
@@ -124,7 +125,7 @@ struct Person {
 #[derive(Serialize, Deserialize, Debug)]
 struct Links {
     //ortsgruppe: String,
-    roles: Vec<String>,
+    roles: Vec<String>, // ids of roles
 }
 
 /// stored in "linked" : "groups" : []
@@ -134,3 +135,43 @@ struct Group {
     name: String,
     group_type: String,
 }
+
+// deserialize "linked" : "roles" : []   as a map
+// see https://github.com/serde-rs/serde/issues/936
+#[derive(Serialize, Deserialize, Debug)]
+struct RolesMapWrapper {
+    #[serde(with = "items_serder")]
+    roles_map: HashMap<String, Role>,
+}
+#[derive(Serialize, Deserialize, Debug)]
+struct Role {
+    id: String,
+    role_type: String,
+    label: String,
+}
+/// a serializer/deserializer implementation for turning a list of items into a hashmap with the
+/// id:String
+/// as key
+mod items_serder {
+    use super::Role;
+    use std::collections::HashMap;
+    use serde::ser::Serializer;
+    use serde::de::{Deserialize, Deserializer};
+
+    pub fn serialize<S>(map: &HashMap<String, Role>, serializer: S) -> Result<S::Ok, S::Error>
+        where S: Serializer
+    {
+        serializer.collect_seq(map.values())
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<HashMap<String, Role>, D::Error>
+        where D: Deserializer<'de>
+    {
+        let mut map = HashMap::new();
+        for item in Vec::<Role>::deserialize(deserializer)? {
+            map.insert(item.id, item);
+        }
+        Ok(map)
+    }
+}
+
