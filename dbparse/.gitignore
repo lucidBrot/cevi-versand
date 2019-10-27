@@ -11,4 +11,4 @@ Cargo.lock
 
 config.yaml
 out.txt
-
+*.swp

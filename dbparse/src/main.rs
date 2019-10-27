@@ -66,10 +66,10 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<String, reqwest::Er
     let body : String = reqwest::get(&db_conf.versand_endpoint_sorted_by_address())?
     .text()?;
     println!("body = {:?}", body);
-    // TODO: deserialize, into what?
-    let deserialized: serde_json::Value = serde_json::from_str(&body).unwrap();
+    // deserialize the json data into a struct
     let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(&body).expect("I am bad");
-    let people: Vec<Person> = serde_json::from_value(deserialized.get("people").unwrap().clone()).unwrap();
+    let people: Vec<Person> = dese.people;
+    println!("Roles: {:?}", dese.linked.roles_map);
     Ok(body)
 }
 
