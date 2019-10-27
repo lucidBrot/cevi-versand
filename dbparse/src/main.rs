@@ -68,6 +68,7 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<String, reqwest::Er
     println!("body = {:?}", body);
     // TODO: deserialize, into what?
     let deserialized: serde_json::Value = serde_json::from_str(&body).unwrap();
+    let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(&body).expect("I am bad");
     let people: Vec<Person> = serde_json::from_value(deserialized.get("people").unwrap().clone()).unwrap();
     Ok(body)
 }
@@ -109,7 +110,7 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<String, reqwest::Er
 #[derive(Serialize, Deserialize, Debug)]
 struct PeopleRequest {
     people: Vec<Person>,
-    linked: Linked,
+    //linked: Linked,
 }
 
 // deserialize "linked" : "roles" : []   as a map
