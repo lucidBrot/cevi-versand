@@ -110,7 +110,7 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<String, reqwest::Er
 #[derive(Serialize, Deserialize, Debug)]
 struct PeopleRequest {
     people: Vec<Person>,
-    //linked: Linked,
+    linked: Linked,
 }
 
 // deserialize "linked" : "roles" : []   as a map
@@ -157,7 +157,7 @@ struct Group {
 pub struct Role {
     id: Rc<str>,
     role_type: String,
-    label: String,
+    label: Option<String>,
 }
 /// a serializer/deserializer implementation for turning a list of items into a hashmap with the
 /// id:String
