@@ -1,6 +1,7 @@
 use serde::{Serialize, Deserialize};
 use std::fs;
 use std::collections::HashMap;
+use std::rc::Rc;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Point {
@@ -30,7 +31,7 @@ fn main() {
 
 fn setup_config() -> DB_Conf {
     let fil = fs::File::open("config.yaml")
-        .expect("file should open read only");
+        .expect("config file missing or not readable");
     let yaml: serde_yaml::Value = serde_yaml::from_reader(fil)
         .expect("file should be proper YAML");
     
@@ -141,11 +142,11 @@ struct Group {
 #[derive(Serialize, Deserialize, Debug)]
 struct RolesMapWrapper {
     #[serde(with = "items_serder")]
-    roles_map: HashMap<String, Role>,
+    roles_map: HashMap<Rc<str>, Role>,
 }
 #[derive(Serialize, Deserialize, Debug)]
-struct Role {
-    id: String,
+pub struct Role {
+    id: Rc<str>,
     role_type: String,
     label: String,
 }
@@ -157,19 +158,20 @@ mod items_serder {
     use std::collections::HashMap;
     use serde::ser::Serializer;
     use serde::de::{Deserialize, Deserializer};
+    use std::rc::Rc;
 
-    pub fn serialize<S>(map: &HashMap<String, Role>, serializer: S) -> Result<S::Ok, S::Error>
+    pub fn serialize<S>(map: &HashMap<Rc<str>, Role>, serializer: S) -> Result<S::Ok, S::Error>
         where S: Serializer
     {
         serializer.collect_seq(map.values())
     }
 
-    pub fn deserialize<'de, D>(deserializer: D) -> Result<HashMap<String, Role>, D::Error>
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<HashMap<Rc<str>, Role>, D::Error>
         where D: Deserializer<'de>
     {
         let mut map = HashMap::new();
         for item in Vec::<Role>::deserialize(deserializer)? {
-            map.insert(item.id, item);
+            map.insert(Rc::clone(&item.id), item);
         }
         Ok(map)
     }
