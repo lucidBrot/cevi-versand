@@ -104,6 +104,7 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<String, reqwest::Er
          }
  *
  */
+/// stored in "people": []
 #[derive(Serialize, Deserialize, Debug)]
 struct Person {
     #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
@@ -112,10 +113,24 @@ struct Person {
     first_name: String,
     last_name: String,
     nickname: String,
-    email: String,
     address: String,
     zip_code: String,
     town: String,
     name_parents: String,
+    links: Links,
+}
+
+/// stored within Person struct
+#[derive(Serialize, Deserialize, Debug)]
+struct Links {
+    //ortsgruppe: String,
     roles: Vec<String>,
+}
+
+/// stored in "linked" : "groups" : []
+#[derive(Serialize, Deserialize, Debug)]
+struct Group {
+    id: String,
+    name: String,
+    group_type: String,
 }
