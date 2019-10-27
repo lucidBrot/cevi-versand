@@ -106,6 +106,21 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<String, reqwest::Er
          }
  *
  */
+#[derive(Serialize, Deserialize, Debug)]
+struct PeopleRequest {
+    people: Vec<Person>,
+    linked: Linked,
+}
+
+// deserialize "linked" : "roles" : []   as a map
+// see https://github.com/serde-rs/serde/issues/936
+#[derive(Serialize, Deserialize, Debug)]
+struct Linked {
+    groups: Vec<Group>,
+    #[serde(with = "items_serder", rename = "roles")]
+    roles_map: HashMap<Rc<str>, Role>, // actual roles in a hashmap
+}
+
 /// stored in "people": []
 #[derive(Serialize, Deserialize, Debug)]
 struct Person {
@@ -137,13 +152,6 @@ struct Group {
     group_type: String,
 }
 
-// deserialize "linked" : "roles" : []   as a map
-// see https://github.com/serde-rs/serde/issues/936
-#[derive(Serialize, Deserialize, Debug)]
-struct RolesMapWrapper {
-    #[serde(with = "items_serder")]
-    roles_map: HashMap<Rc<str>, Role>,
-}
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Role {
     id: Rc<str>,
