@@ -213,3 +213,18 @@ pub struct ReasonablePerson {
     roles: HashSet<Role>,// TODO: set of enums?
     groups: HashSet<Group>,
 }
+impl From<Person> for ReasonablePerson {
+    fn from(p: Person) -> Self {
+        ReasonablePerson {
+            first_name: p.first_name,
+            last_name: p.last_name,
+            nickname: p.nickname,
+            address: p.address,
+            zip_code: p.zip_code,
+            town: p.town,
+            name_parents: p.name_parents,
+            roles: HashSet::<Role>::new(),
+            groups: HashSet::<Group>::new(),
+        }
+    }
+}
