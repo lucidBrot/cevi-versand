@@ -142,14 +142,30 @@ struct RoleLinks {
 }
 
 /// stored in "linked" : "groups" : []
-#[derive(Serialize, Deserialize, Debug)]
+///
+/// ```name``` contains something like "Aktive", "Holon (M)",
+/// "Pfäffikon-Fehraltorf-Hittnau-Russikon", "Verein Pfä...", "Freie Mitarbeiter", "Z_Import
+/// Optigem", "Ehemalige", "C-Gruppe", "Gebetsbrunch", "Y-Card Nummer", ...
+///
+/// ```group_type``` contains something like
+/// * "Untergruppe" for Holon
+/// * "Ortsgruppe", "Jungschar", "Verein", "Gremium", "Dachverband" for useless groupings
+/// * "Vorstand"
+/// * "Externe" for J&S stuff, Ehemalige, Freie Mitarbeiter
+/// * "Fröschli"
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
 pub struct Group {
     id: String,
     name: String, // Gruppenname
     group_type: String, // Ortsgruppe/Untergruppe/Mitglieder/Jungschar/Verein...
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+/// `role_type` can be things like "Teilnehmer/-in", "Gruppenleiter/-in", "Minigruppenleiter/-in", "Mitglied",
+/// "Adressverwalter/-in", "Hausverantwortliche/-r", "Adressverantwortlicher", ...
+///
+/// When it is "Gruppenleiter/-in", the `label` might be set to "Stufenleiterin", "Stufenleiter",
+/// or "Stufenleiter/-in"
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
 pub struct Role {
     id: Rc<str>,
     role_type: String,
@@ -194,9 +210,6 @@ pub struct ReasonablePerson {
     zip_code: String,
     town: String,
     name_parents: String,
-    roles: ,// TODO: set of enums?
-    /// name contains something like "Aktive", "Holon (M)",
-    /// "Pfäffikon-Fehraltorf-Hittnau-Russikon", "Verein Pfä...", "Freie Mitarbeiter", "Z_Import
-    /// Optigem", "Ehemalige", "C-Gruppe", "Gebetsbrunch", ...
+    roles: HashSet<Role>,// TODO: set of enums?
     groups: HashSet<Group>,
 }
