@@ -2,6 +2,7 @@ use serde::{Serialize, Deserialize};
 use std::fs;
 use std::collections::HashMap;
 use std::rc::Rc;
+use std::collections::HashSet;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Point {
@@ -142,7 +143,7 @@ struct RoleLinks {
 
 /// stored in "linked" : "groups" : []
 #[derive(Serialize, Deserialize, Debug)]
-struct Group {
+pub struct Group {
     id: String,
     name: String, // Gruppenname
     group_type: String, // Ortsgruppe/Untergruppe/Mitglieder/Jungschar/Verein...
@@ -184,3 +185,18 @@ mod items_serder {
 
 // to get reasonable information, we want the group that is stored in Role:links, which is found
 // by id which we get from Person:links
+#[derive(Debug)]
+pub struct ReasonablePerson {
+    first_name: String,
+    last_name: String,
+    nickname: String,
+    address: String,
+    zip_code: String,
+    town: String,
+    name_parents: String,
+    roles: ,// TODO: set of enums?
+    /// name contains something like "Aktive", "Holon (M)",
+    /// "Pfäffikon-Fehraltorf-Hittnau-Russikon", "Verein Pfä...", "Freie Mitarbeiter", "Z_Import
+    /// Optigem", "Ehemalige", "C-Gruppe", "Gebetsbrunch", ...
+    groups: HashSet<Group>,
+}
