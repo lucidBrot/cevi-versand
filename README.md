@@ -1,6 +1,8 @@
 # cevi-versand
 A better tool for generating envelopes from our database
 
+![icon](./ui/icon.png)
+
 ## Targets
 
 * Extract data directly from database, or automatically fetch csv
