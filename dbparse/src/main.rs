@@ -215,7 +215,7 @@ pub struct ReasonablePerson {
 }
 impl From<Person> for ReasonablePerson {
     fn from(p: Person) -> Self {
-        ReasonablePerson {
+        let return_val = ReasonablePerson {
             first_name: p.first_name,
             last_name: p.last_name,
             nickname: p.nickname,
@@ -225,6 +225,10 @@ impl From<Person> for ReasonablePerson {
             name_parents: p.name_parents,
             roles: HashSet::<Role>::new(),
             groups: HashSet::<Group>::new(),
+        }
+
+        for role_id in p.links.roles {
+            return_val.roles.insert( // TODO: make this a function of PeopleRequest instead of impl From. Because we need the whole object to get the roles
         }
     }
 }
