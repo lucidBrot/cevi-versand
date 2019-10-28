@@ -135,7 +135,7 @@ struct PersonLinks {
 }
 
 /// stored within Role struct
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash)]
 struct RoleLinks {
     group: String,
     layer_group: String,
@@ -153,7 +153,7 @@ struct RoleLinks {
 /// * "Vorstand"
 /// * "Externe" for J&S stuff, Ehemalige, Freie Mitarbeiter
 /// * "Fröschli"
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash)]
 pub struct Group {
     id: String,
     name: String, // Gruppenname
@@ -165,7 +165,7 @@ pub struct Group {
 ///
 /// When it is "Gruppenleiter/-in", the `label` might be set to "Stufenleiterin", "Stufenleiter",
 /// or "Stufenleiter/-in"
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash)]
 pub struct Role {
     id: Rc<str>,
     role_type: String,
