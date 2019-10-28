@@ -10,20 +10,6 @@ struct Point {
 }
 
 fn main() {
-    let point = Point { x: 1, y: 2 };
-
-    // Convert the Point to a JSON string.
-    let serialized = serde_json::to_string(&point).unwrap();
-
-    // Prints serialized = {"x":1,"y":2}
-    println!("serialized = {}", serialized);
-
-    // Convert the JSON string back to a Point.
-    let deserialized: Point = serde_json::from_str(&serialized).unwrap();
-
-    // Prints deserialized = Point { x: 1, y: 2 }
-    println!("deserialized = {:?}", deserialized);
-
     // load database API token
     let config = setup_config();
     get_data_sorted_by_address(&config);
@@ -147,6 +133,13 @@ struct Links {
     roles: Vec<String>, // ids of roles
 }
 
+/// stored within Role struct
+#[derive(Serialize, Deserialize, Debug)]
+struct RoleLinks {
+    group: String,
+    layer_group: String,
+}
+
 /// stored in "linked" : "groups" : []
 #[derive(Serialize, Deserialize, Debug)]
 struct Group {
@@ -160,6 +153,7 @@ pub struct Role {
     id: Rc<str>,
     role_type: String,
     label: Option<String>,
+    links: RoleLinks,
 }
 /// a serializer/deserializer implementation for turning a list of items into a hashmap with the
 /// id:String
@@ -188,3 +182,5 @@ mod items_serder {
     }
 }
 
+// to get reasonable information, we want the group that is stored in Role:links, which is found
+// by id which we get from Person:links
