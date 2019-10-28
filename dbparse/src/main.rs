@@ -124,12 +124,12 @@ struct Person {
     zip_code: String,
     town: String,
     name_parents: String,
-    links: Links,
+    links: PersonLinks,
 }
 
 /// stored within Person struct
 #[derive(Serialize, Deserialize, Debug)]
-struct Links {
+struct PersonLinks {
     roles: Vec<String>, // ids of roles
 }
 
