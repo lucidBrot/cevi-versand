@@ -49,7 +49,7 @@ impl DB_Conf {
     }
 }
 
-fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<Vec<ReasonablePerson>, reqwest::Error> {
+fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<ReasonableDataset, reqwest::Error> {
     let body : String = reqwest::get(&db_conf.versand_endpoint_sorted_by_address())?
     .text()?;
     // deserialize the json data into a struct
@@ -62,9 +62,9 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<Vec<ReasonablePerso
     }
 
     // transform the Person into a ReasonablePerson, which directly contains all relevant data
-    let reasonable_people: Vec<ReasonablePerson> = dese.to_reasonable_people();
+    let reasonable_dataset : ReasonableDataset = dese.to_reasonable_dataset();
 
-    Ok(reasonable_people)
+    Ok(reasonable_dataset)
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -156,7 +156,7 @@ struct RoleLinks {
 /// * "Vorstand"
 /// * "Externe" for J&S stuff, Ehemalige, Freie Mitarbeiter
 /// * "Fröschli"
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq, Hash)]
 pub struct Group {
     id: String,
     name: String, // Gruppenname
@@ -210,7 +210,6 @@ impl<V> std::ops::DerefMut for StringHashMap<V> {
 mod items_serder {
     use super::Role;
     use super::StringHashMap;
-    use std::collections::HashMap;
     use serde::ser::Serializer;
     use serde::de::{Deserialize, Deserializer};
     use std::rc::Rc;
@@ -232,6 +231,12 @@ mod items_serder {
     }
 }
 
+#[derive(Eq, Debug, PartialEq, Clone, Hash)]
+pub struct ReasonableGroup(Group);
+pub struct ReasonableDataset {
+    people: Vec<ReasonablePerson>,
+    groups: HashSet<ReasonableGroup>,
+}
 // to get reasonable information, we want the group that is stored in Role:links, which is found
 // by id which we get from Person:links
 #[derive(Debug)]
@@ -247,9 +252,8 @@ pub struct ReasonablePerson {
     groups: HashSet<Group>,
 }
 impl PeopleRequest {
-    fn to_reasonable_people(&self) -> Vec<ReasonablePerson> {
+    fn to_reasonable_dataset(&self) -> ReasonableDataset {
         print!("---\n");
-        let p:Person;
         for p in self.people.iter() {
             let mut return_val = ReasonablePerson {
                 first_name: p.first_name.clone(),
@@ -263,14 +267,21 @@ impl PeopleRequest {
                 groups: HashSet::<Group>::new(),
             };
 
+            // get roles directly
             for role_id in p.links.roles.iter() {
                 //let strx: String = as_string(role_id);
                 let role: &Role = self.linked.roles_map.gettt(role_id).expect(&format!("role_id = {} does not exist", role_id)); 
                 return_val.roles.insert(role.clone());
+
+                // TODO: get group corresponding to role (linked in Role links)
             }
             print!("return_val.roles = {:?}\n", return_val.roles);
+ 
         }
 
-        return Vec::<ReasonablePerson>::new();
+        ReasonableDataset {
+            people: Vec::<ReasonablePerson>::new(),
+            groups: HashSet::new(),
+        }
     }
 }
