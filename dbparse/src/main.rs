@@ -49,7 +49,7 @@ impl DB_Conf {
     }
 }
 
-fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<String, reqwest::Error> {
+fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<Vec<ReasonablePerson>, reqwest::Error> {
     let body : String = reqwest::get(&db_conf.versand_endpoint_sorted_by_address())?
     .text()?;
     // deserialize the json data into a struct
@@ -64,7 +64,7 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<String, reqwest::Er
     // transform the Person into a ReasonablePerson, which directly contains all relevant data
     let reasonable_people: Vec<ReasonablePerson> = dese.to_reasonable_people();
 
-    Ok(body)
+    Ok(reasonable_people)
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -138,7 +138,7 @@ struct PersonLinks {
 }
 
 /// stored within Role struct
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash, Clone)]
 struct RoleLinks {
     group: String,
     layer_group: String,
@@ -168,7 +168,7 @@ pub struct Group {
 ///
 /// When it is "Gruppenleiter/-in", the `label` might be set to "Stufenleiterin", "Stufenleiter",
 /// or "Stufenleiter/-in"
-#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash, Clone)]
 pub struct Role {
     id: Rc<str>,
     role_type: String,
@@ -184,6 +184,9 @@ pub struct StringHashMap<V>(StringHashMapType<V>);
 impl<V> StringHashMap<V> {
     pub fn gett(&self, s:String) -> Option<&V> {
         return self.get(&*s);
+    }
+    pub fn gettt(&self, s:&String) -> Option<&V> {
+        return self.get(&**s);
     }
     pub fn new() -> Self {
         return StringHashMap(StringHashMapType::<V>::new());
@@ -240,31 +243,32 @@ pub struct ReasonablePerson {
     zip_code: String,
     town: String,
     name_parents: String,
-    roles: HashSet<Role>,// TODO: set of enums?
+    roles: HashSet<Role>,// TODO: set of enums instead?
     groups: HashSet<Group>,
 }
 impl PeopleRequest {
     fn to_reasonable_people(&self) -> Vec<ReasonablePerson> {
-        panic!("Not implemented yet");
+        print!("---\n");
         let p:Person;
-        for p in self.people {
-            let return_val = ReasonablePerson {
-                first_name: p.first_name,
-                last_name: p.last_name,
-                nickname: p.nickname,
-                address: p.address,
-                zip_code: p.zip_code,
-                town: p.town,
-                name_parents: p.name_parents,
+        for p in self.people.iter() {
+            let mut return_val = ReasonablePerson {
+                first_name: p.first_name.clone(),
+                last_name: p.last_name.clone(),
+                nickname: p.nickname.clone(),
+                address: p.address.clone(),
+                zip_code: p.zip_code.clone(),
+                town: p.town.clone(),
+                name_parents: p.name_parents.clone(),
                 roles: HashSet::<Role>::new(),
                 groups: HashSet::<Group>::new(),
             };
 
-            for role_id in p.links.roles {
+            for role_id in p.links.roles.iter() {
                 //let strx: String = as_string(role_id);
-                let role: &Role = self.linked.roles_map.gett(role_id).expect(&format!("role_id = {} does not exist", role_id)); 
-                return_val.roles.insert(*role);
+                let role: &Role = self.linked.roles_map.gettt(role_id).expect(&format!("role_id = {} does not exist", role_id)); 
+                return_val.roles.insert(role.clone());
             }
+            print!("return_val.roles = {:?}\n", return_val.roles);
         }
 
         return Vec::<ReasonablePerson>::new();
