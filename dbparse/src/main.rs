@@ -77,7 +77,8 @@ struct PeopleRequest {
 // see https://github.com/serde-rs/serde/issues/936
 #[derive(Serialize, Deserialize, Debug)]
 struct Linked {
-    groups: Vec<Group>,
+    #[serde(with = "items_serder_set", rename = "groups")]
+    groups: HashSet<Group>,
     #[serde(with = "items_serder_map", rename = "roles")]
     roles_map: StringHashMap<Role>, // actual roles in a hashmap
 }
