@@ -67,39 +67,39 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<String, reqwest::Er
     Ok(body)
 }
 
-/*
- * JSON from sorted by address:
- *
- * "id": "6468",
-"type": "people",
-"href": "https://db.cevi.ch/groups/1334/people/6468.json",
-"first_name": "Eric",
-"last_name": "Mink",
-"nickname": "Levanzo",
-"company_name": "",
-"company": false,
-"email": "eric@mink.li",
-"address": "Neuwiesenstrasse 2",
-"zip_code": "8332",
-"town": "Russikon",
-"country": "CH",
-"picture": "https://db.cevi.ch/assets/profil-3a8452c9ac8e8b1b70b9d4f4250417bea5be8a4518dbfae44db944f8fda07ca5.png",
-"salutation_parents": "Herr",
-"name_parents": "Simon, Yvonne",
-"links": {
-"ortsgruppe": "115",
-"phone_numbers": [
-"8919",
-"8920"
-],
-"roles": [
-"37855",
-"46790",
-"52789"
-]
-}
- *
- */
+///
+/// JSON from sorted by address:
+/// 
+/// ```json
+/// "id": "6468",
+///"type": "people",
+///"href": "https://db.cevi.ch/groups/1334/people/6468.json",
+///"first_name": "Eric",
+///"last_name": "Mink",
+///"nickname": "Levanzo",
+///"company_name": "",
+///"company": false,
+///"email": "eric@mink.li",
+///"address": "Neuwiesenstrasse 2",
+///"zip_code": "8332",
+///"town": "Russikon",
+///"country": "CH",
+///"picture": "https://db.cevi.ch/assets/profil-3a8452c9ac8e8b1b70b9d4f4250417bea5be8a4518dbfae44db944f8fda07ca5.png",
+///"salutation_parents": "Herr",
+///"name_parents": "Simon, Yvonne",
+///"links": {
+/// "ortsgruppe": "115",
+///     "phone_numbers": [
+///     "8919",
+///     "8920"
+///     ],
+/// "roles": [
+///     "37855",
+///     "46790",
+///     "52789"
+/// ]
+///}
+///```
 #[derive(Serialize, Deserialize, Debug)]
 struct PeopleRequest {
     people: Vec<Person>,
