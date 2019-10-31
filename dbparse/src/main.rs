@@ -176,9 +176,9 @@ pub struct Role {
     links: RoleLinks,
 }
 
-type UnderlyingTypeOne<V> = HashMap<Rc<str>, V>;
+type StringHashMapType<V> = HashMap<Rc<str>, V>;
 #[derive(Debug)]
-pub struct StringHashMap<V>(UnderlyingTypeOne<V>);
+pub struct StringHashMap<V>(StringHashMapType<V>);
 /// implement HashMap<Rc<str>, Role>::get() for a String instead of only a &str
 /// See https://www.reddit.com/r/rust/comments/2snn7a/hashmaprcstring_v/
 impl<V> StringHashMap<V> {
@@ -186,12 +186,12 @@ impl<V> StringHashMap<V> {
         return self.get(&*s);
     }
     pub fn new() -> Self {
-        return StringHashMap(UnderlyingTypeOne::<V>::new());
+        return StringHashMap(StringHashMapType::<V>::new());
     }
 }
 // allow dereferencing to the oldtype to avoid writing &self.0.get()
 impl<V> std::ops::Deref for StringHashMap<V> {
-    type Target = UnderlyingTypeOne<V>;
+    type Target = StringHashMapType<V>;
     fn deref(&self) -> &Self::Target {
         &self.0
     }
