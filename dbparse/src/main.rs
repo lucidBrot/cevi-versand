@@ -67,8 +67,24 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<String, reqwest::Er
     Ok(body)
 }
 
+#[derive(Serialize, Deserialize, Debug)]
+struct PeopleRequest {
+    people: Vec<Person>,
+    linked: Linked,
+}
+
+// deserialize "linked" : "roles" : []   as a map
+// see https://github.com/serde-rs/serde/issues/936
+#[derive(Serialize, Deserialize, Debug)]
+struct Linked {
+    groups: Vec<Group>,
+    #[serde(with = "items_serder", rename = "roles")]
+    roles_map: HashMap<Rc<str>, Role>, // actual roles in a hashmap
+}
+
+/// stored in "people": []
 ///
-/// JSON from sorted by address:
+/// JSON of a single Person from sorted by address:
 /// 
 /// ```json
 /// "id": "6468",
@@ -100,22 +116,6 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<String, reqwest::Er
 /// ]
 ///}
 ///```
-#[derive(Serialize, Deserialize, Debug)]
-struct PeopleRequest {
-    people: Vec<Person>,
-    linked: Linked,
-}
-
-// deserialize "linked" : "roles" : []   as a map
-// see https://github.com/serde-rs/serde/issues/936
-#[derive(Serialize, Deserialize, Debug)]
-struct Linked {
-    groups: Vec<Group>,
-    #[serde(with = "items_serder", rename = "roles")]
-    roles_map: HashMap<Rc<str>, Role>, // actual roles in a hashmap
-}
-
-/// stored in "people": []
 #[derive(Serialize, Deserialize, Debug)]
 struct Person {
     #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
@@ -219,6 +219,7 @@ pub struct ReasonablePerson {
 impl PeopleRequest {
     fn to_reasonable_people(&self) -> Vec<ReasonablePerson> {
         panic!("Not implemented yet");
+        let p:Person;
         for p in self.people {
             let return_val = ReasonablePerson {
                 first_name: p.first_name,
@@ -231,6 +232,12 @@ impl PeopleRequest {
                 roles: HashSet::<Role>::new(),
                 groups: HashSet::<Group>::new(),
             };
+
+            for role_id in p.links.roles {
+                //let strx: String = as_string(role_id);
+                let role: &Role = self.linked.roles_map.get(/*turn the String into a &str*/&*role_id).expect(&format!("role_id = {} does not exist", role_id)); 
+                return_val.roles.insert(*role);
+            }
         }
 
         return Vec::<ReasonablePerson>::new();
