@@ -78,7 +78,7 @@ struct PeopleRequest {
 #[derive(Serialize, Deserialize, Debug)]
 struct Linked {
     groups: Vec<Group>,
-    #[serde(with = "items_serder", rename = "roles")]
+    #[serde(with = "items_serder_map", rename = "roles")]
     roles_map: StringHashMap<Role>, // actual roles in a hashmap
 }
 
@@ -206,10 +206,10 @@ impl<V> std::ops::DerefMut for StringHashMap<V> {
         &mut self.0
     }
 }
-/// a serializer/deserializer implementation for turning a list of items into a hashmap with the
+/// a serializer/deserializer implementation for turning a list of Role items into a hashmap with the
 /// id:String
 /// as key
-mod items_serder {
+mod items_serder_map {
     use super::Role;
     use super::StringHashMap;
     use serde::ser::Serializer;
@@ -230,6 +230,31 @@ mod items_serder {
             map.insert(Rc::clone(&item.id), item);
         }
         Ok(map)
+    }
+}
+
+/// a serializer/deserializer implementation for turning a list of Group items into a hashset
+mod items_serder_set {
+
+    use super::Group;
+    use std::collections::HashSet;
+    use serde::ser::Serializer;
+    use serde::de::{Deserialize, Deserializer};
+
+    pub fn serialize<S>(set: &HashSet<Group>, serializer: S) -> Result<S::Ok, S::Error>
+        where S: Serializer
+    {
+        serializer.collect_seq(set.iter())
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<HashSet<Group>, D::Error>
+        where D: Deserializer<'de>
+    {
+        let mut set = HashSet::<Group>::new();
+        for item in Vec::<Group>::deserialize(deserializer)? {
+            set.insert(item);
+        }
+        Ok(set)
     }
 }
 
