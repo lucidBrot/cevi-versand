@@ -261,6 +261,11 @@ mod items_serder_set {
 
 #[derive(Eq, Debug, PartialEq, Clone, Hash)]
 pub struct ReasonableGroup(Group);
+impl From<Group> for ReasonableGroup {
+    fn from(g: Group) -> Self {
+        ReasonableGroup(g)
+    }
+}
 pub struct ReasonableDataset {
     people: Vec<ReasonablePerson>,
     groups: HashSet<ReasonableGroup>,
@@ -277,14 +282,9 @@ pub struct ReasonablePerson {
     town: String,
     name_parents: String,
     roles: HashSet<Role>,// TODO: set of enums instead?
-    groups: HashSet<Group>,
+    groups: HashSet<ReasonableGroup>,
 }
 impl PeopleRequest {
-    fn get_group_by_id(&self, id: &str) -> Group {
-        //self.linked.groups find id
-        return Group{id: String::from("Fake"), name: String::from("Fake Group Name"), group_type: String::from("Fake Group Type")};
-    }
-
     fn to_reasonable_dataset(&self) -> ReasonableDataset {
         print!("---\n");
         for p in self.people.iter() {
@@ -297,7 +297,7 @@ impl PeopleRequest {
                 town: p.town.clone(),
                 name_parents: p.name_parents.clone(),
                 roles: HashSet::<Role>::new(),
-                groups: HashSet::<Group>::new(),
+                groups: HashSet::<ReasonableGroup>::new(),
             };
 
             // get roles directly
@@ -306,14 +306,15 @@ impl PeopleRequest {
                 let role: &Role = self.linked.roles_map.gettt(role_id).expect(&format!("role_id = {} does not exist", role_id)); 
                 reasonable_person.roles.insert(role.clone());
 
-                // TODO: get group corresponding to role (linked in Role links)
-                // for that, PeopleRequest.linked.groups should be a hashset, not a vec
-                let group: Group = self.get_group_by_id(&role.links.group_id);
-                reasonable_person.groups.insert(group); // TODO: ReasonableGroup from Group.
+                // get group corresponding to role (linked in Role links) (This could be optimized)
+                let group: Group = self.linked.groups.iter().find(|&grp| grp.id == role.links.group_id).expect(&format!("Group with id {} does not exist!", role.links.group_id)).clone();
+                reasonable_person.groups.insert(group.into()); 
             }
-            print!("reasonable_person.roles = {:?}\n", reasonable_person.roles);
+            print!("reasonable_person.roles  = {:?}\n", reasonable_person.roles);
+            print!("reasonable_person.groups = {:?}\n", reasonable_person.groups);
  
         }
+        print!("\n");
 
         ReasonableDataset {
             people: Vec::<ReasonablePerson>::new(),
