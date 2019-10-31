@@ -201,6 +201,22 @@ mod items_serder {
         Ok(map)
     }
 }
+type UnderlyingTypeOne<V> = HashMap<Rc<str>, V>;
+struct StringHashMap<V>(UnderlyingTypeOne<V>);
+/// implement HashMap<Rc<str>, Role>::get() for a String instead of only a &str
+/// See https://www.reddit.com/r/rust/comments/2snn7a/hashmaprcstring_v/
+impl<V> StringHashMap<V> {
+    pub fn gett(&self, s:String) -> Option<&V> {
+        return self.get(&*s);
+    }
+}
+// allow dereferencing to the oldtype to avoid writing &self.0.get()
+impl<V> std::ops::Deref for StringHashMap<V> {
+    type Target = UnderlyingTypeOne<V>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
 
 // to get reasonable information, we want the group that is stored in Role:links, which is found
 // by id which we get from Person:links
