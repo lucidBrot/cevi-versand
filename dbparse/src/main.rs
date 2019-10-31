@@ -140,11 +140,13 @@ struct PersonLinks {
 /// stored within Role struct
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash, Clone)]
 struct RoleLinks {
-    group: String,
+    #[serde(rename = "group")]
+    group_id: String,
     layer_group: String,
 }
 
 /// stored in "linked" : "groups" : []
+/// See [Linked](struct.Linked.html)
 ///
 /// ```name``` contains something like "Aktive", "Holon (M)",
 /// "Pfäffikon-Fehraltorf-Hittnau-Russikon", "Verein Pfä...", "Freie Mitarbeiter", "Z_Import
@@ -252,10 +254,15 @@ pub struct ReasonablePerson {
     groups: HashSet<Group>,
 }
 impl PeopleRequest {
+    fn get_group_by_id(&self, id: &str) -> Group {
+        //self.linked.groups find id
+        return Group{id: String::from("Fake"), name: String::from("Fake Group Name"), group_type: String::from("Fake Group Type")};
+    }
+
     fn to_reasonable_dataset(&self) -> ReasonableDataset {
         print!("---\n");
         for p in self.people.iter() {
-            let mut return_val = ReasonablePerson {
+            let mut reasonable_person = ReasonablePerson {
                 first_name: p.first_name.clone(),
                 last_name: p.last_name.clone(),
                 nickname: p.nickname.clone(),
@@ -271,11 +278,14 @@ impl PeopleRequest {
             for role_id in p.links.roles.iter() {
                 //let strx: String = as_string(role_id);
                 let role: &Role = self.linked.roles_map.gettt(role_id).expect(&format!("role_id = {} does not exist", role_id)); 
-                return_val.roles.insert(role.clone());
+                reasonable_person.roles.insert(role.clone());
 
                 // TODO: get group corresponding to role (linked in Role links)
+                // for that, PeopleRequest.linked.groups should be a hashset, not a vec
+                let group: Group = self.get_group_by_id(&role.links.group_id);
+                reasonable_person.groups.insert(group); // TODO: ReasonableGroup from Group.
             }
-            print!("return_val.roles = {:?}\n", return_val.roles);
+            print!("reasonable_person.roles = {:?}\n", reasonable_person.roles);
  
         }
 
