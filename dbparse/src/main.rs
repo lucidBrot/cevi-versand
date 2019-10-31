@@ -79,7 +79,7 @@ struct PeopleRequest {
 struct Linked {
     groups: Vec<Group>,
     #[serde(with = "items_serder", rename = "roles")]
-    roles_map: HashMap<Rc<str>, Role>, // actual roles in a hashmap
+    roles_map: StringHashMap<Role>, // actual roles in a hashmap
 }
 
 /// stored in "people": []
@@ -175,39 +175,18 @@ pub struct Role {
     label: Option<String>,
     links: RoleLinks,
 }
-/// a serializer/deserializer implementation for turning a list of items into a hashmap with the
-/// id:String
-/// as key
-mod items_serder {
-    use super::Role;
-    use std::collections::HashMap;
-    use serde::ser::Serializer;
-    use serde::de::{Deserialize, Deserializer};
-    use std::rc::Rc;
 
-    pub fn serialize<S>(map: &HashMap<Rc<str>, Role>, serializer: S) -> Result<S::Ok, S::Error>
-        where S: Serializer
-    {
-        serializer.collect_seq(map.values())
-    }
-
-    pub fn deserialize<'de, D>(deserializer: D) -> Result<HashMap<Rc<str>, Role>, D::Error>
-        where D: Deserializer<'de>
-    {
-        let mut map = HashMap::new();
-        for item in Vec::<Role>::deserialize(deserializer)? {
-            map.insert(Rc::clone(&item.id), item);
-        }
-        Ok(map)
-    }
-}
 type UnderlyingTypeOne<V> = HashMap<Rc<str>, V>;
-struct StringHashMap<V>(UnderlyingTypeOne<V>);
+#[derive(Debug)]
+pub struct StringHashMap<V>(UnderlyingTypeOne<V>);
 /// implement HashMap<Rc<str>, Role>::get() for a String instead of only a &str
 /// See https://www.reddit.com/r/rust/comments/2snn7a/hashmaprcstring_v/
 impl<V> StringHashMap<V> {
     pub fn gett(&self, s:String) -> Option<&V> {
         return self.get(&*s);
+    }
+    pub fn new() -> Self {
+        return StringHashMap(UnderlyingTypeOne::<V>::new());
     }
 }
 // allow dereferencing to the oldtype to avoid writing &self.0.get()
@@ -215,6 +194,38 @@ impl<V> std::ops::Deref for StringHashMap<V> {
     type Target = UnderlyingTypeOne<V>;
     fn deref(&self) -> &Self::Target {
         &self.0
+    }
+}
+impl<V> std::ops::DerefMut for StringHashMap<V> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+/// a serializer/deserializer implementation for turning a list of items into a hashmap with the
+/// id:String
+/// as key
+mod items_serder {
+    use super::Role;
+    use super::StringHashMap;
+    use std::collections::HashMap;
+    use serde::ser::Serializer;
+    use serde::de::{Deserialize, Deserializer};
+    use std::rc::Rc;
+
+    pub fn serialize<S>(map: &StringHashMap<Role>, serializer: S) -> Result<S::Ok, S::Error>
+        where S: Serializer
+    {
+        serializer.collect_seq(map.values())
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<StringHashMap<Role>, D::Error>
+        where D: Deserializer<'de>
+    {
+        let mut map = StringHashMap::<Role>::new();
+        for item in Vec::<Role>::deserialize(deserializer)? {
+            map.insert(Rc::clone(&item.id), item);
+        }
+        Ok(map)
     }
 }
 
@@ -251,7 +262,7 @@ impl PeopleRequest {
 
             for role_id in p.links.roles {
                 //let strx: String = as_string(role_id);
-                let role: &Role = self.linked.roles_map.get(/*turn the String into a &str*/&*role_id).expect(&format!("role_id = {} does not exist", role_id)); 
+                let role: &Role = self.linked.roles_map.gett(role_id).expect(&format!("role_id = {} does not exist", role_id)); 
                 return_val.roles.insert(*role);
             }
         }
