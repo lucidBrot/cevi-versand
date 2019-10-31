@@ -54,7 +54,6 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<String, reqwest::Er
     .text()?;
     // deserialize the json data into a struct
     let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(&body).expect("I am bad");
-    let people: Vec<Person> = dese.people;
 
     let mut i = 0;
     for role in dese.linked.roles_map.iter() {
