@@ -272,6 +272,7 @@ pub struct ReasonableDataset {
 }
 // to get reasonable information, we want the group that is stored in Role:links, which is found
 // by id which we get from Person:links
+
 #[derive(Debug)]
 pub struct ReasonablePerson {
     first_name: String,
