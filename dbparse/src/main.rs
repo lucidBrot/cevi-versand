@@ -61,6 +61,10 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<String, reqwest::Er
         println!("Roles[{}] = {:?}",i,  role);
         i+=1;
     }
+
+    // transform the Person into a ReasonablePerson, which directly contains all relevant data
+    let reasonable_people: Vec<ReasonablePerson> = dese.to_reasonable_people();
+
     Ok(body)
 }
 
@@ -213,22 +217,23 @@ pub struct ReasonablePerson {
     roles: HashSet<Role>,// TODO: set of enums?
     groups: HashSet<Group>,
 }
-impl From<Person> for ReasonablePerson {
-    fn from(p: Person) -> Self {
-        let return_val = ReasonablePerson {
-            first_name: p.first_name,
-            last_name: p.last_name,
-            nickname: p.nickname,
-            address: p.address,
-            zip_code: p.zip_code,
-            town: p.town,
-            name_parents: p.name_parents,
-            roles: HashSet::<Role>::new(),
-            groups: HashSet::<Group>::new(),
+impl PeopleRequest {
+    fn to_reasonable_people(&self) -> Vec<ReasonablePerson> {
+        panic!("Not implemented yet");
+        for p in self.people {
+            let return_val = ReasonablePerson {
+                first_name: p.first_name,
+                last_name: p.last_name,
+                nickname: p.nickname,
+                address: p.address,
+                zip_code: p.zip_code,
+                town: p.town,
+                name_parents: p.name_parents,
+                roles: HashSet::<Role>::new(),
+                groups: HashSet::<Group>::new(),
+            };
         }
 
-        for role_id in p.links.roles {
-            return_val.roles.insert( // TODO: make this a function of PeopleRequest instead of impl From. Because we need the whole object to get the roles
-        }
+        return Vec::<ReasonablePerson>::new();
     }
 }
