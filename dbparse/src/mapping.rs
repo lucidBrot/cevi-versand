@@ -1,5 +1,9 @@
 use super::StringHashMap;
 
+//pub fn create_yaml_from_map();
+//pub fn create_map_from_yaml();
+//pub fn store_map_in_map(priority_map, old_map)
+
 #[cfg(test)]
 mod tests {
     use super::StringHashMap;
