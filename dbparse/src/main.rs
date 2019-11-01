@@ -3,6 +3,7 @@ use std::fs;
 use std::collections::HashMap;
 use std::rc::Rc;
 use std::collections::HashSet;
+mod mapping;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Point {
@@ -193,6 +194,9 @@ impl<V> StringHashMap<V> {
     }
     pub fn new() -> Self {
         return StringHashMap(StringHashMapType::<V>::new());
+    }
+    pub fn insertt(&mut self, k: String, v: V) -> Option<V> {
+        return self.insert(Rc::from(&*k), v);
     }
 }
 // allow dereferencing to the oldtype to avoid writing &self.0.get()
