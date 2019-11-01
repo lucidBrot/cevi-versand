@@ -316,11 +316,9 @@ impl PeopleRequest {
                 // store group if it appeared at least once also at the top level of the dataset
                 all_groups.insert(reasonable_group);
             }
-            print!("reasonable_person.roles  = {:?}\n", reasonable_person.roles);
-            print!("reasonable_person.groups = {:?}\n", reasonable_person.groups);
- 
         }
         print!("\n");
+        print!("all_groups = {:#?}", all_groups);
 
         ReasonableDataset {
             people: Vec::<ReasonablePerson>::new(),
