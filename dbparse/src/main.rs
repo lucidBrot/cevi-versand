@@ -287,6 +287,8 @@ pub struct ReasonablePerson {
 }
 impl PeopleRequest {
     fn to_reasonable_dataset(&self) -> ReasonableDataset {
+        let mut all_groups : HashSet<ReasonableGroup> = HashSet::new();
+
         print!("---\n");
         for p in self.people.iter() {
             let mut reasonable_person = ReasonablePerson {
@@ -309,7 +311,10 @@ impl PeopleRequest {
 
                 // get group corresponding to role (linked in Role links) (This could be optimized)
                 let group: Group = self.linked.groups.iter().find(|&grp| grp.id == role.links.group_id).expect(&format!("Group with id {} does not exist!", role.links.group_id)).clone();
-                reasonable_person.groups.insert(group.into()); 
+                let reasonable_group: ReasonableGroup = group.into();
+                reasonable_person.groups.insert(reasonable_group.clone()); 
+                // store group if it appeared at least once also at the top level of the dataset
+                all_groups.insert(reasonable_group);
             }
             print!("reasonable_person.roles  = {:?}\n", reasonable_person.roles);
             print!("reasonable_person.groups = {:?}\n", reasonable_person.groups);
@@ -319,7 +324,7 @@ impl PeopleRequest {
 
         ReasonableDataset {
             people: Vec::<ReasonablePerson>::new(),
-            groups: HashSet::new(),
+            groups: all_groups,
         }
     }
 }
