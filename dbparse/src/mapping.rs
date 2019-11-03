@@ -21,13 +21,13 @@ struct DisplayableGroup<'a> {
     group_mapping: &'a dyn GroupMapping,
 }
 impl<'a> DisplayableGroup<'a> {
-    fn from (r: ReasonableGroup, m: &'a GroupMapping) -> Self {
+    fn from (r: ReasonableGroup, m: &'a dyn GroupMapping) -> Self {
         DisplayableGroup { group: r, group_mapping: m, }
     }
 }
 impl DisplayableAs<String> for DisplayableGroup<'_> {
     fn display (&self) -> String {
-        self.group_mapping.get_display_name(&self.group.0.name).unwrap_or(self.group.0.name.clone())
+        self.group_mapping.get_display_name(&self.group.inner_group.name).unwrap_or(self.group.inner_group.name.clone())
     }
 }
 

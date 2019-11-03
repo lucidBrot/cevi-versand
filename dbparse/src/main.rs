@@ -264,10 +264,10 @@ mod items_serder_set {
 }
 
 #[derive(Eq, Debug, PartialEq, Clone, Hash)]
-pub struct ReasonableGroup(Group);
+pub struct ReasonableGroup{pub inner_group: Group}
 impl From<Group> for ReasonableGroup {
     fn from(g: Group) -> Self {
-        ReasonableGroup(g)
+        ReasonableGroup{inner_group: g}
     }
 }
 pub struct ReasonableDataset {
