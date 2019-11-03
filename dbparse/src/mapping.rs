@@ -1,8 +1,35 @@
 use super::StringHashMap;
+use std::collections::HashSet;
+use super::ReasonableGroup;
 
 //pub fn create_yaml_from_map();
 //pub fn create_map_from_yaml();
 //pub fn store_map_in_map(priority_map, old_map)
+
+pub fn create_yaml_from_set(set: &HashSet<ReasonableGroup>) {
+
+}
+
+trait DisplayableAs<T> {
+    fn display (&self) -> T; 
+}
+trait GroupMapping {
+    fn get_display_name (&self, group_name: &str) -> Option<String>;
+}
+struct DisplayableGroup<'a> {
+    group: ReasonableGroup,
+    group_mapping: &'a dyn GroupMapping,
+}
+impl<'a> DisplayableGroup<'a> {
+    fn from (r: ReasonableGroup, m: &'a GroupMapping) -> Self {
+        DisplayableGroup { group: r, group_mapping: m, }
+    }
+}
+impl DisplayableAs<String> for DisplayableGroup<'_> {
+    fn display (&self) -> String {
+        self.group_mapping.get_display_name(&self.group.0.name).unwrap_or(self.group.0.name.clone())
+    }
+}
 
 #[cfg(test)]
 mod tests {
