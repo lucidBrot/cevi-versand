@@ -10,7 +10,10 @@ pub fn create_yaml_from_set(set: &HashSet<ReasonableGroup>) {
 
 }
 
+// Make group have a display() function
 trait DisplayableAs<T> {
+    /// returns a displayable value. E.g. a String, corrected so that it would make sense to show
+    /// to a enduser
     fn display (&self) -> T; 
 }
 trait GroupMapping {
@@ -31,9 +34,17 @@ impl DisplayableAs<String> for DisplayableGroup<'_> {
     }
 }
 
+struct GroupMappingStruct {}
+impl GroupMapping for GroupMappingStruct {
+    fn get_display_name(&self, group_name: &str) -> Option<String> {
+        None
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::StringHashMap;
+    use super::{GroupMapping, GroupMappingStruct};
 
     #[test]
     fn test_map_one_element(){
@@ -42,5 +53,12 @@ mod tests {
         let s2 = String::from("there");
         m.insertt(s1, s2);
         assert_eq!("there", m.get("hello").expect("Should be something"));
+    }
+
+    #[test]
+    fn test_group_mapping(){
+        let gms = GroupMappingStruct{};
+        let x = gms.get_display_name(&"holon");
+        assert!(x.is_some(), "should be some group name");
     }
 }
