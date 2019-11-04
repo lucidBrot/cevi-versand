@@ -26,6 +26,24 @@ impl GroupMapping {
             Some(group_names) => group_names.display_name.clone()
         }
     }
+
+    fn new() -> Self {
+        GroupMapping {map: HashMap::new()}
+    }
+
+    fn from_set(set: &HashSet<ReasonableGroup>) -> Self{
+        let mut group_mapping = GroupMapping::new();
+        for group in set.iter() {
+            group_mapping.map.insert(
+                group.inner_group.id.clone(),
+                GroupNames {
+                    original_name: group.inner_group.name.clone(),
+                    display_name: Some(group.inner_group.name.clone()),
+                    }
+                );  
+        }
+        return group_mapping;
+    }
 }
 
 #[cfg(test)]

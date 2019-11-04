@@ -1,3 +1,4 @@
+// TODO: error messages e.g. when no internet
 use serde::{Serialize, Deserialize};
 use std::fs;
 use std::collections::HashMap;
