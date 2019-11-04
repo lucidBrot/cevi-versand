@@ -11,12 +11,20 @@ pub fn create_yaml_from_set(set: &HashSet<ReasonableGroup>) {
 }
 
 type GroupID = String;
+struct GroupNames {
+    original_name : String,
+    display_name : Option<String>,
+}
 struct GroupMapping {
-    map: HashMap<GroupID, String>,
+    map: HashMap<GroupID, GroupNames>,
 }
 impl GroupMapping {
-    fn get_display_name(&self, group_id: &GroupID) -> Option<&String> {
-        self.map.get(group_id)
+    fn get_display_name(&self, group_id: &GroupID) -> Option<String> {
+        let entry : Option<&GroupNames> = self.map.get(group_id);
+        match entry {
+            None => None,
+            Some(group_names) => group_names.display_name.clone()
+        }
     }
 }
 
@@ -32,12 +40,5 @@ mod tests {
         let s2 = String::from("there");
         m.insertt(s1, s2);
         assert_eq!("there", m.get("hello").expect("Should be something"));
-    }
-
-    #[test]
-    fn test_group_mapping(){
-        let gms = GroupMappingStruct{};
-        let x = gms.get_display_name(&"holon");
-        assert!(x.is_some(), "should be some group name");
     }
 }
