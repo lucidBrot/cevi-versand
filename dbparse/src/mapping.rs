@@ -1,5 +1,5 @@
 use super::StringHashMap;
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use super::ReasonableGroup;
 
 //pub fn create_yaml_from_map();
@@ -10,34 +10,13 @@ pub fn create_yaml_from_set(set: &HashSet<ReasonableGroup>) {
 
 }
 
-// Make group have a display() function
-trait DisplayableAs<T> {
-    /// returns a displayable value. E.g. a String, corrected so that it would make sense to show
-    /// to a enduser
-    fn display (&self) -> T; 
+type GroupID = String;
+struct GroupMapping {
+    map: HashMap<GroupID, String>,
 }
-trait GroupMapping {
-    fn get_display_name (&self, group_name: &str) -> Option<String>;
-}
-struct DisplayableGroup<'a> {
-    group: ReasonableGroup,
-    group_mapping: &'a dyn GroupMapping,
-}
-impl<'a> DisplayableGroup<'a> {
-    fn from (r: ReasonableGroup, m: &'a dyn GroupMapping) -> Self {
-        DisplayableGroup { group: r, group_mapping: m, }
-    }
-}
-impl DisplayableAs<String> for DisplayableGroup<'_> {
-    fn display (&self) -> String {
-        self.group_mapping.get_display_name(&self.group.inner_group.name).unwrap_or(self.group.inner_group.name.clone())
-    }
-}
-
-struct GroupMappingStruct {}
-impl GroupMapping for GroupMappingStruct {
-    fn get_display_name(&self, group_name: &str) -> Option<String> {
-        None
+impl GroupMapping {
+    fn get_display_name(&self, group_id: &GroupID) -> Option<&String> {
+        self.map.get(group_id)
     }
 }
 
