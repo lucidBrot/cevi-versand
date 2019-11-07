@@ -6,16 +6,21 @@ use super::ReasonableGroup;
 //pub fn create_map_from_yaml();
 //pub fn store_map_in_map(priority_map, old_map)
 
-pub fn create_yaml_from_set(set: &HashSet<ReasonableGroup>) {
+pub fn create_yaml_from_map(map: &GroupMapping){
 
+}
+
+pub fn create_yaml_from_set(set: &HashSet<ReasonableGroup>) {
+    let group_mapping : GroupMapping = GroupMapping::from_set(set);
+    create_yaml_from_map(&group_mapping);
 }
 
 type GroupID = String;
-struct GroupNames {
+pub struct GroupNames {
     original_name : String,
     display_name : Option<String>,
 }
-struct GroupMapping {
+pub struct GroupMapping {
     map: HashMap<GroupID, GroupNames>,
 }
 impl GroupMapping {
