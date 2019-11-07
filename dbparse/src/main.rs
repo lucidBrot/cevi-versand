@@ -15,7 +15,8 @@ struct Point {
 fn main() {
     // load database API token
     let config = setup_config();
-    get_data_sorted_by_address(&config);
+    let dataset : ReasonableDataset = get_data_sorted_by_address(&config).expect("WTF in main!");
+    mapping::create_yaml_from_set(&dataset.groups);
 }
 
 fn setup_config() -> DB_Conf {

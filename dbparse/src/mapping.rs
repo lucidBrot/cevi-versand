@@ -1,13 +1,18 @@
 use super::StringHashMap;
 use std::collections::{HashMap, HashSet};
 use super::ReasonableGroup;
+use serde::{Serialize, Deserialize};
 
 //pub fn create_yaml_from_map();
 //pub fn create_map_from_yaml();
 //pub fn store_map_in_map(priority_map, old_map)
 
 pub fn create_yaml_from_map(map: &GroupMapping){
-
+    let my_yaml : Result<String, _> = serde_yaml::to_string(&map);
+    match my_yaml {
+        Ok(content_string) => println!("yaml: \n{}", content_string),
+        Err(e) => println!("yaml serializing error: \n{}", e)
+    };
 }
 
 pub fn create_yaml_from_set(set: &HashSet<ReasonableGroup>) {
@@ -16,10 +21,12 @@ pub fn create_yaml_from_set(set: &HashSet<ReasonableGroup>) {
 }
 
 type GroupID = String;
+#[derive(Serialize, Deserialize, Debug)]
 pub struct GroupNames {
     original_name : String,
     display_name : Option<String>,
 }
+#[derive(Serialize, Deserialize, Debug)]
 pub struct GroupMapping {
     map: HashMap<GroupID, GroupNames>,
 }
