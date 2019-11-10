@@ -9,10 +9,10 @@ use serde::{Serialize, Deserialize};
 /// merges the two maps. When both maps contain the same key, the entry from `priority_map` is
 /// taken.
 pub fn store_map_in_map(priority_map: &GroupMapping, old_map: &GroupMapping) -> GroupMapping{
-    let new_map: GroupMapping = *priority_map.clone();
+    let mut new_map: GroupMapping = (*priority_map).clone();
     for (key, value) in old_map.map.iter() {
-        if let None = priority_map.get(key) {
-            new_map.insert(key, value);
+        if let None = priority_map.map.get(key) {
+            new_map.map.insert(key.to_owned(), value.clone());
         }
     }
     return new_map;
@@ -32,12 +32,12 @@ pub fn create_yaml_from_set(set: &HashSet<ReasonableGroup>) {
 }
 
 type GroupID = String;
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GroupNames {
     original_name : String,
     display_name : Option<String>,
 }
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GroupMapping {
     map: HashMap<GroupID, GroupNames>,
 }
