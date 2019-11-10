@@ -3,8 +3,9 @@ use std::collections::{HashMap, HashSet};
 use super::ReasonableGroup;
 use serde::{Serialize, Deserialize};
 
-//pub fn create_yaml_from_map();
-//pub fn create_map_from_yaml();
+pub fn create_map_from_yaml(){
+
+}
 
 /// merges the two maps. When both maps contain the same key, the entry from `priority_map` is
 /// taken.
@@ -18,11 +19,11 @@ pub fn store_map_in_map(priority_map: &GroupMapping, old_map: &GroupMapping) -> 
     return new_map;
 }
 
-pub fn create_yaml_from_map(map: &GroupMapping){
+pub fn create_yaml_from_map(map: &GroupMapping) -> Option<String> {
     let my_yaml : Result<String, _> = serde_yaml::to_string(&map);
     match my_yaml {
-        Ok(content_string) => println!("yaml: \n{}", content_string),
-        Err(e) => println!("yaml serializing error: \n{}", e)
+        Ok(content_string) => { println!("yaml: \n{}", content_string); return Some(content_string);},
+        Err(e) => { println!("yaml serializing error: \n{}", e); return None; }
     };
 }
 
