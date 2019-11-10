@@ -3,8 +3,10 @@ use std::collections::{HashMap, HashSet};
 use super::ReasonableGroup;
 use serde::{Serialize, Deserialize};
 
-pub fn create_map_from_yaml(){
-
+/// turns a given yaml String into a GroupMapping
+pub fn create_map_from_yaml(yaml_str: &str) -> Result<GroupMapping, serde_yaml::Error> {
+    let map_opt : Result<GroupMapping, serde_yaml::Error> = serde_yaml::from_str(yaml_str);
+    return map_opt;
 }
 
 /// merges the two maps. When both maps contain the same key, the entry from `priority_map` is
@@ -62,11 +64,17 @@ impl GroupMapping {
                 group.inner_group.id.clone(),
                 GroupNames {
                     original_name: group.inner_group.name.clone(),
-                    display_name: Some(group.inner_group.name.clone()),
+                    display_name: Some(Self::autocorrect_group_name(&*group.inner_group.name)),
                     }
                 );  
         }
         return group_mapping;
+    }
+
+    fn autocorrect_group_name(name: &str) -> String {
+        const F : &str = " (F)";
+        const M : &str = " (M)";
+        String::from(name.clone().trim_end_matches(F).trim_end_matches(M))
     }
 }
 
