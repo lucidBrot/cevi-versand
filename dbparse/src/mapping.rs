@@ -5,7 +5,18 @@ use serde::{Serialize, Deserialize};
 
 //pub fn create_yaml_from_map();
 //pub fn create_map_from_yaml();
-//pub fn store_map_in_map(priority_map, old_map)
+
+/// merges the two maps. When both maps contain the same key, the entry from `priority_map` is
+/// taken.
+pub fn store_map_in_map(priority_map: &GroupMapping, old_map: &GroupMapping) -> GroupMapping{
+    let new_map: GroupMapping = *priority_map.clone();
+    for (key, value) in old_map.map.iter() {
+        if let None = priority_map.get(key) {
+            new_map.insert(key, value);
+        }
+    }
+    return new_map;
+}
 
 pub fn create_yaml_from_map(map: &GroupMapping){
     let my_yaml : Result<String, _> = serde_yaml::to_string(&map);
