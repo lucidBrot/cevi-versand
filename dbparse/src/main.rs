@@ -5,6 +5,7 @@ use std::collections::HashMap;
 use std::rc::Rc;
 use std::collections::HashSet;
 mod mapping;
+use mapping::GroupMapping;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Point {
@@ -16,7 +17,20 @@ fn main() {
     // load database API token
     let config = setup_config();
     let dataset : ReasonableDataset = get_data_sorted_by_address(&config).expect("WTF in main!");
-    mapping::create_yaml_from_set(&dataset.groups);
+
+    // load yaml mapping from file if exists
+    let yaml_group_mapping : String = // TODO
+    // combine with new groups from database
+    let loaded_group_mapping : GroupMapping = mapping::create_map_from_yaml(yaml_group_mapping);
+    // create mapping from Database
+    let db_group_mapping : GroupMapping = GroupMapping::from_set(set);
+    // merge mappings
+    let merged_group_mapping : GroupMapping = mapping::store_map_in_map(&loaded_group_mapping, &db_group_mapping);
+    // save new mapping to file
+    let new_yaml_group_mapping_opt : GroupMapping = mapping::create_yaml_from_map(&merged_group_mapping).expect("Generating yaml for group mapping failed");
+    // use the display names
+   //TODO 
+
 }
 
 fn setup_config() -> DB_Conf {
