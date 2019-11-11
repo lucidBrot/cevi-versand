@@ -12,6 +12,22 @@ mod mapping;
 use mapping::GroupMapping;
 
 const MAPPING_YAML_FILE : &str = "mapping.yaml";
+const VERBOSITY : Verbosity = Verbosity::No;
+
+enum Verbosity {
+    No,
+    ABit,
+    Much,
+}
+impl Verbosity {
+    fn value(&self) -> u8 {
+        match self {
+            Verbosity::No => 0,
+            Verbosity::ABit => 5,
+            Verbosity::Much => 10,
+        }
+    }
+}
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Point {
@@ -96,9 +112,12 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<ReasonableDataset, 
     let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(&body).expect("I am bad");
 
     let mut i = 0;
-    for role in dese.linked.roles_map.iter() {
-        println!("Roles[{}] = {:?}",i,  role);
-        i+=1;
+
+    if VERBOSITY.value() >= Verbosity::ABit.value() {
+        for role in dese.linked.roles_map.iter() {
+            println!("Roles[{}] = {:?}",i,  role);
+            i+=1;
+        }
     }
 
     // transform the Person into a ReasonablePerson, which directly contains all relevant data
