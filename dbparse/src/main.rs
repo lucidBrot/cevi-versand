@@ -29,12 +29,6 @@ impl Verbosity {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-struct Point {
-    x: i32,
-    y: i32,
-}
-
 pub struct MainReturns {
     file: File,
     group_mapping: GroupMapping,
@@ -64,12 +58,15 @@ pub fn run() -> Result<MainReturns, Box<dyn Error>> {
     // save new mapping to file
     let new_yaml_group_mapping : String = mapping::create_yaml_from_map(&merged_group_mapping).expect("Generating yaml for group mapping failed");
     let mut file = File::create(MAPPING_YAML_FILE).expect("Writing mapping failed");
-    file.write_all(new_yaml_group_mapping.as_bytes());
-
-    Ok(MainReturns {
-        file: file,
-        group_mapping: merged_group_mapping,
-    })
+    let res = file.write_all(new_yaml_group_mapping.as_bytes());
+    
+    return match res {
+        Ok(_) => Ok(MainReturns {
+            file: file,
+            group_mapping: merged_group_mapping,
+        }),
+        Err(e) => Err(Box::new(e)),
+    }
 }
 
 fn setup_config() -> DB_Conf {
