@@ -1,4 +1,3 @@
-use super::StringHashMap;
 use std::collections::{HashMap, HashSet};
 use super::ReasonableGroup;
 use serde::{Serialize, Deserialize};
@@ -33,11 +32,6 @@ pub fn create_yaml_from_map(map: &GroupMapping) -> Option<String> {
         },
         Err(e) => { println!("yaml serializing error: \n{}", e); return None; }
     };
-}
-
-pub fn create_yaml_from_set(set: &HashSet<ReasonableGroup>) {
-    let group_mapping : GroupMapping = GroupMapping::from_set(set);
-    create_yaml_from_map(&group_mapping);
 }
 
 type GroupID = String;

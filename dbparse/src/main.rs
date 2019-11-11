@@ -41,7 +41,7 @@ pub struct MainReturns {
 }
 
 fn main() {
-    run();
+    run().expect("Unexpected");
 }
 
 pub fn run() -> Result<MainReturns, Box<dyn Error>> {
