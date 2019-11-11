@@ -7,6 +7,7 @@ use std::fs::read_to_string;
 use std::collections::HashMap;
 use std::rc::Rc;
 use std::collections::HashSet;
+use std::error::Error;
 mod mapping;
 use mapping::GroupMapping;
 
@@ -18,7 +19,16 @@ struct Point {
     y: i32,
 }
 
+pub struct MainReturns {
+    file: File,
+    group_mapping: GroupMapping,
+}
+
 fn main() {
+    run();
+}
+
+pub fn run() -> Result<MainReturns, Box<dyn Error>> {
     // load database API token
     let config = setup_config();
     let dataset : ReasonableDataset = get_data_sorted_by_address(&config).expect("WTF in main!");
@@ -39,9 +49,11 @@ fn main() {
     let new_yaml_group_mapping : String = mapping::create_yaml_from_map(&merged_group_mapping).expect("Generating yaml for group mapping failed");
     let mut file = File::create(MAPPING_YAML_FILE).expect("Writing mapping failed");
     file.write_all(new_yaml_group_mapping.as_bytes());
-    // use the display names
-   //TODO 
 
+    Ok(MainReturns {
+        file: file,
+        group_mapping: merged_group_mapping,
+    })
 }
 
 fn setup_config() -> DB_Conf {
