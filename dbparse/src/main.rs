@@ -1,11 +1,14 @@
 // TODO: error messages e.g. when no internet
 use serde::{Serialize, Deserialize};
 use std::fs;
+use std::fs::read_to_string;
 use std::collections::HashMap;
 use std::rc::Rc;
 use std::collections::HashSet;
 mod mapping;
 use mapping::GroupMapping;
+
+const MAPPING_YAML_FILE : &str = "mapping.yaml";
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Point {
@@ -19,9 +22,13 @@ fn main() {
     let dataset : ReasonableDataset = get_data_sorted_by_address(&config).expect("WTF in main!");
 
     // load yaml mapping from file if exists
-    let yaml_group_mapping : String = // TODO
+    let yaml_group_mapping : Result<String, std::io::Error> = read_to_string(MAPPING_YAML_FILE);
     // combine with new groups from database
-    let loaded_group_mapping : GroupMapping = mapping::create_map_from_yaml(yaml_group_mapping);
+    let loaded_group_mapping : GroupMapping =
+        match yaml_group_mapping {
+            Ok(mapping) => mapping::create_map_from_yaml(mapping),
+            Err(e) => { println!("problem loading yaml mapping: {}", e); GroupMapping::new() },
+        };
     // create mapping from Database
     let db_group_mapping : GroupMapping = GroupMapping::from_set(set);
     // merge mappings
