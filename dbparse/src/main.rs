@@ -14,7 +14,7 @@ use mapping::GroupMapping;
 const MAPPING_YAML_FILE : &str = "mapping.yaml";
 const VERBOSITY : Verbosity = Verbosity::No;
 
-enum Verbosity {
+pub enum Verbosity {
     No,
     ABit,
     Much,
@@ -113,7 +113,7 @@ fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<ReasonableDataset, 
 
     let mut i = 0;
 
-    if VERBOSITY.value() >= Verbosity::ABit.value() {
+    if VERBOSITY.value() >= Verbosity::Much.value() {
         for role in dese.linked.roles_map.iter() {
             println!("Roles[{}] = {:?}",i,  role);
             i+=1;
@@ -379,8 +379,11 @@ impl PeopleRequest {
                 all_groups.insert(reasonable_group);
             }
         }
+
         print!("\n");
-        print!("all_groups = {:#?}", all_groups);
+        if VERBOSITY.value() >= Verbosity::Much.value() {
+            print!("all_groups = {:#?}", all_groups);
+        }
 
         ReasonableDataset {
             people: Vec::<ReasonablePerson>::new(),

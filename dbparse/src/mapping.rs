@@ -2,6 +2,7 @@ use super::StringHashMap;
 use std::collections::{HashMap, HashSet};
 use super::ReasonableGroup;
 use serde::{Serialize, Deserialize};
+use super::{Verbosity, VERBOSITY};
 
 /// turns a given yaml String into a GroupMapping
 pub fn create_map_from_yaml(yaml_str: &str) -> Result<GroupMapping, serde_yaml::Error> {
@@ -24,7 +25,12 @@ pub fn store_map_in_map(priority_map: &GroupMapping, old_map: &GroupMapping) -> 
 pub fn create_yaml_from_map(map: &GroupMapping) -> Option<String> {
     let my_yaml : Result<String, _> = serde_yaml::to_string(&map);
     match my_yaml {
-        Ok(content_string) => { println!("yaml: \n{}", content_string); return Some(content_string);},
+        Ok(content_string) => { 
+            if VERBOSITY.value() >= Verbosity::ABit.value() {
+                println!("yaml: \n{}", content_string); 
+            }
+            return Some(content_string);
+        },
         Err(e) => { println!("yaml serializing error: \n{}", e); return None; }
     };
 }
