@@ -1,6 +1,8 @@
 // TODO: error messages e.g. when no internet
 use serde::{Serialize, Deserialize};
 use std::fs;
+use std::fs::File;
+use std::io::Write;
 use std::fs::read_to_string;
 use std::collections::HashMap;
 use std::rc::Rc;
@@ -26,15 +28,17 @@ fn main() {
     // combine with new groups from database
     let loaded_group_mapping : GroupMapping =
         match yaml_group_mapping {
-            Ok(mapping) => mapping::create_map_from_yaml(mapping),
+            Ok(mapping) => mapping::create_map_from_yaml(&mapping).expect("Creating map from yaml failed"),
             Err(e) => { println!("problem loading yaml mapping: {}", e); GroupMapping::new() },
         };
     // create mapping from Database
-    let db_group_mapping : GroupMapping = GroupMapping::from_set(set);
+    let db_group_mapping : GroupMapping = GroupMapping::from_set(&dataset.groups);
     // merge mappings
     let merged_group_mapping : GroupMapping = mapping::store_map_in_map(&loaded_group_mapping, &db_group_mapping);
     // save new mapping to file
-    let new_yaml_group_mapping_opt : GroupMapping = mapping::create_yaml_from_map(&merged_group_mapping).expect("Generating yaml for group mapping failed");
+    let new_yaml_group_mapping : String = mapping::create_yaml_from_map(&merged_group_mapping).expect("Generating yaml for group mapping failed");
+    let mut file = File::create(MAPPING_YAML_FILE).expect("Writing mapping failed");
+    file.write_all(new_yaml_group_mapping.as_bytes());
     // use the display names
    //TODO 
 

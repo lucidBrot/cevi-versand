@@ -45,7 +45,7 @@ pub struct GroupMapping {
     map: HashMap<GroupID, GroupNames>,
 }
 impl GroupMapping {
-    fn get_display_name(&self, group_id: &GroupID) -> Option<String> {
+    pub fn get_display_name(&self, group_id: &GroupID) -> Option<String> {
         let entry : Option<&GroupNames> = self.map.get(group_id);
         match entry {
             None => None,
@@ -53,11 +53,11 @@ impl GroupMapping {
         }
     }
 
-    fn new() -> Self {
+    pub fn new() -> Self {
         GroupMapping {map: HashMap::new()}
     }
 
-    fn from_set(set: &HashSet<ReasonableGroup>) -> Self{
+    pub fn from_set(set: &HashSet<ReasonableGroup>) -> Self{
         let mut group_mapping = GroupMapping::new();
         for group in set.iter() {
             group_mapping.map.insert(
