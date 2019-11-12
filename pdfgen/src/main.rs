@@ -61,58 +61,63 @@ fn couvert_doc(receivers: Vec<Receiver>, address: Vec<&str>) -> printpdf::PdfDoc
     let font_calibri_light = doc.add_external_font(std::fs::File::open("res/fonts/calibril.ttf").unwrap()).unwrap();
 
 
-    // add new page
-    let (next_page, layer1) = doc.add_page(page_width, page_height, "Page 2, Layer 1");
+    for i in 0..=100 {
 
-    // prepare usage variables
-    let current_page = doc.get_page(next_page);
-    let current_layer = current_page.get_layer(layer1);
+        // add new page
+        println!("Generating page {}/100", i);
+        let (next_page, layer1) = doc.add_page(page_width, page_height, "Page 2, Layer 1");
 
-    // place the logo first, so that it is in the background
-    // original logo is at 300 dpi approx 16/0.15 = 106mm
-    add_bitmap_to_layer(&current_layer,
-                        Some(border_wh), Some(page_height - Mm(16.0) - border_wh ),
-                        Some(0.15), Some(0.15)
-                        );
+        // prepare usage variables
+        let current_page = doc.get_page(next_page);
+        let current_layer = current_page.get_layer(layer1);
 
-    // draw names
-    draw_names(&current_layer, &font_calibri, names_font_size, (names_offset_x, names_offset_y),
+        // place the logo first, so that it is in the background
+        // original logo is at 300 dpi approx 16/0.15 = 106mm
+        add_bitmap_to_layer(&current_layer,
+                            Some(border_wh), Some(page_height - Mm(16.0) - border_wh ),
+                            Some(0.15), Some(0.15)
+                           );
+
+        // draw names
+        draw_names(&current_layer, &font_calibri, names_font_size, (names_offset_x, names_offset_y),
         receivers.iter().map(|r:&Receiver| (&r.nickname as &str, &r.group as &str))
         );
 
-    // position sample address
-    {
-        let font_addresses = font_calibri_light;
-        current_layer.begin_text_section();
-        current_layer.set_font(&font_addresses, address_font_size);
-        current_layer.set_text_cursor(address_offset_x, address_offset_y);
-        current_layer.set_line_height(address_font_size);
-        current_layer.set_word_spacing(3000);
-        current_layer.set_character_spacing(0);
-        current_layer.set_text_rendering_mode(/*Fill, Stroke, FillStroke, Invisible, FillClip, StrokeClip, FillStrokeClip, Clip*/TextRenderingMode::Fill);
+        // position sample address
+        {
+            let font_addresses = font_calibri_light.clone();
+            current_layer.begin_text_section();
+            current_layer.set_font(&font_addresses, address_font_size);
+            current_layer.set_text_cursor(address_offset_x, address_offset_y);
+            current_layer.set_line_height(address_font_size);
+            current_layer.set_word_spacing(3000);
+            current_layer.set_character_spacing(0);
+            current_layer.set_text_rendering_mode(/*Fill, Stroke, FillStroke, Invisible, FillClip, StrokeClip, FillStrokeClip, Clip*/TextRenderingMode::Fill);
 
-        for line in address {
-            current_layer.write_text(line, &font_addresses);
-            current_layer.add_line_break();
+            for line in &address {
+                current_layer.write_text(line.clone(), &font_addresses);
+                current_layer.add_line_break();
+            }
+
+            current_layer.end_text_section();
         }
 
-        current_layer.end_text_section();
+        // numbers in sidebadge
+        let rolecount_dict : HashMap<Role, usize> = receivers.iter().fold(
+            /*init:*/ HashMap::new(),
+            /*f(map, item):*/ |mut map, &Receiver{role:item,..}| {
+                map.insert(item, 1 + map.get(&item).unwrap_or(&0));
+                return map;
+            }
+            );
+
+        // position sample sidebadge
+        let badge_spacing_y = Mm(15.0);
+        draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
+                        (border_wh, border_wh), badge_spacing_y,
+                        rolecount_dict);
+
     }
-
-    // numbers in sidebadge
-    let rolecount_dict : HashMap<Role, usize> = receivers.iter().fold(
-        /*init:*/ HashMap::new(),
-        /*f(map, item):*/ |mut map, &Receiver{role:item,..}| {
-            map.insert(item, 1 + map.get(&item).unwrap_or(&0));
-            return map;
-        }
-        );
-
-    // position sample sidebadge
-    let badge_spacing_y = Mm(15.0);
-    draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
-                    (border_wh, border_wh), badge_spacing_y,
-                    rolecount_dict);
 
     return doc;
 } 
