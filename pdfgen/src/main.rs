@@ -36,11 +36,17 @@ fn main() {
     
     let address = vec!["Familie Mink", "Neuwiesenstr. 2", "8332 Russikon"];
 
-    let couverts : Vec<CouvertInfo> = vec![CouvertInfo {
-        receivers: receivers,
-        address: address,
-    }];
-    generate_couverts(couverts).save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
+    let profiling = true;
+    if profiling {
+        println!("PROFILING!");
+        couvert_doc(receivers, address).save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
+    } else {
+        let couverts : Vec<CouvertInfo> = vec![CouvertInfo {
+            receivers: receivers,
+            address: address,
+        }];
+        generate_couverts(couverts).save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
+    }
 }
 
 pub struct CouvertInfo<'a> {

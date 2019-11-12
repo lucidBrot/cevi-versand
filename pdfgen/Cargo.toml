@@ -8,3 +8,10 @@ edition = "2018"
 
 [dependencies]
 printpdf = { version = "0.2.8", features = ["embedded_images"]}
+
+[dev-dependencies]
+criterion = "0.2"
+
+[[bench]]
+name = "my_benchmark"
+harness = false
