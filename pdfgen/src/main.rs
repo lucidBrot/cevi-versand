@@ -125,6 +125,7 @@ fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentRefere
     return doc;
 }
 
+#[deprecated(note="use generate_couverts instead")]
 fn couvert_doc(receivers: Vec<Receiver>, address: Vec<&str>) -> printpdf::PdfDocumentReference {
     use printpdf::*;
 
