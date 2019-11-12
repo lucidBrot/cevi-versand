@@ -59,8 +59,13 @@ fn couvert_doc(receivers: Vec<Receiver>, address: Vec<&str>) -> printpdf::PdfDoc
     // load a font
     let font_calibri = doc.add_external_font(std::fs::File::open("res/fonts/calibri.ttf").unwrap()).unwrap();
     let font_calibri_light = doc.add_external_font(std::fs::File::open("res/fonts/calibril.ttf").unwrap()).unwrap();
+
+
+    // add new page
+    let (next_page, layer1) = doc.add_page(page_width, page_height, "Page 2, Layer 1");
+
     // prepare usage variables
-    let current_page = doc.get_page(page1);
+    let current_page = doc.get_page(next_page);
     let current_layer = current_page.get_layer(layer1);
 
     // place the logo first, so that it is in the background
