@@ -35,7 +35,12 @@ fn main() {
 
     
     let address = vec!["Familie Mink", "Neuwiesenstr. 2", "8332 Russikon"];
-    couvert_doc(receivers, address).save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
+
+    let couverts : Vec<CouvertInfo> = vec![CouvertInfo {
+        receivers: receivers,
+        address: address,
+    }];
+    generate_couverts(couverts).save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
 }
 
 pub struct CouvertInfo<'a> {
