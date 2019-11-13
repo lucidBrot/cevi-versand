@@ -3,9 +3,9 @@ use pluralizable::Pluralizable;
 use std::collections::HashMap;
 use std::env;
 
-fn main() {
+pub fn main() {
     println!("Hello, world!");
-    
+
     let filename = "sample_couvert.pdf";
 
     let receiver1 = Receiver {
@@ -33,28 +33,21 @@ fn main() {
         });
     }
 
-    
-    let address = vec!["Familie Mink", "Neuwiesenstr. 2", "8332 Russikon"];
 
-    let profiling = true;
-    if profiling {
-        println!("PROFILING!");
-        couvert_doc(receivers, address).save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
-    } else {
-        let couverts : Vec<CouvertInfo> = vec![CouvertInfo {
-            receivers: receivers,
-            address: address,
-        }];
-        generate_couverts(couverts).save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
-    }
+    let address = vec!["Familie Mink", "Neuwiesenstr. 2", "8332 Russikon"];
+    let couverts : Vec<CouvertInfo> = vec![CouvertInfo {
+        receivers: receivers,
+        address: address,
+    }];
+    generate_couverts(couverts).save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
 }
 
 pub struct CouvertInfo<'a> {
-    receivers: Vec<Receiver>,
-    address: Vec<&'a str>,
+    pub receivers: Vec<Receiver>,
+    pub address: Vec<&'a str>,
 }
 
-fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentReference {
+pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentReference {
     use printpdf::*;
 
     // document config
@@ -409,10 +402,10 @@ fn sample_graphical_page(){
 }
 
 #[derive(Debug, Clone)]
-struct Receiver {
-    nickname: String,
-    group: String,
-    role: Role,
+pub struct Receiver {
+    pub nickname: String,
+    pub group: String,
+    pub role: Role,
 }
 
 /// Used for the sidebadges
