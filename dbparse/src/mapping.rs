@@ -42,7 +42,7 @@ pub struct GroupNames {
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GroupMapping {
-    map: HashMap<GroupID, GroupNames>,
+    pub map: HashMap<GroupID, GroupNames>,
 }
 impl GroupMapping {
     pub fn get_display_name(&self, group_id: &GroupID) -> Option<String> {

@@ -8,7 +8,7 @@ use std::collections::HashMap;
 use std::rc::Rc;
 use std::collections::HashSet;
 use std::error::Error;
-mod mapping;
+pub mod mapping;
 use mapping::GroupMapping;
 
 // config.yaml is stored both in examples dir and in dbparse dir, currently
@@ -33,8 +33,8 @@ impl Verbosity {
 }
 
 pub struct MainReturns {
-    file: File,
-    group_mapping: GroupMapping,
+    pub file: File,
+    pub group_mapping: GroupMapping,
 }
 
 fn main() {
