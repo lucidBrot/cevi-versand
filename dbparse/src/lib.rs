@@ -11,6 +11,9 @@ use std::error::Error;
 mod mapping;
 use mapping::GroupMapping;
 
+// config.yaml is stored both in examples dir and in dbparse dir, currently
+// TODO: accept it as parameter instead
+
 const MAPPING_YAML_FILE : &str = "mapping.yaml";
 const VERBOSITY : Verbosity = Verbosity::No;
 
@@ -49,7 +52,7 @@ pub fn run() -> Result<MainReturns, Box<dyn Error>> {
     let loaded_group_mapping : GroupMapping =
         match yaml_group_mapping {
             Ok(mapping) => mapping::create_map_from_yaml(&mapping).expect("Creating map from yaml failed"),
-            Err(e) => { println!("problem loading yaml mapping: {}", e); GroupMapping::new() },
+            Err(e) => { println!("problem loading yaml mapping: {}.\nRecreating it...", e); GroupMapping::new() },
         };
     // create mapping from Database
     let db_group_mapping : GroupMapping = GroupMapping::from_set(&dataset.groups);
@@ -84,26 +87,26 @@ fn setup_config() -> DB_Conf {
 
 #[derive(Serialize, Deserialize, Debug)]
 #[allow(non_camel_case_types)]
-struct DB_Conf {
+struct DB_Conf { // TODO: accept DB_Conf as parameter
     login_name: String,
     api_token: String,
     login_email: String,
-    versand_endpoint_sorted_by_address_fmtstr: String,
+    versand_endpoint_fmtstr: String,
 }
 impl DB_Conf {
     // used in yaml to be filled in at runtime
     const PLACEHOLDER_API_TOKEN : &'static str = "{api_token}";
     const PLACEHOLDER_LOGIN_EMAIL : &'static str = "{login_email}";
 
-    fn versand_endpoint_sorted_by_address(&self) -> String{
-        self.versand_endpoint_sorted_by_address_fmtstr
+    fn versand_endpoint(&self) -> String{
+        self.versand_endpoint_fmtstr
             .replace(DB_Conf::PLACEHOLDER_LOGIN_EMAIL, &self.login_email)
             .replace(DB_Conf::PLACEHOLDER_API_TOKEN, &self.api_token)
     }
 }
 
 fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<ReasonableDataset, reqwest::Error> {
-    let body : String = reqwest::get(&db_conf.versand_endpoint_sorted_by_address())?
+    let body : String = reqwest::get(&db_conf.versand_endpoint())?
     .text()?;
     // deserialize the json data into a struct
     let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(&body).expect("I am bad");

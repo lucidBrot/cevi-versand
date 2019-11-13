@@ -12,3 +12,4 @@ Cargo.lock
 config.yaml
 out.txt
 *.swp
+mapping.yaml
