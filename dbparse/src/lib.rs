@@ -35,6 +35,7 @@ impl Verbosity {
 pub struct MainReturns {
     pub file: File,
     pub group_mapping: GroupMapping,
+    pub dataset: ReasonableDataset,
 }
 
 fn main() {
@@ -44,7 +45,7 @@ fn main() {
 pub fn run() -> Result<MainReturns, Box<dyn Error>> {
     // load database API token
     let config = setup_config();
-    let dataset : ReasonableDataset = get_data_sorted_by_address(&config).expect("WTF in main!");
+    let dataset : ReasonableDataset = get_data_for_versand(&config).expect("WTF in main!");
 
     // load yaml mapping from file if exists
     let yaml_group_mapping : Result<String, std::io::Error> = read_to_string(MAPPING_YAML_FILE);
@@ -67,6 +68,7 @@ pub fn run() -> Result<MainReturns, Box<dyn Error>> {
         Ok(_) => Ok(MainReturns {
             file: file,
             group_mapping: merged_group_mapping,
+            dataset: dataset,
         }),
         Err(e) => Err(Box::new(e)),
     }
@@ -105,7 +107,7 @@ impl DB_Conf {
     }
 }
 
-fn get_data_sorted_by_address (db_conf : &DB_Conf) -> Result<ReasonableDataset, reqwest::Error> {
+fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, reqwest::Error> {
     let body : String = reqwest::get(&db_conf.versand_endpoint())?
     .text()?;
     // deserialize the json data into a struct
@@ -329,7 +331,7 @@ impl From<Group> for ReasonableGroup {
     }
 }
 pub struct ReasonableDataset {
-    people: Vec<ReasonablePerson>,
+    pub people: Vec<ReasonablePerson>,
     groups: HashSet<ReasonableGroup>,
 }
 // to get reasonable information, we want the group that is stored in Role:links, which is found
