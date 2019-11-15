@@ -24,5 +24,10 @@ fn main() {
 
 fn merge_households( people: &Vec<dbparse::ReasonablePerson>,
                      mapping: &dbparse::mapping::GroupMapping) {
+    // TODO: first replace strasse and str
+    // sort by (dorf, street, last name ....)
+    // merge same into one couvert info
+    // store single ones into one couvert info
+    // return couvert infos
     
 }
