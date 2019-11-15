@@ -339,15 +339,15 @@ pub struct ReasonableDataset {
 
 #[derive(Debug)]
 pub struct ReasonablePerson {
-    first_name: String,
-    last_name: String,
-    nickname: String,
-    address: String,
-    zip_code: String,
-    town: String,
-    name_parents: String,
-    roles: HashSet<Role>,// TODO: set of enums instead?
-    groups: HashSet<ReasonableGroup>,
+    pub first_name: String,
+    pub last_name: String,
+    pub nickname: String,
+    pub address: String,
+    pub zip_code: String,
+    pub town: String,
+    pub name_parents: String,
+    pub roles: HashSet<Role>,// TODO: set of enums instead?
+    pub groups: HashSet<ReasonableGroup>,
 }
 impl PeopleRequest {
     fn to_reasonable_dataset(&self) -> ReasonableDataset {
