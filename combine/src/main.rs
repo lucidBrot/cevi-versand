@@ -100,11 +100,13 @@ fn normalize_town(town: &String) -> String {
 }
 
 fn get_address(person: &dbparse::ReasonablePerson) -> Vec<&str> {
-    vec![
+    // TODO: return a vec of Strings and make Address be able to use that.
+    /*vec![
         &format!("Familie {}", person.last_name),
         &*person.address,
         &*format!("{} {}", person.zip_code, person.town),
-    ]
+    ];*/
+    return Vec::<&str>::new();
 }
 
 fn into_receiver(person: &dbparse::ReasonablePerson) -> pdfgen::Receiver {
