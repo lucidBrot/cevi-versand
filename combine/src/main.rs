@@ -45,9 +45,9 @@ fn merge_households<'b>( people: &'b mut Vec<dbparse::ReasonablePerson>,
 
     // sort people be zip, town, last name
     people.sort_by(|a, b|
-                   a.zip_code.cmp(b.zip_code)
-                   .then(a.town.cmp(b.town))
-                   .then(a.last_name.cmp(b.last_name))
+                   a.zip_code.cmp(&b.zip_code)
+                   .then(a.town.cmp(&b.town))
+                   .then(a.last_name.cmp(&b.last_name))
                    );
 
     // look for people that live in the same place
