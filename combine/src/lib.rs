@@ -86,12 +86,18 @@ fn merge_households<'b>( people: &'b mut Vec<dbparse::ReasonablePerson>,
 /// trims starting and ending whitespace
 /// replaces "str."  with "strasse" and replaces " str." with "Strasse"
 /// ```
+/// # use combine::normalize_address;
 /// let addr : String = String::from(" add\nressstr.  ");
-/// let normalized : String = normalize_address(addr);
+/// let normalized : String = normalize_address(&addr);
 /// assert_eq!(normalized, String::from("addressstrasse"))
 /// ```
-fn normalize_address(address: &String) -> String {
-    return String::from("Herbert"); // TODO: remove this
+pub fn normalize_address(address: &String) -> String {
+    let trimmed = address.trim().replace("\n", "").replace("\r", "");
+    let rgx_str1 = regex::Regex::new(r"str\.").unwrap();
+    let rgx_str2 = regex::Regex::new(r"\sstr.").unwrap();
+    let replaced1 = rgx_str1.replace_all(&trimmed, "strasse");
+    let replaced2 = rgx_str2.replace_all(&replaced1, "Strasse");
+    return String::from(replaced2);
 }
 
 /// replaces Pfäffikon, Pfaeffikon, etc with "Pfäffikon ZH"
