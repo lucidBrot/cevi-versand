@@ -101,17 +101,17 @@ fn normalize_town(town: String) -> String {
 
 fn get_address(person: &dbparse::ReasonablePerson) -> Vec<&str> {
     vec![
-        format!("Familie {}", person.last_name),
-        person.address,
-        format!("{} {}", person.zip_code, person.town),
+        &format!("Familie {}", person.last_name),
+        &*person.address,
+        &*format!("{} {}", person.zip_code, person.town),
     ]
 }
 
-fn into_receiver(person: dbparse::ReasonablePerson) -> pdfgen::Receiver {
+fn into_receiver(person: &dbparse::ReasonablePerson) -> pdfgen::Receiver {
     pdfgen::Receiver {
         nickname: person.nickname.clone(),
-        group: person.groups.iter().nth(0) , // TODO: get best role
-        role: person.roles.iter().nth(0), // TODO: get best group
+        group: person.groups.iter().nth(0).expect(&*format!("Person has no group: {:?}", person)) , // TODO: get best role
+        role: person.roles.iter().nth(0).expect(&*format!("Person has no role: {:?}", person)), // TODO: get best group
     }
 }
 
