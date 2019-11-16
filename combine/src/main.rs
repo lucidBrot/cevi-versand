@@ -22,14 +22,12 @@ fn main() {
 }
 
 
-fn merge_households<'b>( people: &'b Vec<dbparse::ReasonablePerson>,
+fn merge_households<'b>( people: &mut 'b Vec<dbparse::ReasonablePerson>,
                      mapping: &dbparse::mapping::GroupMapping) -> Vec<pdfgen::CouvertInfo<'b>> {
-    // TODO: first replace strasse and str
-    // sort by (dorf, street, last name ....)
-    // merge same into one couvert info
-    // store single ones into one couvert info
-    // return couvert infos
-    for person in people {
+    assert_gt!(people.len(), 0);
+
+    // normalize entries in each person so that we can sort
+    for person in people.iter_mut() {
         /* Person
         first_name: String
         last_name: String
@@ -41,7 +39,35 @@ fn merge_households<'b>( people: &'b Vec<dbparse::ReasonablePerson>,
         roles: HashSet<Role>
         groups: HashSet<ReasonableGroup>*/
 
-        let normalized_address = normalize_address(person.address);
+        person.address = normalize_address(person.address);
+        person.town = normalize_town(person.town);
+    }
+
+    // sort people be zip, town, last name
+    people.sort_by(|a, b|
+                   a.zip_code.cmp(b.zip_code)
+                   .then(a.town.cmp(b.town))
+                   .then(a.last_name.cmp(b.last_name))
+                   );
+
+    // look for people that live in the same place
+    let couvert_infos : Vec<pdfgen::CouvertInfo> = Vec::with_capacity(people.len());
+    let latest_person_considered: &dbparse::ReasonablePerson = &people.get(0).unwrap();
+    let couvert_info : pdfgen::CouvertInfo = CouvertInfo {
+        receivers: Vec::<Receiver>::new(),
+        address: Vec::<&str>::new(),
+    }
+    couvert_info.
+    for person in people.iter().skip(1) {
+        
+    }
+
+    /*
+     receivers: Vec<Receiver>
+     address: Vec<&'a str>
+    */
+    let couvert_info : pdfgen::CouvertInfo = CouvertInfo {
+        receivers 
     }
 
 }
@@ -62,4 +88,12 @@ fn normalize_address(address: String) -> String {
 /// TODO: documentation test
 fn normalize_town(town: String) -> String {
 
+}
+
+fn get_address(person: &dbparse::ReasonablePerson) -> Vec<&str> {
+    vec![
+        format!("Familie {}", person.last_name),
+        person.address,
+        format!("{} {}", person.zip_code, person.town),
+    ]
 }
