@@ -53,11 +53,12 @@ fn merge_households<'b>( people: &mut 'b Vec<dbparse::ReasonablePerson>,
     // look for people that live in the same place
     let couvert_infos : Vec<pdfgen::CouvertInfo> = Vec::with_capacity(people.len());
     let latest_person_considered: &dbparse::ReasonablePerson = &people.get(0).unwrap();
-    let couvert_info : pdfgen::CouvertInfo = CouvertInfo {
+    let mut couvert_info : pdfgen::CouvertInfo = CouvertInfo {
         receivers: Vec::<Receiver>::new(),
-        address: Vec::<&str>::new(),
+        address: get_address(latest_person_considered),
     }
-    couvert_info.
+    couvert_info.receivers.put(latest_person_considered.into::<pdfgen::Receiver>();
+
     for person in people.iter().skip(1) {
         
     }
@@ -96,4 +97,14 @@ fn get_address(person: &dbparse::ReasonablePerson) -> Vec<&str> {
         person.address,
         format!("{} {}", person.zip_code, person.town),
     ]
+}
+
+impl From<dbparse::ReasonablePerson> for pdfgen::Receiver {
+    fn from(item: dbparse::ReasonablePerson>) -> Self {
+       pdfgen::Receiver {
+            nickname: person.nickname.clone(),
+            group: person.groups.iter().nth(0) , // TODO: get best role
+            role: person.roles.iter().nth(0), // TODO: get best group
+       }
+    }
 }
