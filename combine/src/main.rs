@@ -57,8 +57,8 @@ fn merge_households<'b>( people: &'b mut Vec<dbparse::ReasonablePerson>,
         receivers: Vec::<pdfgen::Receiver>::new(),
         address: get_address(first_person),
     };
-    couvert_info.receivers.put(into_receiver(first_person));
-    couvert_infos.put(couvert_info);
+    couvert_info.receivers.push(into_receiver(first_person));
+    couvert_infos.push(couvert_info);
 
     for person in people.iter().skip(1) {
         let addr = get_address(person);
@@ -67,14 +67,14 @@ fn merge_households<'b>( people: &'b mut Vec<dbparse::ReasonablePerson>,
 
         if addr == previous_addr {
             // add to previous couvert another receiver
-            couvert_infos.last_mut().unwrap().receivers.put(receiver);
+            couvert_infos.last_mut().unwrap().receivers.push(receiver);
         } else {
             let mut couvert_info : pdfgen::CouvertInfo = pdfgen::CouvertInfo {
                 receivers: Vec::<pdfgen::Receiver>::new(),
                 address: addr,
             };
-            couvert_info.receivers.put(receiver);
-            couvert_infos.put(couvert_info);
+            couvert_info.receivers.push(receiver);
+            couvert_infos.push(couvert_info);
         }
     }
 
