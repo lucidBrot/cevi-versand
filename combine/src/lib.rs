@@ -1,5 +1,6 @@
 use pdfgen;
 use dbparse;
+use regex;
 
 fn main() {
     println!("combine: loading data from database");
@@ -94,12 +95,22 @@ fn normalize_address(address: &String) -> String {
 }
 
 /// replaces Pfäffikon, Pfaeffikon, etc with "Pfäffikon ZH"
+/// ## testcases
 /// ```
-/// let town = normalize_town(&String::from("Pfaeffikon "));
+/// let town = combine::normalize_town(&String::from("Pfaeffikon "));
 /// assert_eq!(String::from("Pfäffikon ZH"), town);
 /// ```
-fn normalize_town(town: &String) -> String {
-    return String::from("Herbert"); // TODO: obviously wrong. does the test fail?
+///
+/// ```
+/// # use combine::normalize_town;
+/// # let t = &String::from(" pfa\neffikon ZH ");
+/// assert_eq!(String::from("Pfäffikon ZH"), normalize_town(t));
+/// ```
+///
+pub fn normalize_town(town: &String) -> String {
+    let trimmed = town.trim().replace("\n", "").replace("\r", "");
+    let rgx = regex::Regex::new(r"(?i)Pf(ae|ä)ffikon(\s?ZH)?").unwrap();
+    return String::from(rgx.replace_all(&trimmed, /*replace with:*/ "Pfäffikon ZH").trim());
 }
 
 fn get_address(person: &dbparse::ReasonablePerson) -> Vec<&str> {

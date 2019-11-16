@@ -9,3 +9,4 @@ edition = "2018"
 [dependencies]
 pdfgen = { path = "../pdfgen" }
 dbparse = { path = "../dbparse" }
+regex = "1.3.1"
