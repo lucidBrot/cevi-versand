@@ -22,7 +22,7 @@ fn main() {
 }
 
 
-fn merge_households<'b>( people: &mut 'b Vec<dbparse::ReasonablePerson>,
+fn merge_households<'b>( people: &'b mut Vec<dbparse::ReasonablePerson>,
                      mapping: &dbparse::mapping::GroupMapping) -> Vec<pdfgen::CouvertInfo<'b>> {
     assert_gt!(people.len(), 0);
 
@@ -52,25 +52,33 @@ fn merge_households<'b>( people: &mut 'b Vec<dbparse::ReasonablePerson>,
 
     // look for people that live in the same place
     let couvert_infos : Vec<pdfgen::CouvertInfo> = Vec::with_capacity(people.len());
-    let latest_person_considered: &dbparse::ReasonablePerson = &people.get(0).unwrap();
+    let first_person: &dbparse::ReasonablePerson = &people.get(0).unwrap();
     let mut couvert_info : pdfgen::CouvertInfo = CouvertInfo {
         receivers: Vec::<Receiver>::new(),
-        address: get_address(latest_person_considered),
-    }
-    couvert_info.receivers.put(latest_person_considered.into::<pdfgen::Receiver>();
+        address: get_address(first_person),
+    };
+    couvert_info.receivers.put(first_person.into::<pdfgen::Receiver>());
+    couvert_infos.put(couvert_info);
 
     for person in people.iter().skip(1) {
-        
+        let addr = get_address(person);
+        let previous_addr = couvert_infos.last().unwrap().address;
+        let receiver = person.into::<pdfgen::Receiver>();
+
+        if addr == previous_addr {
+            // add to previous couvert another receiver
+            couvert_infos.last_mut().unwrap().receivers.put(receiver);
+        } else {
+            let mut couvert_info : pdfgen::CouvertInfo = CouvertInfo {
+                receivers: Vec::<Receiver>::new(),
+                address: addr,
+            };
+            couvert_info.receivers.put(receiver);
+            couvert_infos.put(couvert_info);
+        }
     }
 
-    /*
-     receivers: Vec<Receiver>
-     address: Vec<&'a str>
-    */
-    let couvert_info : pdfgen::CouvertInfo = CouvertInfo {
-        receivers 
-    }
-
+    return couvert_infos;
 }
 
 /// removes newlines within address
@@ -82,13 +90,13 @@ fn merge_households<'b>( people: &mut 'b Vec<dbparse::ReasonablePerson>,
 /// assert_eq!(normalized, String::from("addressstrasse"))
 /// ```
 fn normalize_address(address: String) -> String {
-    
+    return String::from("Herbert"); // TODO: remove this
 }
 
 /// replaces Pfäffikon, Pfaeffikon, etc with "Pfäffikon ZH"
 /// TODO: documentation test
 fn normalize_town(town: String) -> String {
-
+    return String::from("Herbert"); // TODO: obviously wrong. does the test fail?
 }
 
 fn get_address(person: &dbparse::ReasonablePerson) -> Vec<&str> {
@@ -100,7 +108,7 @@ fn get_address(person: &dbparse::ReasonablePerson) -> Vec<&str> {
 }
 
 impl From<dbparse::ReasonablePerson> for pdfgen::Receiver {
-    fn from(item: dbparse::ReasonablePerson>) -> Self {
+    fn from(item: dbparse::ReasonablePerson) -> Self {
        pdfgen::Receiver {
             nickname: person.nickname.clone(),
             group: person.groups.iter().nth(0) , // TODO: get best role
