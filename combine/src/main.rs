@@ -14,7 +14,7 @@ fn main() {
     println!("combine: merging households");
     // TODO: fn group mapping -> fix "strasse, str, ..."
     // TODO: fn group mapping -> couvert info
-    merge_households( &dataset.people, &mapping );
+    merge_households( &mut dataset.people, &mapping );
 
     println!("combine: creating pdf");
     pdfgen::main();
