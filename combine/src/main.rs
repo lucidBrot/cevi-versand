@@ -9,7 +9,7 @@ fn main() {
     }
     let ret_db: dbparse::MainReturns = database_returns.unwrap();
     let mapping: dbparse::mapping::GroupMapping = ret_db.group_mapping;
-    let dataset: dbparse::ReasonableDataset = ret_db.dataset;
+    let mut dataset: dbparse::ReasonableDataset = ret_db.dataset;
 
     println!("combine: merging households");
     // TODO: fn group mapping -> fix "strasse, str, ..."
@@ -39,8 +39,8 @@ fn merge_households<'b>( people: &'b mut Vec<dbparse::ReasonablePerson>,
         roles: HashSet<Role>
         groups: HashSet<ReasonableGroup>*/
 
-        person.address = normalize_address(person.address);
-        person.town = normalize_town(person.town);
+        person.address = normalize_address(&person.address);
+        person.town = normalize_town(&person.town);
     }
 
     // sort people be zip, town, last name
@@ -51,7 +51,7 @@ fn merge_households<'b>( people: &'b mut Vec<dbparse::ReasonablePerson>,
                    );
 
     // look for people that live in the same place
-    let couvert_infos : Vec<pdfgen::CouvertInfo> = Vec::with_capacity(people.len());
+    let mut couvert_infos : Vec<pdfgen::CouvertInfo> = Vec::with_capacity(people.len());
     let first_person: &dbparse::ReasonablePerson = &people.get(0).unwrap();
     let mut couvert_info : pdfgen::CouvertInfo = pdfgen::CouvertInfo {
         receivers: Vec::<pdfgen::Receiver>::new(),
@@ -62,10 +62,10 @@ fn merge_households<'b>( people: &'b mut Vec<dbparse::ReasonablePerson>,
 
     for person in people.iter().skip(1) {
         let addr = get_address(person);
-        let previous_addr = couvert_infos.last().unwrap().address;
+        let previous_addr = &couvert_infos.last().unwrap().address;
         let receiver = into_receiver(person);
 
-        if addr == previous_addr {
+        if addr == *previous_addr {
             // add to previous couvert another receiver
             couvert_infos.last_mut().unwrap().receivers.push(receiver);
         } else {
@@ -89,13 +89,13 @@ fn merge_households<'b>( people: &'b mut Vec<dbparse::ReasonablePerson>,
 /// let normalized : String = normalize_address(addr);
 /// assert_eq!(normalized, String::from("addressstrasse"))
 /// ```
-fn normalize_address(address: String) -> String {
+fn normalize_address(address: &String) -> String {
     return String::from("Herbert"); // TODO: remove this
 }
 
 /// replaces Pfäffikon, Pfaeffikon, etc with "Pfäffikon ZH"
 /// TODO: documentation test
-fn normalize_town(town: String) -> String {
+fn normalize_town(town: &String) -> String {
     return String::from("Herbert"); // TODO: obviously wrong. does the test fail?
 }
 
