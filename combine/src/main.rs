@@ -110,8 +110,18 @@ fn get_address(person: &dbparse::ReasonablePerson) -> Vec<&str> {
 fn into_receiver(person: &dbparse::ReasonablePerson) -> pdfgen::Receiver {
     pdfgen::Receiver {
         nickname: person.nickname.clone(),
-        group: person.groups.iter().nth(0).expect(&*format!("Person has no group: {:?}", person)) , // TODO: get best role
-        role: person.roles.iter().nth(0).expect(&*format!("Person has no role: {:?}", person)), // TODO: get best group
+        group: person.groups.iter().nth(0).expect(&*format!("Person has no group: {:?}", person)).inner_group.name.clone() , // TODO: get best role
+        role: role_convert(&person.roles.iter().nth(0).expect(&*format!("Person has no role: {:?}", person))), // TODO: get best group
     }
+}
+
+/// This function has not yet really been thought about.
+/// It is unimplemented for all purposes
+/// ```
+/// assert!(false, "PLIZ IMPLIMENT");
+/// ```
+fn role_convert(role_dpbarse : &dbparse::Role) -> pdfgen::Role {
+   // TODO: somehow figure out the role based on the ugly dbparse role
+   return pdfgen::Role::Traegerkreis;
 }
 

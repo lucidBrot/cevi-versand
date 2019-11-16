@@ -223,8 +223,8 @@ struct RoleLinks {
 #[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq, Hash)]
 pub struct Group {
     id: String,
-    name: String, // Gruppenname
-    group_type: String, // Ortsgruppe/Untergruppe/Mitglieder/Jungschar/Verein...
+    pub name: String, // Gruppenname
+    pub group_type: String, // Ortsgruppe/Untergruppe/Mitglieder/Jungschar/Verein...
 }
 
 /// `role_type` can be things like "Teilnehmer/-in", "Gruppenleiter/-in", "Minigruppenleiter/-in", "Mitglied",
@@ -235,7 +235,7 @@ pub struct Group {
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash, Clone)]
 pub struct Role {
     id: Rc<str>,
-    role_type: String,
+    pub role_type: String,
     label: Option<String>,
     links: RoleLinks,
 }
