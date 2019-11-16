@@ -24,7 +24,7 @@ fn main() {
 
 fn merge_households<'b>( people: &'b mut Vec<dbparse::ReasonablePerson>,
                      mapping: &dbparse::mapping::GroupMapping) -> Vec<pdfgen::CouvertInfo<'b>> {
-    assert_gt!(people.len(), 0);
+    assert!(people.len() > 0);
 
     // normalize entries in each person so that we can sort
     for person in people.iter_mut() {
@@ -53,24 +53,24 @@ fn merge_households<'b>( people: &'b mut Vec<dbparse::ReasonablePerson>,
     // look for people that live in the same place
     let couvert_infos : Vec<pdfgen::CouvertInfo> = Vec::with_capacity(people.len());
     let first_person: &dbparse::ReasonablePerson = &people.get(0).unwrap();
-    let mut couvert_info : pdfgen::CouvertInfo = CouvertInfo {
-        receivers: Vec::<Receiver>::new(),
+    let mut couvert_info : pdfgen::CouvertInfo = pdfgen::CouvertInfo {
+        receivers: Vec::<pdfgen::Receiver>::new(),
         address: get_address(first_person),
     };
-    couvert_info.receivers.put(first_person.into::<pdfgen::Receiver>());
+    couvert_info.receivers.put(into_receiver(first_person));
     couvert_infos.put(couvert_info);
 
     for person in people.iter().skip(1) {
         let addr = get_address(person);
         let previous_addr = couvert_infos.last().unwrap().address;
-        let receiver = person.into::<pdfgen::Receiver>();
+        let receiver = into_receiver(person);
 
         if addr == previous_addr {
             // add to previous couvert another receiver
             couvert_infos.last_mut().unwrap().receivers.put(receiver);
         } else {
-            let mut couvert_info : pdfgen::CouvertInfo = CouvertInfo {
-                receivers: Vec::<Receiver>::new(),
+            let mut couvert_info : pdfgen::CouvertInfo = pdfgen::CouvertInfo {
+                receivers: Vec::<pdfgen::Receiver>::new(),
                 address: addr,
             };
             couvert_info.receivers.put(receiver);
@@ -107,12 +107,11 @@ fn get_address(person: &dbparse::ReasonablePerson) -> Vec<&str> {
     ]
 }
 
-impl From<dbparse::ReasonablePerson> for pdfgen::Receiver {
-    fn from(item: dbparse::ReasonablePerson) -> Self {
-       pdfgen::Receiver {
-            nickname: person.nickname.clone(),
-            group: person.groups.iter().nth(0) , // TODO: get best role
-            role: person.roles.iter().nth(0), // TODO: get best group
-       }
+fn into_receiver(person: dbparse::ReasonablePerson) -> pdfgen::Receiver {
+    pdfgen::Receiver {
+        nickname: person.nickname.clone(),
+        group: person.groups.iter().nth(0) , // TODO: get best role
+        role: person.roles.iter().nth(0), // TODO: get best group
     }
 }
+
