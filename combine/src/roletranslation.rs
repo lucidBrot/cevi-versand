@@ -10,14 +10,17 @@ use pdfgen;
 // Or perhaps simply ignore everything that is not obviously
 // Leiter/Teilnehmer/Traegerkreis/Ehemalig. No user interaction required.
 //
-pub fn role_to_role(dbrole: &dbparse::Role) -> pdfgen::Role{
+pub fn role_to_role(dbrole: &dbparse::Role) -> pdfgen::Role {
 
     match dbrole.role_type.as_ref() { // TODO: test with whole database
         "Teilnehmer/-in" => pdfgen::Role::Teilnehmer,
         "Traegerkreis" => pdfgen::Role::Traegerkreis, // TODO: how to recognize trägerkreis?
         "Minigruppenleiter/-in" => pdfgen::Role::Leiter,
         // TODO: case where it did not match
-        &_ => println!("r2r: don't know what to do with {}", _),
+        &_ => {
+            println!("r2r: don't know what to do with {:?}", dbrole);
+            return pdfgen::Role::Nothing
+        },
     }
 }
 

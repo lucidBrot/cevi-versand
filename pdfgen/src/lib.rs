@@ -423,6 +423,7 @@ pub enum Role {
     Teilnehmer,
     Traegerkreis,
     Ehemalige,
+    Nothing,
 }
 
 impl Role {
@@ -433,6 +434,7 @@ impl Role {
             Role::Teilnehmer => t("Teilnehmer", "Teilnehmer"),
             Role::Traegerkreis => t("Trägerkreis", "Trägerkreis"),
             Role::Ehemalige => t("Ehemaliger", "Ehemalige"),
+            Role::Nothing => t("", ""),
         }
     }
 
@@ -441,7 +443,7 @@ impl Role {
     }
 
     fn values() -> Vec<Role> {
-        return vec![Role::Leiter, Role::Teilnehmer, Role::Traegerkreis, Role::Ehemalige];
+        return vec![Role::Leiter, Role::Teilnehmer, Role::Traegerkreis, Role::Ehemalige, Role::Nothing];
     }
 }
 
