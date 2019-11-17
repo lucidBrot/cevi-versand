@@ -37,14 +37,22 @@ pub fn main() {
     let address = vec!["Familie Mink", "Neuwiesenstr. 2", "8332 Russikon"];
     let couverts : Vec<CouvertInfo> = vec![CouvertInfo {
         receivers: receivers,
-        address: address,
+        address: vec_str_to_vec_string(&address),
     }];
     generate_couverts(couverts).save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
 }
 
-pub struct CouvertInfo<'a> {
+pub struct CouvertInfo {
     pub receivers: Vec<Receiver>,
-    pub address: Vec<&'a str>,
+    pub address: Vec<String>,
+}
+
+pub fn vec_str_to_vec_string(v: &Vec<&str>) -> Vec<String> {
+    let mut vec: Vec<String> = Vec::<String>::new();
+    for s in v.iter(){
+        vec.push(String::from(*s));
+    }
+    return vec;
 }
 
 pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentReference {

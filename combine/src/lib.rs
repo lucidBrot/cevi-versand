@@ -24,7 +24,7 @@ fn main() {
 
 
 fn merge_households<'b>( people: &'b mut Vec<dbparse::ReasonablePerson>,
-                     mapping: &dbparse::mapping::GroupMapping) -> Vec<pdfgen::CouvertInfo<'b>> {
+                     mapping: &dbparse::mapping::GroupMapping) -> Vec<pdfgen::CouvertInfo> {
     assert!(people.len() > 0);
 
     // normalize entries in each person so that we can sort
@@ -119,14 +119,13 @@ pub fn normalize_town(town: &String) -> String {
     return String::from(rgx.replace_all(&trimmed, /*replace with:*/ "Pfäffikon ZH").trim());
 }
 
-fn get_address(person: &dbparse::ReasonablePerson) -> Vec<&str> {
+fn get_address(person: &dbparse::ReasonablePerson) -> Vec<String> {
     // TODO: return a vec of Strings and make Address be able to use that.
-    /*vec![
-        &format!("Familie {}", person.last_name),
-        &*person.address,
-        &*format!("{} {}", person.zip_code, person.town),
-    ];*/
-    return Vec::<&str>::new();
+    vec![
+        format!("Familie {}", person.last_name),
+        person.address.clone(),
+        format!("{} {}", person.zip_code, person.town),
+    ]
 }
 
 fn into_receiver(person: &dbparse::ReasonablePerson) -> pdfgen::Receiver {
