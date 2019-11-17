@@ -16,6 +16,19 @@ pub fn role_to_role(dbrole: &dbparse::Role) -> pdfgen::Role {
         "Teilnehmer/-in" => pdfgen::Role::Teilnehmer,
         "Traegerkreis" => pdfgen::Role::Traegerkreis, // TODO: how to recognize trägerkreis?
         "Minigruppenleiter/-in" => pdfgen::Role::Leiter,
+        "Gruppenleiter/-in" => pdfgen::Role::Leiter,
+        "Coach" => pdfgen::Role::Coach,
+        "Abteilungsleiter/-in" => pdfgen::Role::Leiter,
+        "Addressverwalter/-in" => pdfgen::Role::Nothing,
+        "Chorsänger/-in" => pdfgen::Role::Nothing,
+        "Fröschlihauptleiter/-in" => pdfgen::Role::Leiter,
+        "Kassier" => pdfgen::Role::Kassier,
+        "Freie/-r Mitarbeiter/-in" => pdfgen::Role::Nothing,
+        "Hausverantwortliche/-r" => pdfgen::Role::Hausverantwortlicher,
+        "Administrator/-in Cevi DB" => pdfgen::Role::Admin,
+        "Externe/-r" => pdfgen::Role::Nothing,
+        "Lädeliverantwortliche/-r" => pdfgen::Role::Laedeli,
+        "Mitglied" => pdfgen::Role::Nothing,
         // TODO: case where it did not match
         &_ => {
             println!("r2r: don't know what to do with {:?}", dbrole.role_type);

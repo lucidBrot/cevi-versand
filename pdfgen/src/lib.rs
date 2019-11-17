@@ -424,9 +424,15 @@ pub enum Role {
     Traegerkreis,
     Ehemalige,
     Nothing,
+    Coach,
+    Kassier,
+    Hausverantwortlicher,
+    Admin,
+    Laedeli,
 }
 
 impl Role {
+    // TODO: can we remove pluralization?
     fn value(&self) -> impl pluralizable::Pluralizable {
         let t = |sin: &str, plu: &str| pluralizable::Text::new(sin, plu);
         match *self {
@@ -435,6 +441,7 @@ impl Role {
             Role::Traegerkreis => t("Trägerkreis", "Trägerkreis"),
             Role::Ehemalige => t("Ehemaliger", "Ehemalige"),
             Role::Nothing => t("", ""),
+            Role::Coach => t("Coach", "Coaches")
         }
     }
 
@@ -443,7 +450,7 @@ impl Role {
     }
 
     fn values() -> Vec<Role> {
-        return vec![Role::Leiter, Role::Teilnehmer, Role::Traegerkreis, Role::Ehemalige, Role::Nothing];
+        return vec![Role::Leiter, Role::Teilnehmer, Role::Traegerkreis, Role::Ehemalige, Role::Nothing, Role::Coach, Role::Kassier, Role::Hausverantwortlicher, Role::Admin, Role::Laedeli ];
     }
 }
 
