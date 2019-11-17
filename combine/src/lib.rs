@@ -3,7 +3,6 @@ use dbparse;
 use regex;
 mod roletranslation;
 
-// TODO: actually use mapping to groups without "(F)" or "(M)"
 // TODO: write first name where only one person is adressed
 
 pub fn main() {
@@ -60,27 +59,31 @@ fn merge_households<'b>( people: &'b mut Vec<dbparse::ReasonablePerson>,
     let first_person: &dbparse::ReasonablePerson = &people.get(0).unwrap();
     let mut couvert_info : pdfgen::CouvertInfo = pdfgen::CouvertInfo {
         receivers: Vec::<pdfgen::Receiver>::new(),
-        address: get_address(first_person),
+        address: get_address(first_person, /*use family:*/ false),
     };
     couvert_info.receivers.push(into_receiver(first_person, &mapping));
     couvert_infos.push(couvert_info);
+    let mut previous_family_address = get_address(first_person, false);
 
     for person in people.iter().skip(1) {
-        let addr = get_address(person);
-        let previous_addr = &couvert_infos.last().unwrap().address;
+        let addr_family = get_address(person, true);
         let receiver = into_receiver(person, &mapping);
 
-        if addr == *previous_addr {
+        if addr_family == previous_family_address {
             // add to previous couvert another receiver
             couvert_infos.last_mut().unwrap().receivers.push(receiver);
+            couvert_infos.last_mut().unwrap().address = addr_family;
         } else {
             let mut couvert_info : pdfgen::CouvertInfo = pdfgen::CouvertInfo {
                 receivers: Vec::<pdfgen::Receiver>::new(),
-                address: addr,
+                address: get_address(person, /*family:*/ false),
             };
             couvert_info.receivers.push(receiver);
             couvert_infos.push(couvert_info);
+            
+            previous_family_address = addr_family.clone();
         }
+
     }
 
     return couvert_infos;
@@ -123,9 +126,10 @@ pub fn normalize_town(town: &String) -> String {
     return String::from(rgx.replace_all(&trimmed, /*replace with:*/ "Pfäffikon ZH").trim());
 }
 
-fn get_address(person: &dbparse::ReasonablePerson) -> Vec<String> {
+fn get_address(person: &dbparse::ReasonablePerson, use_familie_instead_of_first_name: bool) -> Vec<String> {
+    let first_or_family = if use_familie_instead_of_first_name { String::from("Familie") } else { person.first_name.clone() };
     vec![
-        format!("Familie {}", person.last_name),
+        format!("{} {}", first_or_family, person.last_name),
         person.address.clone(),
         format!("{} {}", person.zip_code, person.town),
     ]
