@@ -11,8 +11,8 @@ use pdfgen;
 // Leiter/Teilnehmer/Traegerkreis/Ehemalig. No user interaction required.
 //
 pub fn role_to_role(dbrole: &dbparse::Role) -> pdfgen::Role {
-
-    match dbrole.role_type.as_ref() { // TODO: test with whole database
+    match dbrole.role_type.as_ref() {
+        // TODO: test with whole database
         "Teilnehmer/-in" => pdfgen::Role::Teilnehmer,
         "Traegerkreis" => pdfgen::Role::Traegerkreis, // TODO: how to recognize trägerkreis?
         "Minigruppenleiter/-in" => pdfgen::Role::Leiter,
@@ -39,8 +39,8 @@ pub fn role_to_role(dbrole: &dbparse::Role) -> pdfgen::Role {
         // case where it did not match. That means something new has been added to the DB.
         &_ => {
             println!("r2r: don't know what to do with {:?}", dbrole.role_type);
-            return pdfgen::Role::Nothing
-        },
+            return pdfgen::Role::Nothing;
+        }
     }
 }
 
@@ -59,7 +59,7 @@ mod tests {
             String::from("Fake group id"),
             String::from("fake layer group"),
         );
-        
+
         let pdf_role: pdfgen::Role = super::role_to_role(&db_role);
 
         assert_eq!(pdf_role, pdfgen::Role::Teilnehmer);
@@ -80,7 +80,7 @@ mod tests {
             String::from("Fake group id"),
             String::from("fake layer group"),
         );
-        
+
         let pdf_role: pdfgen::Role = super::role_to_role(&db_role);
 
         assert_eq!(pdf_role, pdfgen::Role::Teilnehmer);
