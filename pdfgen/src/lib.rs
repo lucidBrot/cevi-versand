@@ -82,7 +82,7 @@ pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentRe
     let names_offset_y = page_height - Mm(18.0);
 
     // create the document
-    let (doc, page1, layer1) : (PdfDocumentReference, indices::PdfPageIndex, indices::PdfLayerIndex) = PdfDocument::new(document_title, page_width, page_height, /*initial_layer_name*/"Layer 1");
+    let (doc, _page1, _layer1) : (PdfDocumentReference, indices::PdfPageIndex, indices::PdfLayerIndex) = PdfDocument::new(document_title, page_width, page_height, /*initial_layer_name*/"Layer 1");
 
     // load a font
     let mut font_reader = std::io::Cursor::new(CALIBRI_FONT.as_ref());
