@@ -105,7 +105,6 @@ pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentRe
                             Some(0.15), Some(0.15)
                            );
 
-        println!("Debug print 4");
         // draw names
         draw_names(&current_layer, &font_calibri, names_font_size, (names_offset_x, names_offset_y),
         couvert.receivers.iter().map(|r:&Receiver| (&r.nickname as &str, &r.group as &str))
@@ -257,7 +256,9 @@ fn add_bitmap_to_layer(current_layer : &printpdf::PdfLayerReference,
                        scaley : Option<f64>) {
     use printpdf::*;
     use image::bmp::BMPDecoder;
-    let mut image_file = std::fs::File::open("../res/images/logo.bmp").unwrap();
+    println!("Debug print 4");
+    let mut image_file = std::fs::File::open("res/images/logo.bmp").expect("there is no logo");
+    println!("Debug print 5");
     let decoder = BMPDecoder::new(&mut image_file).unwrap();
     let image = Image::try_from(decoder).unwrap();
     // translate x, translate y, rotate, scale x, scale y, dpi
