@@ -262,7 +262,7 @@ fn draw_sidebadges (current_layer: &printpdf::PdfLayerReference,
     
     let mut y = start_y;
     for (role, num) in numbers {
-        let txt: String = role.value().for_num(num);
+        let txt: String = role.value();
         let text = format!("{} {}", num, txt);
         draw_sidebadge(&current_layer, start_x, y,
                        &font, font_size, &text);
@@ -433,20 +433,19 @@ pub enum Role {
 
 impl Role {
     // TODO: can we remove pluralization?
-    fn value(&self) -> impl pluralizable::Pluralizable {
-        let t = |sin: &str, plu: &str| pluralizable::Text::new(sin, plu);
-        match *self {
-            Role::Leiter =>  t("Leiter", "Leiter"),
-            Role::Teilnehmer => t("Teilnehmer", "Teilnehmer"),
-            Role::Traegerkreis => t("Trägerkreis", "Trägerkreis"),
-            Role::Ehemalige => t("Ehemaliger", "Ehemalige"),
-            Role::Nothing => t("", ""),
-            Role::Coach => t("Coach", "Coaches")
-        }
-    }
-
-    fn get_text_for_num(&self, num: usize) -> String {
-        self.value().for_num(num)
+    fn value(&self) -> String {
+        String::from(match *self {
+            Role::Leiter =>  "Leiter",
+            Role::Teilnehmer => "Teilnehmer",
+            Role::Traegerkreis => "Trägerkreis",
+            Role::Ehemalige => "Ehemaliger",
+            Role::Nothing => "",
+            Role::Coach => "Coach",
+            Role::Kassier => "Kassier",
+            Role::Hausverantwortlicher => "Hausverantwortlicher",
+            Role::Admin => "Admin",
+            Role::Laedeli => "Lädeli",
+        })
     }
 
     fn values() -> Vec<Role> {
