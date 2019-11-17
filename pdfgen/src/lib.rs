@@ -85,7 +85,7 @@ pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentRe
     // load a font
     let mut font_reader = std::io::Cursor::new(CALIBRI_FONT.as_ref());
     let font_calibri = doc.add_external_font(&mut font_reader).expect("Failed to load font");
-    println!("Debug print 4");
+    // load a second font
     let mut font_reader_light = std::io::Cursor::new(CALIBRI_LIGHT_FONT.as_ref());
     let font_calibri_light = doc.add_external_font(&mut font_reader_light).expect("Failed to load font");
 
@@ -105,6 +105,7 @@ pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentRe
                             Some(0.15), Some(0.15)
                            );
 
+        println!("Debug print 4");
         // draw names
         draw_names(&current_layer, &font_calibri, names_font_size, (names_offset_x, names_offset_y),
         couvert.receivers.iter().map(|r:&Receiver| (&r.nickname as &str, &r.group as &str))
@@ -148,91 +149,6 @@ pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentRe
 
     return doc;
 }
-
-#[deprecated(note="use generate_couverts instead")]
-fn couvert_doc(receivers: Vec<Receiver>, address: Vec<&str>) -> printpdf::PdfDocumentReference {
-    use printpdf::*;
-
-    // document config
-    let document_title = "Versand";
-    let address_font_size = 18;
-    let names_font_size = 11;
-    let badge_text_font_size = 11;
-    let page_width = Mm(229.0);
-    let page_height = Mm(162.0);
-    let address_offset_x = Mm(120.0);
-    let address_offset_y = Mm(65.0);
-    let border_wh = Mm(12.0);
-    let names_offset_x = border_wh + Mm(20.0);
-    let names_offset_y = page_height - Mm(18.0);
-
-    // create the document
-    let (doc, page1, layer1) : (PdfDocumentReference, indices::PdfPageIndex, indices::PdfLayerIndex) = PdfDocument::new(document_title, page_width, page_height, /*initial_layer_name*/"Layer 1");
-    // load a font
-    let font_calibri = doc.add_external_font(std::fs::File::open("res/fonts/calibri.ttf").unwrap()).unwrap();
-    let font_calibri_light = doc.add_external_font(std::fs::File::open("res/fonts/calibril.ttf").unwrap()).unwrap();
-
-
-    for i in 0..=100 {
-
-        // add new page
-        println!("Generating page {}/100", i);
-        let (next_page, layer1) = doc.add_page(page_width, page_height, "Page 2, Layer 1");
-
-        // prepare usage variables
-        let current_page = doc.get_page(next_page);
-        let current_layer = current_page.get_layer(layer1);
-
-        // place the logo first, so that it is in the background
-        // original logo is at 300 dpi approx 16/0.15 = 106mm
-        add_bitmap_to_layer(&current_layer,
-                            Some(border_wh), Some(page_height - Mm(16.0) - border_wh ),
-                            Some(0.15), Some(0.15)
-                           );
-
-        // draw names
-        draw_names(&current_layer, &font_calibri, names_font_size, (names_offset_x, names_offset_y),
-        receivers.iter().map(|r:&Receiver| (&r.nickname as &str, &r.group as &str))
-        );
-
-        // position sample address
-        {
-            let font_addresses = font_calibri_light.clone();
-            current_layer.begin_text_section();
-            current_layer.set_font(&font_addresses, address_font_size);
-            current_layer.set_text_cursor(address_offset_x, address_offset_y);
-            current_layer.set_line_height(address_font_size);
-            current_layer.set_word_spacing(3000);
-            current_layer.set_character_spacing(0);
-            current_layer.set_text_rendering_mode(/*Fill, Stroke, FillStroke, Invisible, FillClip, StrokeClip, FillStrokeClip, Clip*/TextRenderingMode::Fill);
-
-            for line in &address {
-                current_layer.write_text(line.clone(), &font_addresses);
-                current_layer.add_line_break();
-            }
-
-            current_layer.end_text_section();
-        }
-
-        // numbers in sidebadge
-        let rolecount_dict : HashMap<Role, usize> = receivers.iter().fold(
-            /*init:*/ HashMap::new(),
-            /*f(map, item):*/ |mut map, &Receiver{role:item,..}| {
-                map.insert(item, 1 + map.get(&item).unwrap_or(&0));
-                return map;
-            }
-            );
-
-        // position sample sidebadge
-        let badge_spacing_y = Mm(15.0);
-        draw_sidebadges(&current_layer, &font_calibri, badge_text_font_size,
-                        (border_wh, border_wh), badge_spacing_y,
-                        rolecount_dict);
-
-    }
-
-    return doc;
-} 
 
 fn draw_names<'a> (current_layer: &printpdf::PdfLayerReference,
                font: &printpdf::IndirectFontRef,
@@ -341,7 +257,7 @@ fn add_bitmap_to_layer(current_layer : &printpdf::PdfLayerReference,
                        scaley : Option<f64>) {
     use printpdf::*;
     use image::bmp::BMPDecoder;
-    let mut image_file = std::fs::File::open("res/images/logo.bmp").unwrap();
+    let mut image_file = std::fs::File::open("../res/images/logo.bmp").unwrap();
     let decoder = BMPDecoder::new(&mut image_file).unwrap();
     let image = Image::try_from(decoder).unwrap();
     // translate x, translate y, rotate, scale x, scale y, dpi
