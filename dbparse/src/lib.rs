@@ -224,7 +224,7 @@ pub struct RoleLinks {
 /// * "Fröschli"
 #[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq, Hash)]
 pub struct Group {
-    id: String,
+    pub id: String,
     pub name: String, // Gruppenname
     pub group_type: String, // Ortsgruppe/Untergruppe/Mitglieder/Jungschar/Verein...
 }

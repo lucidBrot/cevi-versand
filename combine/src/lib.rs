@@ -62,13 +62,13 @@ fn merge_households<'b>( people: &'b mut Vec<dbparse::ReasonablePerson>,
         receivers: Vec::<pdfgen::Receiver>::new(),
         address: get_address(first_person),
     };
-    couvert_info.receivers.push(into_receiver(first_person));
+    couvert_info.receivers.push(into_receiver(first_person, &mapping));
     couvert_infos.push(couvert_info);
 
     for person in people.iter().skip(1) {
         let addr = get_address(person);
         let previous_addr = &couvert_infos.last().unwrap().address;
-        let receiver = into_receiver(person);
+        let receiver = into_receiver(person, &mapping);
 
         if addr == *previous_addr {
             // add to previous couvert another receiver
@@ -131,7 +131,7 @@ fn get_address(person: &dbparse::ReasonablePerson) -> Vec<String> {
     ]
 }
 
-fn into_receiver(person: &dbparse::ReasonablePerson) -> pdfgen::Receiver {
+fn into_receiver(person: &dbparse::ReasonablePerson, group_mapping: &dbparse::mapping::GroupMapping ) -> pdfgen::Receiver {
     //TODO: don't just do all of them
     let mut role_pdf : pdfgen::Role = roletranslation::role_to_role(person.roles.iter().nth(0).unwrap());
     for role in person.roles.iter().skip(1) {
@@ -140,7 +140,9 @@ fn into_receiver(person: &dbparse::ReasonablePerson) -> pdfgen::Receiver {
 
     pdfgen::Receiver {
         nickname: person.nickname.clone(),
-        group: person.groups.iter().nth(0).expect(&*format!("Person has no group: {:?}", person)).inner_group.name.clone() , // TODO: get best role
+        group: group_mapping.get_display_name(
+            &person.groups.iter().nth(0).expect(&*format!("Person has no group: {:?}", person)).inner_group.id
+            ).expect("Group id does not exist"), // TODO: get best role
         role: role_pdf, // TODO: get best group
     }
 }
