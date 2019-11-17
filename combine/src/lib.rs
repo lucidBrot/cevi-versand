@@ -147,13 +147,3 @@ fn into_receiver(person: &dbparse::ReasonablePerson, group_mapping: &dbparse::ma
     }
 }
 
-/// This function has not yet really been thought about.
-/// It is unimplemented for all purposes
-/// ```
-/// assert!(false, "PLIZ IMPLIMENT");
-/// ```
-fn role_convert(role_dpbarse : &dbparse::Role) -> pdfgen::Role {
-   // TODO: somehow figure out the role based on the ugly dbparse role
-   return pdfgen::Role::Traegerkreis;
-}
-
