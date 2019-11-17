@@ -201,10 +201,10 @@ struct PersonLinks {
 
 /// stored within Role struct
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash, Clone)]
-struct RoleLinks {
+pub struct RoleLinks {
     #[serde(rename = "group")]
-    group_id: String,
-    layer_group: String,
+    pub group_id: String,
+    pub layer_group: String,
 }
 
 /// stored in "linked" : "groups" : []
@@ -238,6 +238,19 @@ pub struct Role {
     pub role_type: String,
     label: Option<String>,
     links: RoleLinks,
+}
+impl Role {
+    pub fn new(id: Rc<str>, role_type: String, label: Option<String>, group_id: String, layer_group: String ) -> Self{
+        Role {
+            id: id,
+            role_type: role_type,
+            label: label,
+            links: RoleLinks {
+                group_id: group_id,
+                layer_group: layer_group,
+            },
+        }
+    }
 }
 
 type StringHashMapType<V> = HashMap<Rc<str>, V>;

@@ -1,6 +1,7 @@
 use pdfgen;
 use dbparse;
 use regex;
+mod roletranslation;
 
 fn main() {
     println!("combine: loading data from database");
