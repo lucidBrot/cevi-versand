@@ -3,6 +3,7 @@ use std::env;
 
 const CALIBRI_FONT: &'static [u8] = include_bytes!("../res/fonts/calibri.ttf");
 const CALIBRI_LIGHT_FONT: &'static [u8] = include_bytes!("../res/fonts/calibriL.ttf");
+const LOGO_BMP_BYTES: &'static [u8] = include_bytes!("../res/images/logo.bmp");
 
 
 pub fn main() {
@@ -256,10 +257,8 @@ fn add_bitmap_to_layer(current_layer : &printpdf::PdfLayerReference,
                        scaley : Option<f64>) {
     use printpdf::*;
     use image::bmp::BMPDecoder;
-    println!("Debug print 4");
-    let mut image_file = std::fs::File::open("res/images/logo.bmp").expect("there is no logo");
-    println!("Debug print 5");
-    let decoder = BMPDecoder::new(&mut image_file).unwrap();
+    let mut logo_reader = std::io::Cursor::new(LOGO_BMP_BYTES.as_ref());
+    let decoder = BMPDecoder::new(&mut logo_reader).unwrap();
     let image = Image::try_from(decoder).unwrap();
     // translate x, translate y, rotate, scale x, scale y, dpi
     image.add_to_layer(current_layer.clone(), posx, posy, None, scalex, scaley, None);

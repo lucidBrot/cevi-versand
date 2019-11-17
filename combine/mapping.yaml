@@ -1,86 +1,86 @@
 ---
 map:
-  "589":
-    original_name: Ten Sing Pfäffikersee
-    display_name: Ten Sing Pfäffikersee
-  "1341":
-    original_name: Senshi (M)
-    display_name: Senshi
-  "116":
-    original_name: JS Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: JS Pfäffikon-Fehraltorf-Hittnau-Russikon
-  "1336":
-    original_name: Kaleidon (F)
-    display_name: Kaleidon
-  "149":
-    original_name: Verein Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: Verein Pfäffikon-Fehraltorf-Hittnau-Russikon
-  "1453":
-    original_name: Y-Card Nummer
-    display_name: Y-Card Nummer
-  "1339":
-    original_name: Pamoja (F)
-    display_name: Pamoja
-  "81":
-    original_name: C-Gruppe
-    display_name: C-Gruppe
-  "78":
-    original_name: PSA Gruppe
-    display_name: PSA Gruppe
-  "1725":
-    original_name: C-Newsletter
-    display_name: C-Newsletter
-  "1340":
-    original_name: Skapande (M)
-    display_name: Skapande
-  "571":
-    original_name: M-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: M-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
-  "570":
-    original_name: F-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: F-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
-  "2418":
-    original_name: J+S-Coaches
-    display_name: J+S-Coaches
-  "79":
-    original_name: Cevi Plus Team
-    display_name: Cevi Plus Team
   "1724":
     original_name: Gebetsbrunch
     display_name: Gebetsbrunch
-  "1334":
-    original_name: Holon (M)
-    display_name: Holon
   "1329":
     original_name: Vorstand Cevi Pfäffikon
     display_name: Vorstand Cevi Pfäffikon
   "1342":
     original_name: Aktive
     display_name: Aktive
-  "1330":
-    original_name: Freie Mitarbeiter
-    display_name: Freie Mitarbeiter
   "297":
     original_name: Fröschli Pfäffikon-Fehraltorf-Hittnau-Russikon
     display_name: Fröschli Pfäffikon-Fehraltorf-Hittnau-Russikon
-  "1861":
-    original_name: Z_Import Optigem
-    display_name: Z_Import Optigem
-  "1335":
-    original_name: Koranu (M)
-    display_name: Koranu
   "1337":
     original_name: Juntos (F)
     display_name: Juntos
-  "1331":
-    original_name: Ehemalige
-    display_name: Ehemalige
-  "1332":
-    original_name: Indigo (F)
-    display_name: Indigo
   "1787":
     original_name: Leiter ehemalig
     display_name: Leiter ehemalig
+  "1341":
+    original_name: Senshi (M)
+    display_name: Senshi
+  "589":
+    original_name: Ten Sing Pfäffikersee
+    display_name: Ten Sing Pfäffikersee
+  "79":
+    original_name: Cevi Plus Team
+    display_name: Cevi Plus Team
+  "1330":
+    original_name: Freie Mitarbeiter
+    display_name: Freie Mitarbeiter
   "115":
     original_name: Pfäffikon-Fehraltorf-Hittnau-Russikon
     display_name: Pfäffikon-Fehraltorf-Hittnau-Russikon
+  "1335":
+    original_name: Koranu (M)
+    display_name: Koranu
+  "571":
+    original_name: M-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: M-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+  "1334":
+    original_name: Holon (M)
+    display_name: Holon
+  "78":
+    original_name: PSA Gruppe
+    display_name: PSA Gruppe
+  "1861":
+    original_name: Z_Import Optigem
+    display_name: Z_Import Optigem
+  "1336":
+    original_name: Kaleidon (F)
+    display_name: Kaleidon
+  "1331":
+    original_name: Ehemalige
+    display_name: Ehemalige
+  "81":
+    original_name: C-Gruppe
+    display_name: C-Gruppe
+  "1725":
+    original_name: C-Newsletter
+    display_name: C-Newsletter
+  "570":
+    original_name: F-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: F-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+  "2418":
+    original_name: J+S-Coaches
+    display_name: J+S-Coaches
+  "1453":
+    original_name: Y-Card Nummer
+    display_name: Y-Card Nummer
+  "116":
+    original_name: JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+  "1340":
+    original_name: Skapande (M)
+    display_name: Skapande
+  "1332":
+    original_name: Indigo (F)
+    display_name: Indigo
+  "149":
+    original_name: Verein Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: Verein Pfäffikon-Fehraltorf-Hittnau-Russikon
+  "1339":
+    original_name: Pamoja (F)
+    display_name: Pamoja
