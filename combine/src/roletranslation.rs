@@ -28,8 +28,6 @@ pub fn role_to_role(dbrole: &dbparse::Role) -> pdfgen::Role {
 mod tests {
     #[test]
     fn test_role_to_role_teilnehmer() {
-        use std::rc::Rc;
-
         let db_role = dbparse::Role::new(
             /*id: Rc<str>,
             pub role_type: String,

@@ -3,7 +3,7 @@ use dbparse;
 use regex;
 mod roletranslation;
 
-fn main() {
+pub fn main() {
     println!("combine: loading data from database");
     let database_returns: Result<dbparse::MainReturns, Box<dyn std::error::Error>> = dbparse::run();
     if database_returns.is_err() {
@@ -127,10 +127,16 @@ fn get_address(person: &dbparse::ReasonablePerson) -> Vec<String> {
 }
 
 fn into_receiver(person: &dbparse::ReasonablePerson) -> pdfgen::Receiver {
+    //TODO: don't just do all of them
+    let mut role_pdf : pdfgen::Role = roletranslation::role_to_role(person.roles.iter().nth(0).unwrap());
+    for role in person.roles.iter().skip(1) {
+        role_pdf = roletranslation::role_to_role(role);
+    }
+
     pdfgen::Receiver {
         nickname: person.nickname.clone(),
         group: person.groups.iter().nth(0).expect(&*format!("Person has no group: {:?}", person)).inner_group.name.clone() , // TODO: get best role
-        role: role_convert(&person.roles.iter().nth(0).expect(&*format!("Person has no role: {:?}", person))), // TODO: get best group
+        role: role_pdf, // TODO: get best group
     }
 }
 
