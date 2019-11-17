@@ -48,7 +48,6 @@ pub fn main() {
     let mut buf = std::io::BufWriter::new(std::fs::File::create(filename).expect("What?"));
     println!("Debug print 3");
     doc_generated.save( &mut buf ).expect("The Fuck?");
-    println!("Debug print 4");
 }
 
 pub struct CouvertInfo {
@@ -86,7 +85,9 @@ pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentRe
     // load a font
     let mut font_reader = std::io::Cursor::new(CALIBRI_FONT.as_ref());
     let font_calibri = doc.add_external_font(&mut font_reader).expect("Failed to load font");
-    let font_calibri_light = doc.add_external_font(&mut font_reader).expect("Failed to load font");
+    println!("Debug print 4");
+    let mut font_reader_light = std::io::Cursor::new(CALIBRI_LIGHT_FONT.as_ref());
+    let font_calibri_light = doc.add_external_font(&mut font_reader_light).expect("Failed to load font");
 
     for (num, couvert) in couverts.iter().enumerate() {
         // add new page
