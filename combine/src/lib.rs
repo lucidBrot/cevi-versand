@@ -3,7 +3,7 @@ use dbparse;
 use regex;
 mod roletranslation;
 
-// TODO: write first name where only one person is adressed
+// TODO: warn about adresses where the address is incomplete
 
 pub fn main() {
     println!("combine: loading data from database");
