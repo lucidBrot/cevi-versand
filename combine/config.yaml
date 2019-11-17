@@ -1,0 +1,6 @@
+db_conf:
+    api_token: "smxWsJwqoefo9Q1w5aw6"
+    login_name: "Levanzo"
+    login_email: "eric@mink.li"
+    # {api_token} and {login_email} in the line below this are placeholders that are filled in at runtime
+    versand_endpoint_fmtstr: "https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email={login_email}&user_token={api_token}&sort=address"
