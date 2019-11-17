@@ -3,6 +3,9 @@ use dbparse;
 use regex;
 mod roletranslation;
 
+// TODO: actually use mapping to groups without "(F)" or "(M)"
+// TODO: write first name where only one person is adressed
+
 pub fn main() {
     println!("combine: loading data from database");
     let database_returns: Result<dbparse::MainReturns, Box<dyn std::error::Error>> = dbparse::run();
@@ -17,8 +20,10 @@ pub fn main() {
     let couvert_infos: Vec<pdfgen::CouvertInfo> = merge_households( &mut dataset.people, &mapping );
 
     println!("combine: creating pdf");
-    pdfgen::main();
-    // TODO: generate_couverts instead of main
+    let filename = "output_versand.pdf";
+    let doc_generated = pdfgen::generate_couverts(couvert_infos);
+    let mut outfile = std::io::BufWriter::new(std::fs::File::create(filename).expect("Failed to create file..."));
+    doc_generated.save( &mut outfile ).expect("Failed to save file...");
 }
 
 

@@ -13,6 +13,7 @@ use mapping::GroupMapping;
 
 // config.yaml is stored both in examples dir and in dbparse dir, currently
 // TODO: accept it as parameter instead
+// TODO: set nickname to first name in couvert
 
 const MAPPING_YAML_FILE : &str = "mapping.yaml";
 const VERBOSITY : Verbosity = Verbosity::No;

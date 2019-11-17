@@ -5,6 +5,10 @@ const CALIBRI_FONT: &'static [u8] = include_bytes!("../res/fonts/calibri.ttf");
 const CALIBRI_LIGHT_FONT: &'static [u8] = include_bytes!("../res/fonts/calibriL.ttf");
 const LOGO_BMP_BYTES: &'static [u8] = include_bytes!("../res/images/logo.bmp");
 
+// TODO: kein fähnchen für "Nothing"
+// TODO: Fähnchen für coach und so?
+// TODO: prioritisieren von rollen
+
 
 pub fn main() {
     println!("Hello, world from {}!", file!());
