@@ -124,6 +124,7 @@ fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, reqwes
 
     // transform the Person into a ReasonablePerson, which directly contains all relevant data
     let reasonable_dataset : ReasonableDataset = dese.to_reasonable_dataset();
+    if reasonable_dataset.people.len() < 1 {panic!("There are no people in the dataset!");}
 
     Ok(reasonable_dataset)
 }
@@ -365,6 +366,8 @@ pub struct ReasonablePerson {
 impl PeopleRequest {
     fn to_reasonable_dataset(&self) -> ReasonableDataset {
         let mut all_groups : HashSet<ReasonableGroup> = HashSet::new();
+        let mut all_people : Vec<ReasonablePerson> = Vec::<ReasonablePerson>::new();
+        if self.people.len() < 1 {panic!("There are no people in the dataset!");}
 
         print!("---\n");
         for p in self.people.iter() {
@@ -393,6 +396,8 @@ impl PeopleRequest {
                 // store group if it appeared at least once also at the top level of the dataset
                 all_groups.insert(reasonable_group);
             }
+
+            all_people.push(reasonable_person);
         }
 
         print!("\n");
@@ -401,7 +406,7 @@ impl PeopleRequest {
         }
 
         ReasonableDataset {
-            people: Vec::<ReasonablePerson>::new(),
+            people: all_people,
             groups: all_groups,
         }
     }

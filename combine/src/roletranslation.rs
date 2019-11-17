@@ -18,7 +18,7 @@ pub fn role_to_role(dbrole: &dbparse::Role) -> pdfgen::Role {
         "Minigruppenleiter/-in" => pdfgen::Role::Leiter,
         // TODO: case where it did not match
         &_ => {
-            println!("r2r: don't know what to do with {:?}", dbrole);
+            println!("r2r: don't know what to do with {:?}", dbrole.role_type);
             return pdfgen::Role::Nothing
         },
     }
