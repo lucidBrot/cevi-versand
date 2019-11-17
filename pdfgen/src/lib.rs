@@ -1,8 +1,12 @@
 use std::collections::HashMap;
 use std::env;
 
+// const CALIBRI_FONT: &'static [u8] = include_bytes!("res/fonts/calibri.ttf");
+const CALIBRI_LIGHT_FONT: &'static [u8] = include_bytes!(Path::new(file!()).parent().parent().join("res/fonts/calibriL.ttf"));
+
+
 pub fn main() {
-    println!("Hello, world!");
+    println!("Hello, world from {}!", file!());
 
     let filename = "sample_couvert.pdf";
 
@@ -37,7 +41,14 @@ pub fn main() {
         receivers: receivers,
         address: vec_str_to_vec_string(&address),
     }];
-    generate_couverts(couverts).save(&mut std::io::BufWriter::new(std::fs::File::create(filename).unwrap())).unwrap();
+
+    println!("Debug print 1");
+    let doc_generated : printpdf::PdfDocumentReference = generate_couverts(couverts);
+    println!("Debug print 2");
+    let mut buf = std::io::BufWriter::new(std::fs::File::create(filename).expect("What?"));
+    println!("Debug print 3");
+    doc_generated.save( &mut buf ).expect("The Fuck?");
+    println!("Debug print 4");
 }
 
 pub struct CouvertInfo {
@@ -71,7 +82,11 @@ pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentRe
 
     // create the document
     let (doc, page1, layer1) : (PdfDocumentReference, indices::PdfPageIndex, indices::PdfLayerIndex) = PdfDocument::new(document_title, page_width, page_height, /*initial_layer_name*/"Layer 1");
+
     // load a font
+    /*let mut font_reader = std::io::Cursor::new(CALIBRI_FONT.as_ref());
+    let font_calibri = doc.add_external_font(&mut font_reader).expect("Failed to load font");
+    let font_calibri_light = doc.add_external_font(&mut font_reader).expect("Failed to load font");*/
     let font_calibri = doc.add_external_font(std::fs::File::open("res/fonts/calibri.ttf").unwrap()).unwrap();
     let font_calibri_light = doc.add_external_font(std::fs::File::open("res/fonts/calibril.ttf").unwrap()).unwrap();
 

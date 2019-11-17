@@ -20,6 +20,7 @@ pub fn role_to_role(dbrole: &dbparse::Role) -> pdfgen::Role {
         "Coach" => pdfgen::Role::Coach,
         "Abteilungsleiter/-in" => pdfgen::Role::Leiter,
         "Adressverwalter/-in" => pdfgen::Role::Nothing,
+        "Adressverantwortlicher" => pdfgen::Role::Nothing,
         "Chorsänger/-in" => pdfgen::Role::Nothing,
         "Fröschlihauptleiter/-in" => pdfgen::Role::Leiter,
         "Kassier" => pdfgen::Role::Kassier,
