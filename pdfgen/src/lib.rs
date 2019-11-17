@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 use std::env;
 
-// const CALIBRI_FONT: &'static [u8] = include_bytes!("res/fonts/calibri.ttf");
-const CALIBRI_LIGHT_FONT: &'static [u8] = include_bytes!(Path::new(file!()).parent().parent().join("res/fonts/calibriL.ttf"));
+const CALIBRI_FONT: &'static [u8] = include_bytes!("../res/fonts/calibri.ttf");
+const CALIBRI_LIGHT_FONT: &'static [u8] = include_bytes!("../res/fonts/calibriL.ttf");
 
 
 pub fn main() {
@@ -84,11 +84,9 @@ pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentRe
     let (doc, page1, layer1) : (PdfDocumentReference, indices::PdfPageIndex, indices::PdfLayerIndex) = PdfDocument::new(document_title, page_width, page_height, /*initial_layer_name*/"Layer 1");
 
     // load a font
-    /*let mut font_reader = std::io::Cursor::new(CALIBRI_FONT.as_ref());
+    let mut font_reader = std::io::Cursor::new(CALIBRI_FONT.as_ref());
     let font_calibri = doc.add_external_font(&mut font_reader).expect("Failed to load font");
-    let font_calibri_light = doc.add_external_font(&mut font_reader).expect("Failed to load font");*/
-    let font_calibri = doc.add_external_font(std::fs::File::open("res/fonts/calibri.ttf").unwrap()).unwrap();
-    let font_calibri_light = doc.add_external_font(std::fs::File::open("res/fonts/calibril.ttf").unwrap()).unwrap();
+    let font_calibri_light = doc.add_external_font(&mut font_reader).expect("Failed to load font");
 
     for (num, couvert) in couverts.iter().enumerate() {
         // add new page
