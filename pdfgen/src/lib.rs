@@ -1,5 +1,3 @@
-mod pluralizable;
-use pluralizable::Pluralizable;
 use std::collections::HashMap;
 use std::env;
 
@@ -432,7 +430,6 @@ pub enum Role {
 }
 
 impl Role {
-    // TODO: can we remove pluralization?
     fn value(&self) -> String {
         String::from(match *self {
             Role::Leiter =>  "Leiter",
