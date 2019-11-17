@@ -13,9 +13,7 @@ fn main() {
     let mut dataset: dbparse::ReasonableDataset = ret_db.dataset;
 
     println!("combine: merging households");
-    // TODO: fn group mapping -> fix "strasse, str, ..."
-    // TODO: fn group mapping -> couvert info
-    merge_households( &mut dataset.people, &mapping );
+    let couvert_infos: Vec<pdfgen::CouvertInfo> = merge_households( &mut dataset.people, &mapping );
 
     println!("combine: creating pdf");
     pdfgen::main();
@@ -120,7 +118,6 @@ pub fn normalize_town(town: &String) -> String {
 }
 
 fn get_address(person: &dbparse::ReasonablePerson) -> Vec<String> {
-    // TODO: return a vec of Strings and make Address be able to use that.
     vec![
         format!("Familie {}", person.last_name),
         person.address.clone(),
