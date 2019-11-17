@@ -101,10 +101,11 @@ pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentRe
         let current_layer = current_page.get_layer(layer1);
 
         // place the logo first, so that it is in the background
-        // original logo is at 300 dpi approx 16/0.15 = 106mm
+        // original logo_big is at 300 dpi approx 16/0.15 = 106mm
+        // smaller logo is smaller by factor 8 (150x150px), so scaling should be factor 8 larger
         add_bitmap_to_layer(&current_layer,
                             Some(border_wh), Some(page_height - Mm(16.0) - border_wh ),
-                            Some(0.15), Some(0.15)
+                            /*scaling x:*/ Some(8.0*0.15), /*scaling y:*/ Some(8.0*0.15)
                            );
 
         // draw names
