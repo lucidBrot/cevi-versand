@@ -43,11 +43,8 @@ pub fn main() {
         address: vec_str_to_vec_string(&address),
     }];
 
-    println!("Debug print 1");
     let doc_generated : printpdf::PdfDocumentReference = generate_couverts(couverts);
-    println!("Debug print 2");
     let mut buf = std::io::BufWriter::new(std::fs::File::create(filename).expect("What?"));
-    println!("Debug print 3");
     doc_generated.save( &mut buf ).expect("The Fuck?");
 }
 
