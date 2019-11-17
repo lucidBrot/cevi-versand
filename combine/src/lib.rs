@@ -162,8 +162,14 @@ fn into_receiver(
         role_pdf = roletranslation::role_to_role(role);
     }
 
+    // if nickname is empty, use first name
+    let name = match person.nickname.trim().is_empty() {
+        true => person.first_name.clone(),
+        false => person.nickname.clone(),
+    };
+
     pdfgen::Receiver {
-        nickname: person.nickname.clone(),
+        nickname: name,
         group: group_mapping
             .get_display_name(
                 &person
