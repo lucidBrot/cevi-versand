@@ -19,7 +19,7 @@ pub fn role_to_role(dbrole: &dbparse::Role) -> pdfgen::Role {
         "Gruppenleiter/-in" => pdfgen::Role::Leiter,
         "Coach" => pdfgen::Role::Coach,
         "Abteilungsleiter/-in" => pdfgen::Role::Leiter,
-        "Addressverwalter/-in" => pdfgen::Role::Nothing,
+        "Adressverwalter/-in" => pdfgen::Role::Nothing,
         "Chorsänger/-in" => pdfgen::Role::Nothing,
         "Fröschlihauptleiter/-in" => pdfgen::Role::Leiter,
         "Kassier" => pdfgen::Role::Kassier,
@@ -29,7 +29,13 @@ pub fn role_to_role(dbrole: &dbparse::Role) -> pdfgen::Role {
         "Externe/-r" => pdfgen::Role::Nothing,
         "Lädeliverantwortliche/-r" => pdfgen::Role::Laedeli,
         "Mitglied" => pdfgen::Role::Nothing,
-        // TODO: case where it did not match
+        "Stufenleiter/-in" => pdfgen::Role::Leiter,
+        "Fröschlileiter/-in" => pdfgen::Role::Leiter,
+        "Aktuar/-in" => pdfgen::Role::Aktuar,
+        "Materialverantwortliche/-r" => pdfgen::Role::Matchef,
+        "Verantwortliche/-r" => pdfgen::Role::Nothing,
+
+        // case where it did not match. That means something new has been added to the DB.
         &_ => {
             println!("r2r: don't know what to do with {:?}", dbrole.role_type);
             return pdfgen::Role::Nothing

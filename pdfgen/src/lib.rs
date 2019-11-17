@@ -427,6 +427,8 @@ pub enum Role {
     Hausverantwortlicher,
     Admin,
     Laedeli,
+    Aktuar,
+    Matchef,
 }
 
 impl Role {
@@ -442,11 +444,13 @@ impl Role {
             Role::Hausverantwortlicher => "Hausverantwortlicher",
             Role::Admin => "Admin",
             Role::Laedeli => "Lädeli",
+            Role::Aktuar => "Aktuar",
+            Role::Matchef => "Matchef",
         })
     }
 
     fn values() -> Vec<Role> {
-        return vec![Role::Leiter, Role::Teilnehmer, Role::Traegerkreis, Role::Ehemalige, Role::Nothing, Role::Coach, Role::Kassier, Role::Hausverantwortlicher, Role::Admin, Role::Laedeli ];
+        return vec![Role::Leiter, Role::Teilnehmer, Role::Traegerkreis, Role::Ehemalige, Role::Nothing, Role::Coach, Role::Kassier, Role::Hausverantwortlicher, Role::Admin, Role::Laedeli, Role::Aktuar, Role::Matchef ];
     }
 }
 
