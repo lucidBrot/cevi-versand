@@ -12,7 +12,6 @@ use pdfgen;
 //
 pub fn role_to_role(dbrole: &dbparse::Role) -> pdfgen::Role {
     match dbrole.role_type.as_ref() {
-        // TODO: test with whole database
         "Teilnehmer/-in" => pdfgen::Role::Teilnehmer,
         "Traegerkreis" => pdfgen::Role::Traegerkreis, // TODO: how to recognize trägerkreis?
         "Minigruppenleiter/-in" => pdfgen::Role::Leiter,

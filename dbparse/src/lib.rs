@@ -11,8 +11,9 @@ use std::error::Error;
 pub mod mapping;
 use mapping::GroupMapping;
 
-// config.yaml is stored both in examples dir and in dbparse dir, currently
-// TODO: accept it as parameter instead
+// config.yaml is stored both in examples dir and in dbparse dir, currently. Because it is read
+// from the working dir
+
 // TODO: set nickname to first name in couvert
 
 const MAPPING_YAML_FILE : &str = "mapping.yaml";
