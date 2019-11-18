@@ -113,7 +113,7 @@ fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, reqwes
     let body : String = reqwest::get(&db_conf.versand_endpoint())?
     .text()?;
     // deserialize the json data into a struct
-    let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(&body).expect("I am bad");
+    let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(&body).expect("dbparse: The request response is not well-formatted.");
 
     let mut i = 0;
 
