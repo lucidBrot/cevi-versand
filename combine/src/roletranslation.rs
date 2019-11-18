@@ -66,8 +66,6 @@ mod tests {
 
     #[test]
     fn test_role_to_role_unexpected() {
-        use std::rc::Rc;
-
         let db_role = dbparse::Role::new(
             /*id: Rc<str>,
             pub role_type: String,

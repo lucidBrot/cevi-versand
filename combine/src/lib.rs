@@ -191,9 +191,17 @@ trait Prioritized {
     fn priority(&self) -> Priority;
 }
 impl Prioritized for pdfgen::Role {
+    /// Higher priority is assigned to pdfgen::Role enum variants that should be preferredly
+    /// printed on the couverts
     fn priority(&self) -> Priority {
+        use pdfgen::Role;
         match self {
-            _ => Priority(0),
+            Role::Traegerkreis => Priority(50),
+            Role::Ehemalige => Priority(45),
+            Role::Leiter => Priority(40),
+            Role::Teilnehmer => Priority(30),
+            Role::Nothing => Priority(0),
+            _ => Priority(-100), // we don't care whether it's a coach or a Kassier or a Matchef
         }
     }
 }
@@ -209,7 +217,9 @@ mod tests {
                 pdfgen::Role::Nothing => prio == pdfgen::Role::Nothing.priority(),
                 _ => prio > pdfgen::Role::Nothing.priority()
             };
-            assert!(ok, "Not all Role enum variants have higher priority than nothing");
+            assert!(ok, 
+                    format!("Not all Role enum variants have higher priority than nothing: {:?}", variant)
+                    );
         }
     }
 }
