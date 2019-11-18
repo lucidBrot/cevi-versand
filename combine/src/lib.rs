@@ -208,18 +208,5 @@ impl Prioritized for pdfgen::Role {
 
 #[cfg(test)]
 mod tests {
-    #[test]
-    fn test_priority() {
-        use crate::Prioritized;
-        for variant in pdfgen::Role::values() {
-            let prio = variant.priority();
-            let ok = match variant {
-                pdfgen::Role::Nothing => prio == pdfgen::Role::Nothing.priority(),
-                _ => prio > pdfgen::Role::Nothing.priority()
-            };
-            assert!(ok, 
-                    format!("Not all Role enum variants have higher priority than nothing: {:?}", variant)
-                    );
-        }
-    }
+
 }
