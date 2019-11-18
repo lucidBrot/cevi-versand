@@ -53,7 +53,7 @@ mod tests {
             label: Option<String>,
             links: RoleLinks,*/
             std::rc::Rc::<str>::from("test_id"),
-            String::from("Teilnehmer"),
+            String::from("Teilnehmer/-in"),
             None,
             String::from("Fake group id"),
             String::from("fake layer group"),
@@ -82,7 +82,7 @@ mod tests {
 
         let pdf_role: pdfgen::Role = super::role_to_role(&db_role);
 
-        assert_eq!(pdf_role, pdfgen::Role::Teilnehmer);
+        assert_eq!(pdf_role, pdfgen::Role::Nothing);
     }
 
     #[test]
