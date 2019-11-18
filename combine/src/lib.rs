@@ -184,3 +184,32 @@ fn into_receiver(
         role: role_pdf, // TODO: get best group
     }
 }
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+struct Priority ( i32 );
+trait Prioritized {
+    fn priority(&self) -> Priority;
+}
+impl Prioritized for pdfgen::Role {
+    fn priority(&self) -> Priority {
+        match self {
+            _ => Priority(0),
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn test_priority() {
+        use crate::Prioritized;
+        for variant in pdfgen::Role::values() {
+            let prio = variant.priority();
+            let ok = match variant {
+                pdfgen::Role::Nothing => prio == pdfgen::Role::Nothing.priority(),
+                _ => prio > pdfgen::Role::Nothing.priority()
+            };
+            assert!(ok, "Not all Role enum variants have higher priority than nothing");
+        }
+    }
+}

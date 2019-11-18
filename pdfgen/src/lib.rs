@@ -381,7 +381,7 @@ impl Role {
         })
     }
 
-    fn values() -> Vec<Role> {
+    pub fn values() -> Vec<Role> {
         return vec![Role::Leiter, Role::Teilnehmer, Role::Traegerkreis, Role::Ehemalige, Role::Nothing, Role::Coach, Role::Kassier, Role::Hausverantwortlicher, Role::Admin, Role::Laedeli, Role::Aktuar, Role::Matchef ];
     }
 }
