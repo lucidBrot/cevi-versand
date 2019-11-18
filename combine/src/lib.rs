@@ -155,12 +155,9 @@ fn into_receiver(
     person: &dbparse::ReasonablePerson,
     group_mapping: &dbparse::mapping::GroupMapping,
 ) -> pdfgen::Receiver {
-    //TODO: don't just do all of them
-    let mut role_pdf: pdfgen::Role =
-        roletranslation::role_to_role(person.roles.iter().nth(0).unwrap());
-    for role in person.roles.iter().skip(1) {
-        role_pdf = roletranslation::role_to_role(role);
-    }
+
+    let pdfgen_roles = person.roles.iter().map(|x| roletranslation::role_to_role(x));
+    let best_pdfgen_role: pdfgen::Role = pdfgen_roles.max_by_key(|x| x.priority()).unwrap_or(pdfgen::Role::Nothing);
 
     // if nickname is empty, use first name
     let name = match person.nickname.trim().is_empty() {
@@ -181,7 +178,7 @@ fn into_receiver(
                     .id,
             )
             .expect("Group id does not exist"), // TODO: get best role
-        role: role_pdf, // TODO: get best group
+        role: best_pdfgen_role, 
     }
 }
 
