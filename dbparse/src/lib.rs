@@ -14,8 +14,6 @@ use mapping::GroupMapping;
 // config.yaml is stored both in examples dir and in dbparse dir, currently. Because it is read
 // from the working dir
 
-// TODO: set nickname to first name in couvert
-
 const MAPPING_YAML_FILE : &str = "mapping.yaml";
 const VERBOSITY : Verbosity = Verbosity::No;
 
@@ -38,10 +36,6 @@ pub struct MainReturns {
     pub file: File,
     pub group_mapping: GroupMapping,
     pub dataset: ReasonableDataset,
-}
-
-fn main() {
-    run().expect("Unexpected");
 }
 
 pub fn run() -> Result<MainReturns, Box<dyn Error>> {

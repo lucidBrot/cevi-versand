@@ -177,7 +177,7 @@ fn into_receiver(
                     .inner_group
                     .id,
             )
-            .expect("Group id does not exist"), // TODO: get best role
+            .expect("Group id does not exist"), // TODO: get best group
         role: best_pdfgen_role, 
     }
 }
