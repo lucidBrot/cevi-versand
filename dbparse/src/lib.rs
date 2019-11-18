@@ -192,6 +192,7 @@ struct Person {
     address: String,
     zip_code: String,
     town: String,
+    #[serde(with = "null_str_serder")]
     name_parents: String,
     links: PersonLinks,
 }
@@ -336,6 +337,28 @@ mod items_serder_set {
             set.insert(item);
         }
         Ok(set)
+    }
+}
+
+/// ad deserializer implementation for turning null into an empty string
+mod null_str_serder {
+    use serde::ser::Serializer;
+    use serde::de::{Deserialize, Deserializer};
+    
+    pub fn serialize<S>(stringthing: &String, serializer: S) -> Result<S::Ok, S::Error> 
+        where S: Serializer 
+    {
+        serializer.serialize_str(stringthing)
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<String, D::Error>
+        where D: Deserializer<'de>
+    {
+        let optstr = Option::<String>::deserialize(deserializer)?;
+        match optstr {
+            None => Ok(String::from("")),
+            Some(s) => Ok(s),
+        }
     }
 }
 
