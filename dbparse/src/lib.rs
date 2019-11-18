@@ -185,12 +185,19 @@ struct Linked {
 struct Person {
     #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
     id: usize,
+    #[serde(with = "null_str_serder")]
     href: String,
+    #[serde(with = "null_str_serder")]
     first_name: String,
+    #[serde(with = "null_str_serder")]
     last_name: String,
+    #[serde(with = "null_str_serder")]
     nickname: String,
+    #[serde(with = "null_str_serder")]
     address: String,
+    #[serde(with = "null_str_serder")]
     zip_code: String,
+    #[serde(with = "null_str_serder")]
     town: String,
     #[serde(with = "null_str_serder")]
     name_parents: String,
