@@ -5,7 +5,7 @@ const CALIBRI_FONT: &'static [u8] = include_bytes!("../res/fonts/calibri.ttf");
 const CALIBRI_LIGHT_FONT: &'static [u8] = include_bytes!("../res/fonts/calibriL.ttf");
 const LOGO_BMP_BYTES: &'static [u8] = include_bytes!("../res/images/logo.bmp");
 
-const VERYBOSE: bool = true;
+const VERYBOSE: bool = false;
 
 // TODO: kein fähnchen für "Nothing"
 // TODO: Fähnchen für coach und so?
