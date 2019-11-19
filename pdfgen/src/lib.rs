@@ -5,6 +5,8 @@ const CALIBRI_FONT: &'static [u8] = include_bytes!("../res/fonts/calibri.ttf");
 const CALIBRI_LIGHT_FONT: &'static [u8] = include_bytes!("../res/fonts/calibriL.ttf");
 const LOGO_BMP_BYTES: &'static [u8] = include_bytes!("../res/images/logo.bmp");
 
+const VERYBOSE: bool = true;
+
 // TODO: kein fähnchen für "Nothing"
 // TODO: Fähnchen für coach und so?
 // TODO: prioritisieren von rollen
@@ -93,7 +95,9 @@ pub fn generate_couverts(couverts : &mut Vec<CouvertInfo>) -> printpdf::PdfDocum
 
     for (num, couvert) in couverts.iter_mut().enumerate() {
         // add new page
-        println!("Generating page {}", num);
+        if VERYBOSE {
+            println!("Generating page {}", num);
+        }
         let (next_page, layer1) = doc.add_page(page_width, page_height, format!("Page {}, Layer 1", num));
 
         // prepare usage variables

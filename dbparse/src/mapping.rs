@@ -77,6 +77,8 @@ impl GroupMapping {
         const F : &str = " (F)";
         const M : &str = " (M)";
         const ABTEILUNG: &str = "Pfäffikon‐Fehraltorf‐Hittnau‐Russikon";
+        // Abteilung could also be found generically by searching for a group with group_type
+        // Ortsgruppe and taking its name
         String::from(name.clone().trim_end_matches(F).trim_end_matches(M).trim_end_matches(ABTEILUNG).trim())
     }
 }

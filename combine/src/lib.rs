@@ -48,6 +48,7 @@ fn merge_households<'b>(
         groups: HashSet<ReasonableGroup>*/
 
         person.address = normalize_address(&person.address);
+        warn_if_address_incomplete(&person);
         person.town = normalize_town(&person.town);
     }
 
@@ -111,6 +112,21 @@ pub fn normalize_address(address: &String) -> String {
     let replaced1 = rgx_str1.replace_all(&trimmed, "strasse");
     let replaced2 = rgx_str2.replace_all(&replaced1, "Strasse");
     return String::from(replaced2);
+}
+
+fn warn_if_address_incomplete(person: &dbparse::ReasonablePerson) -> bool{
+
+    let issue: bool = person.first_name.is_empty() || 
+                        person.last_name.is_empty() ||
+                        person.address.is_empty() ||
+                        person.zip_code.is_empty() ||
+                        person.town.is_empty();
+
+    if issue {
+        println!("combine: WARN: Bad Address:\n{:?}\n\n", person);
+    }
+
+    return issue;
 }
 
 /// replaces Pfäffikon, Pfaeffikon, etc with "Pfäffikon ZH"
