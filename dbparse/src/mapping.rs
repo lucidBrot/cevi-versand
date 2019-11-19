@@ -76,11 +76,11 @@ impl GroupMapping {
         // remove (F)  and (M)
         const F : &str = " (F)";
         const M : &str = " (M)";
-        const ABTEILUNG: &str = "Pfäffikon-Fehraltorf-Hittnau-Russikon";
+        const ABTEILUNG: &str = " Pfäffikon-Fehraltorf-Hittnau-Russikon";
         // Abteilung could also be found generically by searching for a group with group_type
         // Ortsgruppe and taking its name
-        let result = String::from(name.clone().trim_end_matches(F).trim_end_matches(M).trim().trim_end_matches(ABTEILUNG).trim());
-        println!("autocorrect: {}", result);
+        let result = String::from(name.clone().trim_end_matches(F).trim_end_matches(M).trim_end_matches(ABTEILUNG).trim());
+        println!("autocorrect: {}  =>  {}", name, result);
         return result;
     }
 }
