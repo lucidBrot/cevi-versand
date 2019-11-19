@@ -72,9 +72,12 @@ impl GroupMapping {
     }
 
     fn autocorrect_group_name(name: &str) -> String {
+        // automapping specific to Abteilung PFA, and
+        // remove (F)  and (M)
         const F : &str = " (F)";
         const M : &str = " (M)";
-        String::from(name.clone().trim_end_matches(F).trim_end_matches(M))
+        const ABTEILUNG: &str = "Pfäffikon‐Fehraltorf‐Hittnau‐Russikon";
+        String::from(name.clone().trim_end_matches(F).trim_end_matches(M).trim_end_matches(ABTEILUNG).trim())
     }
 }
 
