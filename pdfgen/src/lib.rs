@@ -108,6 +108,8 @@ pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentRe
                             /*scaling x:*/ Some(8.0*0.15), /*scaling y:*/ Some(8.0*0.15)
                            );
 
+        // sort by nickname
+        couvert.receivers.sort_by_key(|r:&Receiver| r.nickname);
         // draw names
         draw_names(&current_layer, &font_calibri, names_font_size, (names_offset_x, names_offset_y),
         couvert.receivers.iter().map(|r:&Receiver| (&r.nickname as &str, &r.group as &str))
