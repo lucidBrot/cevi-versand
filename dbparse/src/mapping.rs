@@ -3,6 +3,8 @@ use super::ReasonableGroup;
 use serde::{Serialize, Deserialize};
 use super::{Verbosity, VERBOSITY};
 
+const VERBOSE: bool = false;
+
 /// turns a given yaml String into a GroupMapping
 pub fn create_map_from_yaml(yaml_str: &str) -> Result<GroupMapping, serde_yaml::Error> {
     let map_opt : Result<GroupMapping, serde_yaml::Error> = serde_yaml::from_str(yaml_str);
@@ -80,7 +82,9 @@ impl GroupMapping {
         // Abteilung could also be found generically by searching for a group with group_type
         // Ortsgruppe and taking its name
         let result = String::from(name.clone().trim_end_matches(F).trim_end_matches(M).trim_end_matches(ABTEILUNG).trim());
-        println!("autocorrect: {}  =>  {}", name, result);
+        if VERBOSE {
+            println!("autocorrect: {}  =>  {}", name, result);
+        }
         return result;
     }
 }
