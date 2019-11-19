@@ -16,11 +16,11 @@ pub fn main() {
     let mut dataset: dbparse::ReasonableDataset = ret_db.dataset;
 
     println!("combine: merging households");
-    let couvert_infos: Vec<pdfgen::CouvertInfo> = merge_households(&mut dataset.people, &mapping);
+    let mut couvert_infos: Vec<pdfgen::CouvertInfo> = merge_households(&mut dataset.people, &mapping);
 
     println!("combine: creating pdf");
     let filename = "output_versand.pdf";
-    let doc_generated = pdfgen::generate_couverts(couvert_infos);
+    let doc_generated = pdfgen::generate_couverts(&mut couvert_infos);
     let mut outfile =
         std::io::BufWriter::new(std::fs::File::create(filename).expect("Failed to create file..."));
     doc_generated

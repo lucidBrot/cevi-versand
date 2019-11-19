@@ -42,12 +42,12 @@ pub fn main() {
 
 
     let address = vec!["Familie Mink", "Neuwiesenstr. 2", "8332 Russikon"];
-    let couverts : Vec<CouvertInfo> = vec![CouvertInfo {
+    let mut couverts : Vec<CouvertInfo> = vec![CouvertInfo {
         receivers: receivers,
         address: vec_str_to_vec_string(&address),
     }];
 
-    let doc_generated : printpdf::PdfDocumentReference = generate_couverts(couverts);
+    let doc_generated : printpdf::PdfDocumentReference = generate_couverts(&mut couverts);
     let mut buf = std::io::BufWriter::new(std::fs::File::create(filename).expect("What?"));
     doc_generated.save( &mut buf ).expect("The Fuck?");
 }
@@ -65,7 +65,7 @@ pub fn vec_str_to_vec_string(v: &Vec<&str>) -> Vec<String> {
     return vec;
 }
 
-pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentReference {
+pub fn generate_couverts(couverts : &mut Vec<CouvertInfo>) -> printpdf::PdfDocumentReference {
     use printpdf::*;
 
     // document config
@@ -91,7 +91,7 @@ pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentRe
     let mut font_reader_light = std::io::Cursor::new(CALIBRI_LIGHT_FONT.as_ref());
     let font_calibri_light = doc.add_external_font(&mut font_reader_light).expect("Failed to load font");
 
-    for (num, couvert) in couverts.iter().enumerate() {
+    for (num, couvert) in couverts.iter_mut().enumerate() {
         // add new page
         println!("Generating page {}", num);
         let (next_page, layer1) = doc.add_page(page_width, page_height, format!("Page {}, Layer 1", num));
@@ -109,7 +109,7 @@ pub fn generate_couverts(couverts : Vec<CouvertInfo>) -> printpdf::PdfDocumentRe
                            );
 
         // sort by nickname
-        couvert.receivers.sort_by_key(|r:&Receiver| r.nickname);
+        couvert.receivers.sort_by(|ra:&Receiver, rb:&Receiver| ra.nickname.cmp(&rb.nickname));
         // draw names
         draw_names(&current_layer, &font_calibri, names_font_size, (names_offset_x, names_offset_y),
         couvert.receivers.iter().map(|r:&Receiver| (&r.nickname as &str, &r.group as &str))
