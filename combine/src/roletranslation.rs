@@ -26,7 +26,7 @@ pub fn role_to_role(dbrole: &dbparse::Role) -> pdfgen::Role {
         "Freie/-r Mitarbeiter/-in" => pdfgen::Role::Nothing,
         "Hausverantwortliche/-r" => pdfgen::Role::Hausverantwortlicher,
         "Administrator/-in Cevi DB" => pdfgen::Role::Admin,
-        "Externe/-r" => pdfgen::Role::Nothing,
+        "Externe/-r" => pdfgen::Role::Nothing, // TODO: how to recognize ehemalige?
         "Lädeliverantwortliche/-r" => pdfgen::Role::Laedeli,
         "Mitglied" => pdfgen::Role::Nothing,
         "Stufenleiter/-in" => pdfgen::Role::Leiter,

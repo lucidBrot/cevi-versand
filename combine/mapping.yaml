@@ -1,86 +1,86 @@
 ---
 map:
-  "1339":
-    original_name: Pamoja (F)
-    display_name: Pamoja
-  "79":
-    original_name: Cevi Plus Team
-    display_name: Cevi Plus Team
-  "1341":
-    original_name: Senshi (M)
-    display_name: Senshi
-  "115":
-    original_name: Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: Pfäffikon-Fehraltorf-Hittnau-Russikon
-  "1337":
-    original_name: Juntos (F)
-    display_name: Juntos
-  "571":
-    original_name: M-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: M-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
-  "78":
-    original_name: PSA Gruppe
-    display_name: PSA Gruppe
-  "1330":
-    original_name: Freie Mitarbeiter
-    display_name: Freie Mitarbeiter
-  "2418":
-    original_name: J+S-Coaches
-    display_name: J+S-Coaches
-  "1453":
-    original_name: Y-Card Nummer
-    display_name: Y-Card Nummer
-  "1332":
-    original_name: Indigo (F)
-    display_name: Indigo
-  "1336":
-    original_name: Kaleidon (F)
-    display_name: Kaleidon
-  "1334":
-    original_name: Holon (M)
-    display_name: Holon
-  "1335":
-    original_name: Koranu (M)
-    display_name: Koranu
-  "589":
-    original_name: Ten Sing Pfäffikersee
-    display_name: Ten Sing Pfäffikersee
-  "297":
-    original_name: Fröschli Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: Fröschli Pfäffikon-Fehraltorf-Hittnau-Russikon
   "1724":
     original_name: Gebetsbrunch
     display_name: Gebetsbrunch
-  "1787":
-    original_name: Leiter ehemalig
-    display_name: Leiter ehemalig
-  "81":
-    original_name: C-Gruppe
-    display_name: C-Gruppe
-  "1329":
-    original_name: Vorstand Cevi Pfäffikon
-    display_name: Vorstand Cevi Pfäffikon
   "1331":
     original_name: Ehemalige
     display_name: Ehemalige
-  "570":
-    original_name: F-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: F-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
-  "149":
-    original_name: Verein Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: Verein Pfäffikon-Fehraltorf-Hittnau-Russikon
-  "1342":
-    original_name: Aktive
-    display_name: Aktive
+  "1337":
+    original_name: Juntos (F)
+    display_name: Juntos
+  "2418":
+    original_name: J+S-Coaches
+    display_name: J+S-Coaches
+  "571":
+    original_name: M-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: M-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
   "1725":
     original_name: C-Newsletter
     display_name: C-Newsletter
-  "116":
-    original_name: JS Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+  "1329":
+    original_name: Vorstand Cevi Pfäffikon
+    display_name: Vorstand Cevi Pfäffikon
+  "81":
+    original_name: C-Gruppe
+    display_name: C-Gruppe
+  "149":
+    original_name: Verein Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: Verein Pfäffikon-Fehraltorf-Hittnau-Russikon
+  "1332":
+    original_name: Indigo (F)
+    display_name: Indigo
   "1861":
     original_name: Z_Import Optigem
     display_name: Z_Import Optigem
+  "78":
+    original_name: PSA Gruppe
+    display_name: PSA Gruppe
+  "1787":
+    original_name: Leiter ehemalig
+    display_name: Leiter ehemalig
+  "1341":
+    original_name: Senshi (M)
+    display_name: Senshi
+  "1334":
+    original_name: Holon (M)
+    display_name: Holon
+  "589":
+    original_name: Ten Sing Pfäffikersee
+    display_name: Ten Sing Pfäffikersee
+  "1330":
+    original_name: Freie Mitarbeiter
+    display_name: Freie Mitarbeiter
+  "1336":
+    original_name: Kaleidon (F)
+    display_name: Kaleidon
+  "570":
+    original_name: F-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: F-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+  "1339":
+    original_name: Pamoja (F)
+    display_name: Pamoja
+  "1453":
+    original_name: Y-Card Nummer
+    display_name: Y-Card Nummer
+  "116":
+    original_name: JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+  "1335":
+    original_name: Koranu (M)
+    display_name: Koranu
+  "79":
+    original_name: Cevi Plus Team
+    display_name: Cevi Plus Team
+  "297":
+    original_name: Fröschli Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: Fröschli Pfäffikon-Fehraltorf-Hittnau-Russikon
+  "115":
+    original_name: Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: Pfäffikon-Fehraltorf-Hittnau-Russikon
+  "1342":
+    original_name: Aktive
+    display_name: Aktive
   "1340":
     original_name: Skapande (M)
     display_name: Skapande

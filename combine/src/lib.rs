@@ -219,6 +219,32 @@ impl Prioritized for pdfgen::Role {
     }
 }
 
+impl Prioritized for dbparse::ReasonableGroup {
+    /// Higher priority for more specific groups
+    fn priority(&self) -> Priority {
+        match self.inner_group.group_type.as_str() {
+            "Dachverband" => Priority(10),
+            "Mitgliederorganisation" => Priority(30),
+            "Sektion" => Priority(40),
+            "Verein" => Priority(45),
+            "Jungschar" => Priority(49),
+            "Gruppe" => Priority(50), // M oder F
+            "Ortsgruppe" => Priority(60), // Pfä-Feh-Hi-Rus
+            "Stufe" => Priority(70),
+            "Mitglieder" => Priority(71),
+            //--- end useless stuff ---
+            "Externe" => Priority(80), // e.g. "Gebetsgruppe", "C-Newsletter", "Leiter ehemalig", "Ehemalige"
+            "Ten-Sing" => Priority(80),
+            "Gremium" => Priority(85), // e.g. "C-Gruppe", "Cevi Plus Team"
+            "Vorstand" => Priority(90), // if somebody is in a group and in vorstand, we want the group
+            "Untergruppe" => Priority(100), // We want always this. It's e.g. Holon.
+            "Fröschli" => Priority(100), // Whyever this exists
+            // if something is not in this list, we don't want it in almost all cases
+            _ => Priority(0),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
 
