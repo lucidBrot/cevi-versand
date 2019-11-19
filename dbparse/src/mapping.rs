@@ -76,17 +76,18 @@ impl GroupMapping {
         // remove (F)  and (M)
         const F : &str = " (F)";
         const M : &str = " (M)";
-        const ABTEILUNG: &str = "Pfäffikon‐Fehraltorf‐Hittnau‐Russikon";
+        const ABTEILUNG: &str = "Pfäffikon-Fehraltorf-Hittnau-Russikon";
         // Abteilung could also be found generically by searching for a group with group_type
         // Ortsgruppe and taking its name
-        String::from(name.clone().trim_end_matches(F).trim_end_matches(M).trim_end_matches(ABTEILUNG).trim())
+        let result = String::from(name.clone().trim_end_matches(F).trim_end_matches(M).trim().trim_end_matches(ABTEILUNG).trim());
+        println!("autocorrect: {}", result);
+        return result;
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::StringHashMap;
-    use super::{GroupMapping, GroupMappingStruct};
+    use super::super::StringHashMap;
 
     #[test]
     fn test_map_one_element(){
@@ -95,5 +96,20 @@ mod tests {
         let s2 = String::from("there");
         m.insertt(s1, s2);
         assert_eq!("there", m.get("hello").expect("Should be something"));
+    }
+
+    #[test]
+    fn test_autocorrect_pfa(){
+        let inp = "Fröschli Pfäffikon-Fehraltorf-Hittnau-Russikon";
+        let out = super::GroupMapping::autocorrect_group_name(inp);
+        assert_eq!(out, "Fröschli");
+    }
+
+    #[test]
+    fn test_autocorrect_m(){
+        let inp = "Holon (M)";
+        let out = super::GroupMapping::autocorrect_group_name(inp);
+        assert_eq!(out, "Holon");
+
     }
 }

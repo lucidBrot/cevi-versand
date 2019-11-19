@@ -175,6 +175,12 @@ fn into_receiver(
     let pdfgen_roles = person.roles.iter().map(|x| roletranslation::role_to_role(x));
     let best_pdfgen_role: pdfgen::Role = pdfgen_roles.max_by_key(|x| x.priority()).unwrap_or(pdfgen::Role::Nothing);
 
+    let best_group_perhaps: Option<&dbparse::ReasonableGroup> = person.groups.iter().max_by_key(|x| x.priority());
+    let display_name = match best_group_perhaps {
+        Some(group) => group_mapping.get_display_name(&group.inner_group.id).expect("Group id does not exist. Something is messed up."),
+        None => String::from(""),
+    };
+
     // if nickname is empty, use first name
     let name = match person.nickname.trim().is_empty() {
         true => person.first_name.clone(),
@@ -183,17 +189,7 @@ fn into_receiver(
 
     pdfgen::Receiver {
         nickname: name,
-        group: group_mapping
-            .get_display_name(
-                &person
-                    .groups
-                    .iter()
-                    .nth(0)
-                    .expect(&*format!("Person has no group: {:?}", person))
-                    .inner_group
-                    .id,
-            )
-            .expect("Group id does not exist"), // TODO: get best group
+        group: display_name,
         role: best_pdfgen_role, 
     }
 }
