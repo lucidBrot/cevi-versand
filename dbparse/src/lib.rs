@@ -398,13 +398,13 @@ impl PeopleRequest {
         print!("---\n");
         for p in self.people.iter() {
             let mut reasonable_person = ReasonablePerson {
-                first_name: p.first_name.clone(),
-                last_name: p.last_name.clone(),
-                nickname: p.nickname.clone(),
-                address: p.address.clone(),
-                zip_code: p.zip_code.clone(),
-                town: p.town.clone(),
-                name_parents: p.name_parents.clone(),
+                first_name: p.first_name.trim().to_string(),
+                last_name: p.last_name.trim().to_string(),
+                nickname: p.nickname.trim().to_string(),
+                address: p.address.trim().to_string(),
+                zip_code: p.zip_code.trim().to_string(),
+                town: p.town.trim().to_string(),
+                name_parents: p.name_parents.trim().to_string(),
                 roles: HashSet::<Role>::new(),
                 groups: HashSet::<ReasonableGroup>::new(),
             };
