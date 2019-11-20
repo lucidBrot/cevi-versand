@@ -889,6 +889,7 @@ dependencies = [
 name = "pdfgen"
 version = "0.1.0"
 dependencies = [
+ "chrono 0.4.9 (registry+https://github.com/rust-lang/crates.io-index)",
  "printpdf 0.2.12 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 

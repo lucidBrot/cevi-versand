@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::env;
+use chrono;
 
 const CALIBRI_FONT: &'static [u8] = include_bytes!("../res/fonts/calibri.ttf");
 const CALIBRI_LIGHT_FONT: &'static [u8] = include_bytes!("../res/fonts/calibriL.ttf");
@@ -73,6 +74,7 @@ pub fn generate_couverts(couverts : &mut Vec<CouvertInfo>) -> printpdf::PdfDocum
     // document config
     let document_title = "Versand";
     let address_font_size = 18;
+    let debug_font_size = 18;
     let names_font_size = 11;
     let badge_text_font_size = 11;
     let page_width = Mm(229.0);
@@ -82,9 +84,11 @@ pub fn generate_couverts(couverts : &mut Vec<CouvertInfo>) -> printpdf::PdfDocum
     let border_wh = Mm(12.0);
     let names_offset_x = border_wh + Mm(20.0);
     let names_offset_y = page_height - Mm(18.0);
+    let debug_offset_x = border_wh + Mm(20.0);
+    let debug_offset_y = page_height - Mm(18.0);
 
     // create the document
-    let (doc, _page1, _layer1) : (PdfDocumentReference, indices::PdfPageIndex, indices::PdfLayerIndex) = PdfDocument::new(document_title, page_width, page_height, /*initial_layer_name*/"Layer 1");
+    let (doc, info_page , info_layer) : (PdfDocumentReference, indices::PdfPageIndex, indices::PdfLayerIndex) = PdfDocument::new(document_title, page_width, page_height, /*initial_layer_name*/"Layer 1");
 
     // load a font
     let mut font_reader = std::io::Cursor::new(CALIBRI_FONT.as_ref());
@@ -92,6 +96,15 @@ pub fn generate_couverts(couverts : &mut Vec<CouvertInfo>) -> printpdf::PdfDocum
     // load a second font
     let mut font_reader_light = std::io::Cursor::new(CALIBRI_LIGHT_FONT.as_ref());
     let font_calibri_light = doc.add_external_font(&mut font_reader_light).expect("Failed to load font");
+
+    // write debug info to page
+    let curr_time = format!("Local Time: {}", chrono::offset::Local::now());
+    let curr_info_page_layer = doc.get_page(info_page).get_layer(info_layer);
+    curr_info_page_layer.use_text(
+        curr_time,
+        debug_font_size,
+        debug_offset_x, debug_offset_y,
+        &font_calibri);
 
     for (num, couvert) in couverts.iter_mut().enumerate() {
         // add new page
@@ -112,8 +125,6 @@ pub fn generate_couverts(couverts : &mut Vec<CouvertInfo>) -> printpdf::PdfDocum
                             /*scaling x:*/ Some(8.0*0.15), /*scaling y:*/ Some(8.0*0.15)
                            );
 
-        // sort by nickname
-        couvert.receivers.sort_by(|ra:&Receiver, rb:&Receiver| ra.nickname.cmp(&rb.nickname));
         // draw names
         draw_names(&current_layer, &font_calibri, names_font_size, (names_offset_x, names_offset_y),
         couvert.receivers.iter().map(|r:&Receiver| (&r.nickname as &str, &r.group as &str))
