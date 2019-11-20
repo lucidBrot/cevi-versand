@@ -345,7 +345,7 @@ fn sample_graphical_page(){
     doc.save(&mut BufWriter::new(File::create("test_graphic.pdf").unwrap())).unwrap();
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Eq, PartialEq, PartialOrd, Ord)]
 pub struct Receiver {
     pub nickname: String,
     pub group: String,
@@ -353,7 +353,7 @@ pub struct Receiver {
 }
 
 /// Used for the sidebadges
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum Role {
     Leiter,
     Teilnehmer,

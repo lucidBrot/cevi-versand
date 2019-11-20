@@ -17,6 +17,8 @@ pub fn main() {
 
     println!("combine: merging households");
     let mut couvert_infos: Vec<pdfgen::CouvertInfo> = merge_households(&mut dataset.people, &mapping);
+    couvert_infos.sort_by(|a:&pdfgen::CouvertInfo, b:&pdfgen::CouvertInfo|
+        a.receivers[0].group.cmp(&b.receivers[0].group));
 
     println!("combine: creating pdf");
     let filename = "output_versand.pdf";
