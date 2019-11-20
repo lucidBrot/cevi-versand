@@ -39,15 +39,15 @@ fn merge_households<'b>(
     // normalize entries in each person so that we can sort
     for person in people.iter_mut() {
         /* Person
-        first_name: String
-        last_name: String
-        nickname: String
-        address: String
-        zip_code: String
-        town: String
-        name_parents: String
-        roles: HashSet<Role>
-        groups: HashSet<ReasonableGroup>*/
+           first_name: String
+           last_name: String
+           nickname: String
+           address: String
+           zip_code: String
+           town: String
+           name_parents: String
+           roles: HashSet<Role>
+           groups: HashSet<ReasonableGroup>*/
 
         person.address = normalize_address(&person.address);
         warn_if_address_incomplete(&person);
@@ -93,6 +93,12 @@ fn merge_households<'b>(
 
             previous_family_address = addr_family.clone();
         }
+    }
+
+
+    // sort by nickname within household
+    for couvert in couvert_infos.iter_mut() {
+        couvert.receivers.sort_by(|ra:&pdfgen::Receiver, rb:&pdfgen::Receiver| ra.nickname.cmp(&rb.nickname));
     }
 
     return couvert_infos;
