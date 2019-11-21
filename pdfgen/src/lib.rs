@@ -260,6 +260,7 @@ fn draw_sidebadge (current_layer: &printpdf::PdfLayerReference,
 
     // draw
     let fill_color_black = printpdf::Color::Cmyk(printpdf::Cmyk::new(0.0, 0.0, 0.0, 1.0, None));
+    //let fill_color_blue = printpdf::Color::Cmyk(printpdf::Cmyk::new(0.0, 0.23, 0.56, 1.0, None));
     current_layer.set_fill_color(fill_color_black);
     current_layer.add_shape(line1);
 
