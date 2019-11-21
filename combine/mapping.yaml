@@ -1,86 +1,86 @@
 ---
 map:
-  "115":
-    original_name: Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: Pfäffikon-Fehraltorf-Hittnau-Russikon
-  "1725":
-    original_name: C-Newsletter
-    display_name: C-Newsletter
-  "1330":
-    original_name: Freie Mitarbeiter
-    display_name: Freie Mitarbeiter
-  "1342":
-    original_name: Aktive
-    display_name: Aktive
-  "1787":
-    original_name: Leiter ehemalig
-    display_name: Leiter ehemalig
-  "1340":
-    original_name: Skapande (M)
-    display_name: Skapande
-  "81":
-    original_name: C-Gruppe
-    display_name: C-Gruppe
-  "571":
-    original_name: M-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: M-JS
-  "1861":
-    original_name: Z_Import Optigem
-    display_name: Z_Import Optigem
+  "589":
+    original_name: Ten Sing Pfäffikersee
+    display_name: Ten Sing Pfäffikersee
+  "1331":
+    original_name: Ehemalige
+    display_name: Ehemalige
   "1453":
     original_name: Y-Card Nummer
     display_name: Y-Card Nummer
-  "1335":
-    original_name: Koranu (M)
-    display_name: Koranu
-  "2418":
-    original_name: J+S-Coaches
-    display_name: J+S-Coaches
-  "1339":
-    original_name: Pamoja (F)
-    display_name: Pamoja
+  "1340":
+    original_name: Skapande (M)
+    display_name: Skapande
+  "1332":
+    original_name: Indigo (F)
+    display_name: Indigo
+  "1336":
+    original_name: Kaleidon (F)
+    display_name: Kaleidon
+  "1342":
+    original_name: Aktive
+    display_name: Aktive
+  "1341":
+    original_name: Senshi (M)
+    display_name: Senshi
   "1337":
     original_name: Juntos (F)
     display_name: Juntos
-  "78":
-    original_name: PSA Gruppe
-    display_name: PSA Gruppe
-  "1329":
-    original_name: Vorstand Cevi Pfäffikon
-    display_name: Vorstand Cevi Pfäffikon
-  "116":
-    original_name: JS Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: JS
-  "149":
-    original_name: Verein Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: Verein
+  "1725":
+    original_name: C-Newsletter
+    display_name: C-Newsletter
+  "571":
+    original_name: M-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: M-JS
+  "79":
+    original_name: Cevi Plus Team
+    display_name: Cevi Plus Team
+  "570":
+    original_name: F-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: F-JS
   "297":
     original_name: Fröschli Pfäffikon-Fehraltorf-Hittnau-Russikon
     display_name: Fröschli
   "1724":
     original_name: Gebetsbrunch
     display_name: Gebetsbrunch
-  "589":
-    original_name: Ten Sing Pfäffikersee
-    display_name: Ten Sing Pfäffikersee
-  "1341":
-    original_name: Senshi (M)
-    display_name: Senshi
+  "1339":
+    original_name: Pamoja (F)
+    display_name: Pamoja
+  "78":
+    original_name: PSA Gruppe
+    display_name: PSA Gruppe
+  "116":
+    original_name: JS Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: JS
+  "1330":
+    original_name: Freie Mitarbeiter
+    display_name: Freie Mitarbeiter
+  "81":
+    original_name: C-Gruppe
+    display_name: C-Gruppe
+  "1787":
+    original_name: Leiter ehemalig
+    display_name: Leiter ehemalig
+  "1335":
+    original_name: Koranu (M)
+    display_name: Koranu
+  "115":
+    original_name: Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: Pfäffikon-Fehraltorf-Hittnau-Russikon
   "1334":
     original_name: Holon (M)
     display_name: Holon
-  "1331":
-    original_name: Ehemalige
-    display_name: Ehemalige
-  "1336":
-    original_name: Kaleidon (F)
-    display_name: Kaleidon
-  "79":
-    original_name: Cevi Plus Team
-    display_name: Cevi Plus Team
-  "1332":
-    original_name: Indigo (F)
-    display_name: Indigo
-  "570":
-    original_name: F-JS Pfäffikon-Fehraltorf-Hittnau-Russikon
-    display_name: F-JS
+  "2418":
+    original_name: J+S-Coaches
+    display_name: J+S-Coaches
+  "149":
+    original_name: Verein Pfäffikon-Fehraltorf-Hittnau-Russikon
+    display_name: Verein
+  "1861":
+    original_name: Z_Import Optigem
+    display_name: Z_Import Optigem
+  "1329":
+    original_name: Vorstand Cevi Pfäffikon
+    display_name: Vorstand Cevi Pfäffikon

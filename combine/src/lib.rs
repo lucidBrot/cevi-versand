@@ -13,7 +13,7 @@ pub fn main() {
     }
     let ret_db: dbparse::MainReturns = database_returns.unwrap();
     let mapping: dbparse::mapping::GroupMapping = ret_db.group_mapping;
-    let mut dataset: dbparse::ReasonableDataset = ret_db.dataset;
+    let mut dataset: dbparse::ReasonableDataset = ret_db.dataset; 
 
     println!("combine: merging households");
     let mut couvert_infos: Vec<pdfgen::CouvertInfo> = merge_households(&mut dataset.people, &mapping);
@@ -181,7 +181,7 @@ fn into_receiver(
 ) -> pdfgen::Receiver {
 
     let pdfgen_roles = person.roles.iter().map(|x| roletranslation::role_to_role(x));
-    let best_pdfgen_role: pdfgen::Role = pdfgen_roles.max_by_key(|x| x.priority()).unwrap_or(pdfgen::Role::Nothing);
+    let mut best_pdfgen_role: pdfgen::Role = pdfgen_roles.max_by_key(|x| x.priority()).unwrap_or(pdfgen::Role::Nothing);
 
     let best_group_perhaps: Option<&dbparse::ReasonableGroup> = person.groups.iter().max_by_key(|x| x.priority());
     let display_name = match best_group_perhaps {
@@ -194,6 +194,11 @@ fn into_receiver(
         true => person.first_name.clone(),
         false => person.nickname.clone(),
     };
+    
+    // replace Role::Nothing with the name of the person
+    if let pdfgen::Role::Nothing = best_pdfgen_role {
+        best_pdfgen_role = pdfgen::Role::Custom(name.clone());
+    }
 
     pdfgen::Receiver {
         nickname: name,
