@@ -152,8 +152,8 @@ pub fn generate_couverts(couverts : &mut Vec<CouvertInfo>) -> printpdf::PdfDocum
         // numbers in sidebadge
         let rolecount_dict : HashMap<Role, usize> = couvert.receivers.iter().fold(
             /*init:*/ HashMap::new(),
-            /*f(map, item):*/ |mut map, &Receiver{role:item,..}| {
-                map.insert(item, 1 + map.get(&item).unwrap_or(&0));
+            /*f(map, item):*/ |mut map, Receiver{role:item,..}| {
+                map.insert(item.clone(), 1 + map.get(&item).unwrap_or(&0));
                 return map;
             }
             );
@@ -364,7 +364,7 @@ pub struct Receiver {
 }
 
 /// Used for the sidebadges
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum Role {
     Leiter,
     Teilnehmer,
@@ -378,11 +378,12 @@ pub enum Role {
     Laedeli,
     Aktuar,
     Matchef,
+    Custom(String),
 }
 
 impl Role {
     fn value(&self) -> String {
-        String::from(match *self {
+        String::from(match self {
             Role::Leiter =>  "Leiter",
             Role::Teilnehmer => "Teilnehmer",
             Role::Traegerkreis => "Trägerkreis",
@@ -395,6 +396,7 @@ impl Role {
             Role::Laedeli => "Lädeli",
             Role::Aktuar => "Aktuar",
             Role::Matchef => "Matchef",
+            Role::Custom(x) => &*x,
         })
     }
 
