@@ -3,9 +3,8 @@ use pdfgen;
 use regex;
 mod roletranslation;
 
-// TODO: warn about adresses where the address is incomplete
-
 pub fn main() {
+    use ui::UserInteractor;
     let user_interface = ui::CliUi{};
 
     println!("combine: loading data from database");
@@ -16,9 +15,10 @@ pub fn main() {
     let ret_db: dbparse::MainReturns = database_returns.unwrap();
     let mapping: dbparse::mapping::GroupMapping = ret_db.group_mapping;
     let mut dataset: dbparse::ReasonableDataset = ret_db.dataset; 
+    user_interface.on_parsing_finished();
 
     println!("combine: merging households");
-    let mut couvert_infos: Vec<pdfgen::CouvertInfo> = merge_households(&mut dataset.people, &mapping);
+    let mut couvert_infos: Vec<pdfgen::CouvertInfo> = merge_households(&mut dataset.people, &mapping, &user_interface);
     couvert_infos.sort_by(|a:&pdfgen::CouvertInfo, b:&pdfgen::CouvertInfo|
         a.receivers[0].group.cmp(&b.receivers[0].group));
 
@@ -35,6 +35,7 @@ pub fn main() {
 fn merge_households<'b>(
     people: &'b mut Vec<dbparse::ReasonablePerson>,
     mapping: &dbparse::mapping::GroupMapping,
+    user_interface: &dyn ui::UserInteractor
 ) -> Vec<pdfgen::CouvertInfo> {
     assert!(people.len() > 0);
 
@@ -52,7 +53,7 @@ fn merge_households<'b>(
            groups: HashSet<ReasonableGroup>*/
 
         person.address = normalize_address(&person.address);
-        warn_if_address_incomplete(&person);
+        warn_if_address_incomplete(&person, user_interface);
         person.town = normalize_town(&person.town);
     }
 
@@ -124,7 +125,8 @@ pub fn normalize_address(address: &String) -> String {
     return String::from(replaced2);
 }
 
-fn warn_if_address_incomplete(person: &dbparse::ReasonablePerson) -> bool{
+fn warn_if_address_incomplete(person: &dbparse::ReasonablePerson,
+                              user_interface: &dyn ui::UserInteractor) -> bool{
 
     let issue: bool = person.first_name.is_empty() || 
                         person.last_name.is_empty() ||
@@ -133,7 +135,7 @@ fn warn_if_address_incomplete(person: &dbparse::ReasonablePerson) -> bool{
                         person.town.is_empty();
 
     if issue {
-        println!("combine: WARN: Bad Address:\n{:?}\n\n", person);
+        user_interface.report_bad_address(person);
     }
 
     return issue;

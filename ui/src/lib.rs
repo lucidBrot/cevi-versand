@@ -12,7 +12,7 @@ mod tests {
 pub trait UserInteractor {
     fn on_download_finished(&self){}
     fn on_parsing_finished(&self){}
-    fn report_bad_addresses(&self, broken_people: Vec<dbparse::ReasonablePerson>){}
+    fn report_bad_address(&self, broken_person: &dbparse::ReasonablePerson){}
     fn on_pdf_generation_finished(&self){}
 }
 
@@ -28,9 +28,9 @@ impl UserInteractor for CliUi {
         println!("UI: Parsing Finished.");
     }
 
-    fn report_bad_addresses(&self, broken_people: Vec<dbparse::ReasonablePerson>) {
-        println!("UI: Found {} people with broken addresses.
-                 \n{:?}", broken_people.len(), broken_people);
+    fn report_bad_address(&self, broken_person: &dbparse::ReasonablePerson) {
+        println!("UI: Broken Address Found:
+                 {:?}", broken_person);
     }
 
     fn on_pdf_generation_finished(&self) {
