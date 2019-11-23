@@ -6,6 +6,8 @@ mod roletranslation;
 // TODO: warn about adresses where the address is incomplete
 
 pub fn main() {
+    let user_interface = ui::CliUi{};
+
     println!("combine: loading data from database");
     let database_returns: Result<dbparse::MainReturns, Box<dyn std::error::Error>> = dbparse::run();
     if database_returns.is_err() {
@@ -22,7 +24,7 @@ pub fn main() {
 
     println!("combine: creating pdf");
     let filename = "output_versand.pdf";
-    let doc_generated = pdfgen::generate_couverts(&mut couvert_infos);
+    let doc_generated = pdfgen::generate_couverts(&mut couvert_infos, Some(user_interface));
     let mut outfile =
         std::io::BufWriter::new(std::fs::File::create(filename).expect("Failed to create file..."));
     doc_generated

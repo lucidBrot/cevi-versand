@@ -45,7 +45,8 @@ pub fn main() {
         address: vec_str_to_vec_string(&address),
     }];
 
-    let doc_generated : printpdf::PdfDocumentReference = generate_couverts(&mut couverts, None);
+    let nothing : Option<ui::CliUi> = None;
+    let doc_generated : printpdf::PdfDocumentReference = generate_couverts(&mut couverts, nothing);
     let mut buf = std::io::BufWriter::new(std::fs::File::create(filename).expect("What?"));
     doc_generated.save( &mut buf ).expect("The Fuck?");
 }
