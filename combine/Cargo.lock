@@ -891,6 +891,7 @@ version = "0.1.0"
 dependencies = [
  "chrono 0.4.9 (registry+https://github.com/rust-lang/crates.io-index)",
  "printpdf 0.2.12 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ui 0.1.0",
 ]
 
 [[package]]
@@ -1589,6 +1590,13 @@ version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "cfg-if 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "ui"
+version = "0.1.0"
+dependencies = [
+ "dbparse 0.1.0",
 ]
 
 [[package]]

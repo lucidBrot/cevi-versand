@@ -45,7 +45,7 @@ pub fn main() {
         address: vec_str_to_vec_string(&address),
     }];
 
-    let doc_generated : printpdf::PdfDocumentReference = generate_couverts(&mut couverts);
+    let doc_generated : printpdf::PdfDocumentReference = generate_couverts(&mut couverts, None);
     let mut buf = std::io::BufWriter::new(std::fs::File::create(filename).expect("What?"));
     doc_generated.save( &mut buf ).expect("The Fuck?");
 }
@@ -63,7 +63,9 @@ pub fn vec_str_to_vec_string(v: &Vec<&str>) -> Vec<String> {
     return vec;
 }
 
-pub fn generate_couverts(couverts : &mut Vec<CouvertInfo>) -> printpdf::PdfDocumentReference {
+pub fn generate_couverts(couverts : &mut Vec<CouvertInfo>,
+                         user_interface: Option<impl ui::UserInteractor>)
+        -> printpdf::PdfDocumentReference {
     use printpdf::*;
 
     // document config
@@ -173,6 +175,10 @@ pub fn generate_couverts(couverts : &mut Vec<CouvertInfo>) -> printpdf::PdfDocum
                         (border_wh, border_wh), badge_spacing_y,
                         rolecount_dict);
 
+    }
+
+    if let Some(ui) = user_interface {
+        ui.on_pdf_generation_finished();
     }
 
     return doc;

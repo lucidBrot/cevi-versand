@@ -9,6 +9,7 @@ edition = "2018"
 [dependencies]
 printpdf = { version = "0.2.8", features = ["embedded_images"]}
 chrono = "0.4"
+ui = {path = "../ui" }
 
 [dev-dependencies]
 criterion = "0.2"
