@@ -8,11 +8,6 @@ const LOGO_BMP_BYTES: &'static [u8] = include_bytes!("../res/images/logo.bmp");
 
 const VERYBOSE: bool = false;
 
-// TODO: kein fähnchen für "Nothing"
-// TODO: Fähnchen für coach und so?
-// TODO: prioritisieren von rollen
-
-
 pub fn main() {
     println!("Hello, world from {}!", file!());
 
@@ -105,6 +100,20 @@ pub fn generate_couverts(couverts : &mut Vec<CouvertInfo>) -> printpdf::PdfDocum
         debug_font_size,
         debug_offset_x, debug_offset_y,
         &font_calibri);
+    let sorting_text = format!("Sortierung der (cevi-)Namen im selben Couvert alphabetisch.");
+    let sorting_text_2 = format!("Sortierung der Couverts nach der Gruppe der ersten Person im Couvert.");
+    curr_info_page_layer.use_text(
+        sorting_text,
+        debug_font_size,
+        debug_offset_x, debug_offset_y - Mm(18.0),
+        &font_calibri
+        );
+    curr_info_page_layer.use_text(
+        sorting_text_2,
+        debug_font_size,
+        debug_offset_x, debug_offset_y - Mm(18.0 + 10.0),
+        &font_calibri
+        );
 
     for (num, couvert) in couverts.iter_mut().enumerate() {
         // add new page
