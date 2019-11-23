@@ -33,4 +33,8 @@ impl UserInteractor for CliUi {
                  \n{:?}", broken_people.len(), broken_people);
     }
 
+    fn on_pdf_generation_finished(&self) {
+        println!("UI: Finished generating pdf");
+    }
+
 }
