@@ -1,11 +1,3 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}
-
 /// related to [issue 5](https://github.com/lucidBrot/cevi-versand/issues/5)  
 ///
 /// An interface that allows internal functions to inform the user about something

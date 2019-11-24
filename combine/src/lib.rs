@@ -18,7 +18,6 @@ pub fn main() {
     let mut dataset: dbparse::ReasonableDataset = ret_db.dataset; 
     user_interface.on_parsing_finished();
 
-    println!("combine: merging households");
     let mut couvert_infos: Vec<pdfgen::CouvertInfo> = merge_households(&mut dataset.people, &mapping, &user_interface);
     couvert_infos.sort_by(|a:&pdfgen::CouvertInfo, b:&pdfgen::CouvertInfo|
         a.receivers[0].group.cmp(&b.receivers[0].group));
