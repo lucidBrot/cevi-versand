@@ -6,9 +6,10 @@ mod roletranslation;
 pub fn main() {
     use ui::UserInteractor;
     let user_interface = ui::CliUi{};
+    let dbparse_interactor = DbparseRedirector { user_interface : Some(&user_interface) };
 
     println!("combine: loading data from database");
-    let database_returns: Result<dbparse::MainReturns, Box<dyn std::error::Error>> = dbparse::run(&user_interface);
+    let database_returns: Result<dbparse::MainReturns, Box<dyn std::error::Error>> = dbparse::run(&dbparse_interactor);
     if database_returns.is_err() {
         std::process::exit(1);
     }
@@ -254,6 +255,19 @@ impl Prioritized for dbparse::ReasonableGroup {
             "Fröschli" => Priority(100), // Whyever this exists
             // if something is not in this list, we don't want it in almost all cases
             _ => Priority(0),
+        }
+    }
+}
+
+/// this exists solely to avoid cyclic dependencies from ui to dbparse and back
+struct DbparseRedirector<'a> {
+    user_interface: Option<&'a dyn ui::UserInteractor>
+}
+impl<'a> dbparse::DbparseInteractor for DbparseRedirector<'a> {
+    fn on_download_finished(&self) {
+        match self.user_interface {
+            None => (),
+            Some(addr) => addr.on_download_finished(),
         }
     }
 }

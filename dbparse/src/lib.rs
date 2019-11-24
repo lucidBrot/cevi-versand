@@ -38,7 +38,7 @@ pub struct MainReturns {
     pub dataset: ReasonableDataset,
 }
 
-pub fn run(user_interface: Option<&ui::UserInteractor>) -> Result<MainReturns, Box<dyn Error>> {
+pub fn run(user_interface: &dyn DbparseInteractor) -> Result<MainReturns, Box<dyn Error>> {
     // load database API token
     let config = setup_config();
     let dataset : ReasonableDataset = get_data_for_versand(&config).expect("WTF in main!");
@@ -437,4 +437,8 @@ impl PeopleRequest {
             groups: all_groups,
         }
     }
+}
+
+pub trait DbparseInteractor {
+    fn on_download_finished(&self);
 }
