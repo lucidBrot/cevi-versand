@@ -38,10 +38,11 @@ pub struct MainReturns {
     pub dataset: ReasonableDataset,
 }
 
-pub fn run() -> Result<MainReturns, Box<dyn Error>> {
+pub fn run(user_interface: Option<&ui::UserInteractor>) -> Result<MainReturns, Box<dyn Error>> {
     // load database API token
     let config = setup_config();
     let dataset : ReasonableDataset = get_data_for_versand(&config).expect("WTF in main!");
+    user_interface.on_download_finished();
 
     // load yaml mapping from file if exists
     let yaml_group_mapping : Result<String, std::io::Error> = read_to_string(MAPPING_YAML_FILE);
@@ -386,7 +387,7 @@ pub struct ReasonablePerson {
     pub zip_code: String,
     pub town: String,
     pub name_parents: String,
-    pub roles: HashSet<Role>,// TODO: set of enums instead?
+    pub roles: HashSet<Role>,
     pub groups: HashSet<ReasonableGroup>,
 }
 impl PeopleRequest {

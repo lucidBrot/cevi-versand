@@ -8,7 +8,7 @@ pub fn main() {
     let user_interface = ui::CliUi{};
 
     println!("combine: loading data from database");
-    let database_returns: Result<dbparse::MainReturns, Box<dyn std::error::Error>> = dbparse::run();
+    let database_returns: Result<dbparse::MainReturns, Box<dyn std::error::Error>> = dbparse::run(&user_interface);
     if database_returns.is_err() {
         std::process::exit(1);
     }
