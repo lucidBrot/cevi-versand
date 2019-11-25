@@ -8,3 +8,7 @@ edition = "2018"
 
 [dependencies]
 ui = { path = "../ui" }
+conrod_core = "0.68"
+conrod_example_shared = { path = "./conrod_example_shared" }
+glium = "0.20"
+conrod_glium = ""
