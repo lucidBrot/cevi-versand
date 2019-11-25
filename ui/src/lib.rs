@@ -4,7 +4,7 @@
 pub trait UserInteractor {
     fn on_download_finished(&self){}
     fn on_parsing_finished(&self){}
-    fn report_bad_address(&self, broken_person: &dbparse::ReasonablePerson){}
+    fn report_bad_address(&self, _broken_person: &dbparse::ReasonablePerson){}
     fn on_pdf_generation_finished(&self){}
 }
 
