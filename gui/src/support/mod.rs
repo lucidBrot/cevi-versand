@@ -2,6 +2,9 @@
 
 use std;
 use glium;
+use conrod_winit;
+use conrod_core;
+use conrod_derive;
 
 pub struct GliumDisplayWinitWrapper(pub glium::Display);
 
