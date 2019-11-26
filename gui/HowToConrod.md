@@ -13,6 +13,10 @@ You can grab the files here:
 * [Cargo.toml](./Cargo.toml)
 * [examples/hello.rs](examples/hello.rs)
 
+And then run it with
+
+```cargo run --example hello```
+
 ### Run Their Example
 
 I wrote this sloppily while trying to get this to run. If you would like to see why I'm doing what I'm doing or need reference links, read on!
