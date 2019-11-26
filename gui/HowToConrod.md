@@ -211,7 +211,7 @@ That results in a green window. Closing it with the X does nothing, so kill it a
 > ever - a green block with a white "menu bar" that has nothing in it. Let's add
 > at least something to see.
 
-We add two lines after our `let mut ui = ...`. See further below for the whole file snippet again.
+We add two lines within the render loop. See further below for the whole file snippet again.
 >
 >```ignore
 >widget_ids!(struct Ids { text });
@@ -313,16 +313,6 @@ pub fn main() {
     widget_ids!(struct Ids { text });
     let ids = Ids::new(ui.widget_id_generator());
 
-    let ui = &mut ui.set_widgets();
-
-    // Add some Hello World Text
-    // "Hello World!" in the middle of the screen.
-    widget::Text::new("Hello World!")
-        .middle_of(ui.window)
-        .color(conrod::color::WHITE)
-        .font_size(32)
-        .set(ids.text, ui);
-
     /*
        Conrod can use graphics. It stores these in a map. The system needs the map,
        even though it doesn't contain anything at this time, so create it:
@@ -343,6 +333,16 @@ pub fn main() {
             target.clear_color(0.0, 1.0, 0.0, 1.0);
             renderer.draw(&display, &mut target, &image_map).unwrap();
             target.finish().unwrap();
+        
+        	let ui = &mut ui.set_widgets();
+
+            // Add some Hello World Text
+            // "Hello World!" in the middle of the screen.
+            widget::Text::new("Hello World!")
+                .middle_of(ui.window)
+                .color(conrod::color::WHITE)
+                .font_size(32)
+                .set(ids.text, ui);
         }
     }
 }
@@ -387,4 +387,261 @@ edition = "2018"
 conrod = { version = "0.61", features = ["winit", "glium"] }
 find_folder = "0.3.0"
 ```
+
+Here, I try a fixed path instead, in order to have less magic:
+
+```rust
+// http://kenteiblog.hatenablog.com/entry/adventcalendar2018_14_rust_study
+// Add a `Font` to the `Ui`'s `font::Map` from file.
+        const FONT_PATH: &'static str =
+            concat!(env!("CARGO_MANIFEST_DIR"), "/assets/fonts/ipag.ttf");
+        ui.fonts.insert_from_file(FONT_PATH).unwrap();
+```
+
+And when we run it now, we get this:
+
+![hello world 2](./HowToConrod_hello_world_2.png)
+
+### Adding Events
+
+The X is still not working. Let's fix that. 
+
+> The window is not getting all its furniture because its events are not being
+> handled. At its most simple, events can be handled by fetching them from the
+> `event_loop` and dispatching them accordingly.
+
+Create an empty events Vec before our render loop:
+
+`let mut events = Vec::new();`
+
+Clear it first thing in the render loop. We defined an `event_loop` earlier. Now we're gonna use it within the render loop to get waiting events - or die trying, while busy-waiting:
+
+```rust
+    let mut events = Vec::new();
+
+    'render: loop {
+        events.clear();
+
+        // Get all the new events since the last frame.
+        events_loop.poll_events(|event| { events.push(event); });
+
+        // If there are no new events, wait for one.
+        if events.is_empty() {
+            events_loop.run_forever(|event| {
+                events.push(event);
+                glium::glutin::ControlFlow::Break
+            });
+        }
+
+```
+
+And once we have some events, we need to handle them:
+
+```rust
+        // Process the events.
+        for event in events.drain(..) {
+
+            // Break from the loop upon `Escape` or closed window.
+            match event.clone() {
+                glium::glutin::Event::WindowEvent { event, .. } => {
+                    match event {
+                        glium::glutin::WindowEvent::CloseRequested |
+                        glium::glutin::WindowEvent::KeyboardInput {
+                            input: glium::glutin::KeyboardInput {
+                                virtual_keycode: Some(glium::glutin::VirtualKeyCode::Escape),
+                                ..
+                            },
+                            ..
+                        } => break 'render,
+                        _ => (),
+                    }
+                }
+                _ => (),
+            };
+
+```
+
+In this example, we react on the escape key or the X button pressed by breaking our render loop, effectively closing the window.
+
+Complete example where <kbd>Esc</kbd> works:
+
+```rust
+/// A Hello World based and annotated with help of https://docs.piston.rs/conrod/src/conrod_core/guide/chapter_3.rs.html
+use conrod::backend::glium::glium;
+use conrod::{widget_ids, widget, Positionable, Colorable, Widget};
+
+/*
+ `Surface` is a trait required for glium, specifically for the call to
+`target.clear_color` which is coming later.
+ */
+use glium::Surface;
+
+/*
+ The first chunk of boilerplate creates an event loop, which will handle
+interaction with the UI, then a window, then a context, then finally links the
+event loop, window and context together into a display. The display is the
+home for the UI, and is an OpenGL context provided by glium.
+*/
+
+const WIDTH: u32 = 400;
+const HEIGHT: u32 = 200;
+const TITLE: &str = "Hello Conrod!";
+
+
+pub fn main() {
+    // Build the window.
+    let mut events_loop = glium::glutin::EventsLoop::new();
+    let window = glium::glutin::WindowBuilder::new()
+        .with_title(TITLE)
+        .with_dimensions((WIDTH, HEIGHT).into());
+    let context = glium::glutin::ContextBuilder::new()
+        .with_vsync(true)
+        .with_multisampling(4);
+    let display = glium::Display::new(window, context, &events_loop).unwrap();
+
+    /*
+       Now create the UI itself. Conrod has a builder that contains and looks after
+       the UI for the user.
+       */
+    let mut ui = conrod::UiBuilder::new([WIDTH as f64, HEIGHT as f64]).build();
+
+    /*
+       Boilerplate code to load fonts into the Ui's font::Map
+       */
+    const FONT_PATH: &'static str =
+        concat!(env!("CARGO_MANIFEST_DIR"), "/assets/fonts/NotoSans/NotoSans-Regular.ttf");
+    ui.fonts.insert_from_file(FONT_PATH).unwrap();
+
+
+    // Generate the widget identifiers.
+    widget_ids!(struct Ids { text });
+    let ids = Ids::new(ui.widget_id_generator());
+
+    /*
+       Conrod can use graphics. It stores these in a map. The system needs the map,
+       even though it doesn't contain anything at this time, so create it:
+       */
+    let image_map = conrod::image::Map::<glium::texture::Texture2d>::new();
+
+    /*
+       Finally, Conrod needs to render its UI. It uses a renderer to do this, so
+       create one:
+       */
+    let mut renderer = conrod::backend::glium::Renderer::new(&display).unwrap();
+
+    let mut events = Vec::new();
+
+    'render: loop {
+        // Get all the new events since the last frame.
+        events.clear();
+        events_loop.poll_events(|event| { events.push(event); });
+
+        // If there are no new events, wait for one.
+        if events.is_empty() {
+            events_loop.run_forever(|event| {
+                events.push(event);
+                glium::glutin::ControlFlow::Break
+            });
+        }
+
+        // Process the events.
+        for event in events.drain(..) {
+            // Break from the loop upon `Escape` or closed window.
+            match event.clone() {
+                glium::glutin::Event::WindowEvent { event, .. } => {
+                    match event {
+                        glium::glutin::WindowEvent::CloseRequested |
+                        glium::glutin::WindowEvent::KeyboardInput {
+                            input: glium::glutin::KeyboardInput {
+                                virtual_keycode: Some(glium::glutin::VirtualKeyCode::Escape),
+                                ..
+                            },
+                            ..
+                        } => { println!("STAHP!"); break 'render },
+                        _ => (),
+                    }
+                }
+                _ => (),
+            };
+        }
+
+        // Draw the UI if it has changed
+        if let Some(primitives) = ui.draw_if_changed() {
+            renderer.fill(&display, primitives, &image_map);
+            let mut target = display.draw();
+            target.clear_color(0.0, 1.0, 0.0, 1.0);
+            renderer.draw(&display, &mut target, &image_map).unwrap();
+            target.finish().unwrap();
+
+
+            let ui = &mut ui.set_widgets();
+
+            // Add some Hello World Text
+            // "Hello World!" in the middle of the screen.
+            widget::Text::new("Hello World!")
+                .middle_of(ui.window)
+                .color(conrod::color::WHITE)
+                .font_size(32)
+                .set(ids.text, ui);
+        }
+    }
+}
+```
+
+
+
+If we want our program to react to its own events though, we need to add some more code according to the [guide]( https://github.com/PistonDevelopers/conrod/blob/master/conrod_core/src/guide/chapter_3.rs ). It contains much boilerplate code for the events loop at the end, which e.g. limits the updates to 60 FPS at most. The guide is from 2018 though, whereas the [current hello_world sample]( https://github.com/PistonDevelopers/conrod/blob/master/backends/conrod_glium/examples/hello_world.rs ) is from March 2019 and doesn't seem to include that kind of code.
+
+Has that been internalized?
+
+**NO**. It's hidden in [support.rs](https://github.com/PistonDevelopers/conrod/blob/master/backends/conrod_glium/examples/support/mod.rs)
+
+The following is advised in the guide, and it is applied in [all_winit_glium.rs]( https://github.com/PistonDevelopers/conrod/blob/master/backends/conrod_glium/examples/all_winit_glium.rs )
+
+> The events loop is braindead - it simply checks to see if
+> there's an event, acts immediately then tries again. We can be a lot more
+> subtle, but it is going to take some code. Also, this app doesn't have to
+> respond to any of its own events, so they're not taken into account.
+>
+> First, let's add event handling for Conrod. Putting the following at the
+> beginning of the event for loop will take care of UI events:
+>
+> ```ignore
+> if let Some(event) = conrod::backend::winit::convert_event(
+>     event.clone(),
+>     &display
+> ) {
+>     ui.handle_event(event);
+> }
+> ```
+
+> `ui.handle_event()` is the business end of Conrod - it takes events off the
+queue, works out which widget they apply to and looks after dispatch, etc. The
+rest happens elsewhere, as we'll see in the next Chapter.
+
+> ```rust
+> // Start the loop:
+> //
+> // - Poll the window for available events.
+> // - Update the widgets via the `conrod_example_shared::gui` fn.
+> // - Render the current state of the `Ui`.
+> // - Repeat.
+> let mut event_loop = support::EventLoop::new();
+> 'main: loop {
+> // Handle all events.
+> for event in event_loop.next(&mut events_loop) {
+>   // Use the `winit` backend feature to convert the winit event to a conrod one.
+>       if let Some(event) = support::convert_event(event.clone(), &display) {
+>           ui.handle_event(event);
+>           event_loop.needs_update();
+>       }
+>             match event {
+>                 glium::glutin::Event::WindowEvent { event, .. } => match event {
+>                     // AND SO ON ......
+>                     
+> [ this is not supposed to compile like this, it is just an excerpt]
+>                     
+> // Instantiate a GUI demonstrating every widget type provided by conrod.
+> conrod_example_shared::gui(&mut ui.set_widgets(), &ids, &mut app);
+> ```
 

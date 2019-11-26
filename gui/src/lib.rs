@@ -49,16 +49,6 @@ pub fn main() {
     widget_ids!(struct Ids { text });
     let ids = Ids::new(ui.widget_id_generator());
 
-    let ui = &mut ui.set_widgets();
-
-    // Add some Hello World Text
-    // "Hello World!" in the middle of the screen.
-    widget::Text::new("Hello World!")
-        .middle_of(ui.window)
-        .color(conrod::color::WHITE)
-        .font_size(32)
-        .set(ids.text, ui);
-
     /*
        Conrod can use graphics. It stores these in a map. The system needs the map,
        even though it doesn't contain anything at this time, so create it:
@@ -71,7 +61,42 @@ pub fn main() {
        */
     let mut renderer = conrod::backend::glium::Renderer::new(&display).unwrap();
 
+    let mut events = Vec::new();
+
     'render: loop {
+        // Get all the new events since the last frame.
+        events.clear();
+        events_loop.poll_events(|event| { events.push(event); });
+
+        // If there are no new events, wait for one.
+        if events.is_empty() {
+            events_loop.run_forever(|event| {
+                events.push(event);
+                glium::glutin::ControlFlow::Break
+            });
+        }
+
+        // Process the events.
+        for event in events.drain(..) {
+            // Break from the loop upon `Escape` or closed window.
+            match event.clone() {
+                glium::glutin::Event::WindowEvent { event, .. } => {
+                    match event {
+                        glium::glutin::WindowEvent::CloseRequested |
+                        glium::glutin::WindowEvent::KeyboardInput {
+                            input: glium::glutin::KeyboardInput {
+                                virtual_keycode: Some(glium::glutin::VirtualKeyCode::Escape),
+                                ..
+                            },
+                            ..
+                        } => { println!("STAHP!"); break 'render },
+                        _ => (),
+                    }
+                }
+                _ => (),
+            };
+        }
+
         // Draw the UI if it has changed
         if let Some(primitives) = ui.draw_if_changed() {
             renderer.fill(&display, primitives, &image_map);
@@ -79,6 +104,17 @@ pub fn main() {
             target.clear_color(0.0, 1.0, 0.0, 1.0);
             renderer.draw(&display, &mut target, &image_map).unwrap();
             target.finish().unwrap();
+
+
+            let ui = &mut ui.set_widgets();
+
+            // Add some Hello World Text
+            // "Hello World!" in the middle of the screen.
+            widget::Text::new("Hello World!")
+                .middle_of(ui.window)
+                .color(conrod::color::WHITE)
+                .font_size(32)
+                .set(ids.text, ui);
         }
     }
 }
