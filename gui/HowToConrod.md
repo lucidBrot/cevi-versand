@@ -2,7 +2,20 @@
 
 Writing a GUI in rust. A walkthrough because I was unable to even find the official guide for a very long time. This is not well-written. It's supposed to be easily written and quickly used. No beauty to be found here.
 
+*If you simply want a working `hello-world` and find out the rest by yourself, just grab the files here.*
+
+### Final Files
+
+You can grab the files here:
+
+* [src/support/mod.rs](./src/support/mod.rs)
+* [src/lib.rs](src/lib.rs)
+* [Cargo.toml](./Cargo.toml)
+* [examples/hello.rs](
+
 ### Run Their Example
+
+I wrote this sloppily while trying to get this to run. If you would like to see why I'm doing what I'm doing or need reference links, read on!
 
  Latest commit [78438e1](https://github.com/PistonDevelopers/conrod/commit/78438e196ff1499f843c5ba6eb11085e062a7bb7) 23 days ago. Today is 26.11.2019
 
@@ -192,7 +205,7 @@ cargo run --example hello
 
 That results in a green window. Closing it with the X does nothing, so kill it again using `CTRL+C` in the terminal.
 
-![HowToConrod_hello_world_1](.\HowToConrod_hello_world_1.png)
+![HowToConrod_hello_world_1](HowToConrod_hello_world_1.png)
 
 > Right now, the program really doesn't do much.
 
@@ -400,7 +413,7 @@ Here, I try a fixed path instead, in order to have less magic:
 
 And when we run it now, we get this:
 
-![hello world 2](./HowToConrod_hello_world_2.png)
+![hello world 2](HowToConrod_hello_world_2.png)
 
 ### Adding Events
 
@@ -700,7 +713,7 @@ error: aborting due to 6 previous errors
 
 Copying that part from the [guide]( https://docs.piston.rs/conrod/src/conrod_core/guide/chapter_3.rs.html ) instead (and adding a missing closing curly brace) results also in a few errors.
 
-![errors](./HowToConrod_hello_world_3.png)
+![errors](HowToConrod_hello_world_3.png)
 
 The first three errors can be solved by adding `use conrod::glium;`.
 
