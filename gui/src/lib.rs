@@ -38,13 +38,11 @@ pub fn main() {
     let mut ui = conrod::UiBuilder::new([WIDTH as f64, HEIGHT as f64]).build();
 
     /*
-     Boilerplate code to load fonts
-     */
-    let assets = find_folder::Search::ParentsThenKids(3, 5)
-        .for_folder("assets")
-        .unwrap();
-    let font_path = assets.join("fonts/NotoSans/NotoSans-Regular.ttf");
-    ui.fonts.insert_from_file(font_path).unwrap();
+       Boilerplate code to load fonts into the Ui's font::Map
+       */
+    const FONT_PATH: &'static str =
+        concat!(env!("CARGO_MANIFEST_DIR"), "/assets/fonts/NotoSans/NotoSans-Regular.ttf");
+    ui.fonts.insert_from_file(FONT_PATH).unwrap();
 
 
     // Generate the widget identifiers.
