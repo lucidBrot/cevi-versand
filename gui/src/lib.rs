@@ -80,7 +80,7 @@ pub fn main() {
         for event in event_loop.next(&mut events_loop) {
 
             // Use the `winit` backend feature to convert the winit event to a conrod one.
-            if let Some(event) = support::convert_event(event.clone(), &display) {
+            if let Some(event) = conrod::backend::winit::convert_event(event.clone(), &display) {
                 ui.handle_event(event);
                 event_loop.needs_update();
             }
@@ -96,7 +96,7 @@ pub fn main() {
                                     ..
                                 },
                                 ..
-                            } => { println!("STAHP!"); break 'render },
+                            } => { break 'render },
                         _ => (),
                     }
                 }

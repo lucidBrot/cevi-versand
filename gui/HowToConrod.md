@@ -647,7 +647,7 @@ rest happens elsewhere, as we'll see in the next Chapter.
 
 What we implemented in our render loop is done behind the scenes in `support.rs` to a large extent.
 
-Of course, we need to import support for that. Add `mod support;` to the start of your file. And add the `support.rs` file from [here]( https://github.com/PistonDevelopers/conrod/blob/master/backends/conrod_glium/examples/support/mod.rs ) as`/gui/src/support/mod.rs` to your directory.
+Of course, we need to import support for that. Add `mod support;` to the start of your file. And (**don't! read on.**) add the `support.rs` file from [here]( https://github.com/PistonDevelopers/conrod/blob/master/backends/conrod_glium/examples/support/mod.rs ) as`/gui/src/support/mod.rs` to your directory.
 
 But that gives us a few new compilation errors:
 
@@ -698,3 +698,10 @@ error: aborting due to 6 previous errors
 
 ```
 
+Copying that part from the [guide]( https://docs.piston.rs/conrod/src/conrod_core/guide/chapter_3.rs.html ) instead (and adding a missing closing curly brace) results also in a few errors.
+
+![errors](./HowToConrod_hello_world_3.png)
+
+The first three errors can be solved by adding `use conrod::glium;`.
+
+The error "cannot find function `convert_event` in module `support`" is due to wrong/obsolete sample code yet again. Let us instead use `conrod::backend::winit::convert_event` and everything seems fine.
