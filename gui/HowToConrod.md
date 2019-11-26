@@ -11,7 +11,7 @@ You can grab the files here:
 * [src/support/mod.rs](./src/support/mod.rs)
 * [src/lib.rs](src/lib.rs)
 * [Cargo.toml](./Cargo.toml)
-* [examples/hello.rs](
+* [examples/hello.rs](examples/hello.rs)
 
 ### Run Their Example
 
