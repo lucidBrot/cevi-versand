@@ -18,7 +18,7 @@ const HEIGHT: u32 = 200;
 const TITLE: &str = "Hello Conrod!";
 
 
-fn main() {
+pub fn main() {
     // Build the window.
     let mut events_loop = glium::glutin::EventsLoop::new();
     let window = glium::glutin::WindowBuilder::new()

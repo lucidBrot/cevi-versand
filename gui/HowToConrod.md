@@ -129,7 +129,7 @@ const HEIGHT: u32 = 200;
 const TITLE: &str = "Hello Conrod!";
 
 
-fn main() {
+pub fn main() {
     // Build the window.
     let mut events_loop = glium::glutin::EventsLoop::new();
     let window = glium::glutin::WindowBuilder::new()
@@ -172,3 +172,20 @@ fn main() {
 
 ```
 
+Let us try what happens when we run this.
+
+```bash
+# create a file in gui/examples/hello.rs
+$ cat examples/hello.rs
+
+pub fn main(){
+    gui::main();
+}
+
+# run that example
+cargo run --example hello
+```
+
+That results in a green window. Closing it with the X does nothing, so kill it again using `CTRL+C` in the terminal.
+
+![HowToConrod_hello_world_1](.\HowToConrod_hello_world_1.png)
