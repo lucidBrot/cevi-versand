@@ -104,6 +104,16 @@ pub fn main() {
             };
         }
 
+        let ui = &mut ui.set_widgets();
+
+        // Add some Hello World Text
+        // "Hello World!" in the middle of the screen.
+        widget::Text::new("Hello World!")
+            .middle_of(ui.window)
+            .color(conrod::color::WHITE)
+            .font_size(32)
+            .set(ids.text, ui);
+
         // Draw the UI if it has changed
         if let Some(primitives) = ui.draw_if_changed() {
             renderer.fill(&display, primitives, &image_map);
@@ -111,17 +121,6 @@ pub fn main() {
             target.clear_color(0.0, 1.0, 0.0, 1.0);
             renderer.draw(&display, &mut target, &image_map).unwrap();
             target.finish().unwrap();
-
-
-            let ui = &mut ui.set_widgets();
-
-            // Add some Hello World Text
-            // "Hello World!" in the middle of the screen.
-            widget::Text::new("Hello World!")
-                .middle_of(ui.window)
-                .color(conrod::color::WHITE)
-                .font_size(32)
-                .set(ids.text, ui);
         }
     }
 }

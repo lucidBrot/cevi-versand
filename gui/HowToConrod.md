@@ -705,3 +705,37 @@ Copying that part from the [guide]( https://docs.piston.rs/conrod/src/conrod_cor
 The first three errors can be solved by adding `use conrod::glium;`.
 
 The error "cannot find function `convert_event` in module `support`" is due to wrong/obsolete sample code yet again. Let us instead use `conrod::backend::winit::convert_event` and everything seems fine.
+
+Finally, you might have noticed some delay in the "Hello World" text appearing. That is because we are only initializing it right after drawing. So move that before the drawing!
+
+```rust
+match event {
+    // event handling here
+}
+
+// YOUR UI CODE HERE
+// "Hello World!" in the middle of the screen.
+widget::Text::new("Hello World!")
+            .middle_of(ui.window)
+            .color(conrod::color::WHITE)
+            .font_size(32)
+            .set(ids.text, ui);
+
+// Drawing
+if let Some(primitives) = ui.draw_if_changed() {
+            renderer.fill(&display.0, primitives, &image_map);
+            let mut target = display.0.draw();
+            target.clear_color(0.0, 0.0, 0.0, 1.0);
+            renderer.draw(&display.0, &mut target, &image_map).unwrap();
+            target.finish().unwrap();
+        }
+```
+
+### Final Files
+
+You can grab the files here:
+
+* [src/support/mod.rs]
+* [src/lib.rs]
+* [Cargo.toml]
+* [examples/hello.rs]
