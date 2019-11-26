@@ -645,3 +645,56 @@ rest happens elsewhere, as we'll see in the next Chapter.
 > conrod_example_shared::gui(&mut ui.set_widgets(), &ids, &mut app);
 > ```
 
+What we implemented in our render loop is done behind the scenes in `support.rs` to a large extent.
+
+Of course, we need to import support for that. Add `mod support;` to the start of your file. And add the `support.rs` file from [here]( https://github.com/PistonDevelopers/conrod/blob/master/backends/conrod_glium/examples/support/mod.rs ) as`/gui/src/support/mod.rs` to your directory.
+
+But that gives us a few new compilation errors:
+
+```
+error[E0432]: unresolved import `glium`
+ --> src\support\mod.rs:4:5
+  |
+4 | use glium;
+  |     ^^^^^ no `glium` external crate
+
+error[E0432]: unresolved import `conrod_winit`
+ --> src\support\mod.rs:5:5
+  |
+5 | use conrod_winit;
+  |     ^^^^^^^^^^^^ no `conrod_winit` external crate
+
+error[E0432]: unresolved import `conrod_core`
+ --> src\support\mod.rs:6:5
+  |
+6 | use conrod_core;
+  |     ^^^^^^^^^^^ no `conrod_core` external crate
+
+error[E0432]: unresolved import `conrod_derive`
+ --> src\support\mod.rs:7:5
+  |
+7 | use conrod_derive;
+  |     ^^^^^^^^^^^^^ no `conrod_derive` external crate
+
+error: cannot determine resolution for the macro `conrod_winit::conversion_fns`
+  --> src\support\mod.rs:80:1
+   |
+80 | conrod_winit::conversion_fns!();
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: import resolution is stuck, try simplifying macro imports
+
+error[E0425]: cannot find function `convert_event` in module `support`
+  --> src\lib.rs:83:43
+   |
+83 |             if let Some(event) = support::convert_event(event.clone(), &display) {
+   |                                           ^^^^^^^^^^^^^ not found in `support`
+help: possible candidate is found in another module, you can import it into scope
+   |
+2  | use conrod::backend::winit::convert_event;
+   |
+
+error: aborting due to 6 previous errors
+
+```
+

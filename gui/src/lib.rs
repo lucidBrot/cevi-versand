@@ -9,6 +9,11 @@ use conrod::{widget_ids, widget, Positionable, Colorable, Widget};
 use glium::Surface;
 
 /*
+ Support contains much boilerplate code for the event loop. It constrains e.g. it's rate to be only 60 FPS.
+ */
+mod support;
+
+/*
  The first chunk of boilerplate creates an event loop, which will handle
 interaction with the UI, then a window, then a context, then finally links the
 event loop, window and context together into a display. The display is the
@@ -61,35 +66,37 @@ pub fn main() {
        */
     let mut renderer = conrod::backend::glium::Renderer::new(&display).unwrap();
 
-    let mut events = Vec::new();
+    // Start the loop that is in support.rs module
+    // It still requires the original events_loop we defined at the start of main()
+    //
+    // - Poll the window for available events.
+    // - Update the widgets via the `conrod_example_shared::gui` fn.
+    // - Render the current state of the `Ui`.
+    // - Repeat.
+    let mut event_loop = support::EventLoop::new();
 
     'render: loop {
-        // Get all the new events since the last frame.
-        events.clear();
-        events_loop.poll_events(|event| { events.push(event); });
-
-        // If there are no new events, wait for one.
-        if events.is_empty() {
-            events_loop.run_forever(|event| {
-                events.push(event);
-                glium::glutin::ControlFlow::Break
-            });
-        }
-
         // Process the events.
-        for event in events.drain(..) {
+        for event in event_loop.next(&mut events_loop) {
+
+            // Use the `winit` backend feature to convert the winit event to a conrod one.
+            if let Some(event) = support::convert_event(event.clone(), &display) {
+                ui.handle_event(event);
+                event_loop.needs_update();
+            }
+
             // Break from the loop upon `Escape` or closed window.
             match event.clone() {
                 glium::glutin::Event::WindowEvent { event, .. } => {
                     match event {
                         glium::glutin::WindowEvent::CloseRequested |
-                        glium::glutin::WindowEvent::KeyboardInput {
-                            input: glium::glutin::KeyboardInput {
-                                virtual_keycode: Some(glium::glutin::VirtualKeyCode::Escape),
+                            glium::glutin::WindowEvent::KeyboardInput {
+                                input: glium::glutin::KeyboardInput {
+                                    virtual_keycode: Some(glium::glutin::VirtualKeyCode::Escape),
+                                    ..
+                                },
                                 ..
-                            },
-                            ..
-                        } => { println!("STAHP!"); break 'render },
+                            } => { println!("STAHP!"); break 'render },
                         _ => (),
                     }
                 }
