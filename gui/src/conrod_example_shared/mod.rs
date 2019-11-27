@@ -23,6 +23,7 @@ pub struct DemoApp {
     ball_color: conrod::Color,
     sine_frequency: f32,
     rust_logo: conrod::image::Id,
+    email_textbox_text: String,
 }
 
 
@@ -34,6 +35,7 @@ impl DemoApp {
             ball_color: conrod::color::WHITE,
             sine_frequency: 1.0,
             rust_logo: rust_logo,
+            email_textbox_text: "ceviname@cevi.ch".to_string(),
         }
     }
 }
@@ -335,7 +337,8 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
     //// Text Input  ////
     /////////////////////
 
-    for event in widget::text_box::TextBox::new("Test Text")
+    // email TextBox
+    for event in widget::text_box::TextBox::new(app.email_textbox_text.as_ref())
         .down_from(ids.plot_path, 40.0)
         .align_middle_x_of(ids.canvas)
         .font_size(SUBTITLE_SIZE)
@@ -343,7 +346,7 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
         .set(ids.test_text, ui) {
         
         match event {
-            widget::text_box::Event::Update(newtext) => println!("Event! new text: {}", newtext),
+            widget::text_box::Event::Update(newtext) => app.email_textbox_text = newtext,
             widget::text_box::Event::Enter => println!("Enter Event!"),
         }
     }
