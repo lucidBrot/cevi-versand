@@ -2,16 +2,17 @@
 use conrod::backend::glium::glium;
 use conrod::{widget_ids, widget, Positionable, Colorable, Widget};
 
-/*
- `Surface` is a trait required for glium, specifically for the call to
-`target.clear_color` which is coming later.
- */
-use glium::Surface;
+// set window height and width
+use conrod_example_shared::{WIN_W, WIN_H};
+
+use image;
 
 /*
  Support contains much boilerplate code for the event loop. It constrains e.g. it's rate to be only 60 FPS.
  */
 mod support;
+
+mod conrod_example_shared;
 
 /*
  The first chunk of boilerplate creates an event loop, which will handle
@@ -20,8 +21,6 @@ event loop, window and context together into a display. The display is the
 home for the UI, and is an OpenGL context provided by glium.
 */
 
-const WIDTH: u32 = 400;
-const HEIGHT: u32 = 200;
 const TITLE: &str = "Hello Conrod!";
 
 
@@ -30,7 +29,7 @@ pub fn main() {
     let mut events_loop = glium::glutin::EventsLoop::new();
     let window = glium::glutin::WindowBuilder::new()
         .with_title(TITLE)
-        .with_dimensions((WIDTH, HEIGHT).into());
+        .with_dimensions((WIN_W, WIN_H).into());
     let context = glium::glutin::ContextBuilder::new()
         .with_vsync(true)
         .with_multisampling(4);
@@ -39,9 +38,10 @@ pub fn main() {
     /*
        Now create the UI itself. Conrod has a builder that contains and looks after
        the UI for the user.
-       */
-    let mut ui = conrod::UiBuilder::new([WIDTH as f64, HEIGHT as f64]).build();
 
+       And apply the theme from the helper file.
+       */
+    let mut ui = conrod::UiBuilder::new([WIN_W as f64, WIN_H as f64]).theme(conrod_example_shared::theme()).build();
     /*
        Boilerplate code to load fonts into the Ui's font::Map
        */
@@ -51,14 +51,30 @@ pub fn main() {
 
 
     // Generate the widget identifiers.
-    widget_ids!(struct Ids { text });
-    let ids = Ids::new(ui.widget_id_generator());
+    // The `widget::Id` of each widget instantiated in `conrod_example_shared::gui`.
+    let ids = conrod_example_shared::Ids::new(ui.widget_id_generator());
+
+    // Load the Rust logo from our assets folder to use as an example image.
+    fn load_rust_logo(display: &glium::Display) -> conrod::glium::texture::Texture2d {
+        const RUST_LOGO_PATH: &'static str =
+            concat!(env!("CARGO_MANIFEST_DIR"), "/assets/images/rust.png");
+        let rgba_image = image::open(&std::path::Path::new(&RUST_LOGO_PATH)).unwrap().to_rgba();
+        let image_dimensions = rgba_image.dimensions();
+        let raw_image = conrod::glium::texture::RawImage2d::from_raw_rgba_reversed(&rgba_image.into_raw(), image_dimensions);
+        let texture = conrod::glium::texture::Texture2d::new(display, raw_image).unwrap();
+        texture
+    }
 
     /*
        Conrod can use graphics. It stores these in a map. The system needs the map,
        even though it doesn't contain anything at this time, so create it:
        */
-    let image_map = conrod::image::Map::<glium::texture::Texture2d>::new();
+    let mut image_map = conrod::image::Map::<glium::texture::Texture2d>::new();
+    let rust_logo = image_map.insert(load_rust_logo(&display));
+
+
+    // A demonstration of some app state that we want to control with the conrod GUI.
+    let mut app = conrod_example_shared::DemoApp::new(rust_logo);
 
     /*
        Finally, Conrod needs to render its UI. It uses a renderer to do this, so
@@ -104,21 +120,18 @@ pub fn main() {
             };
         }
 
-        let ui = &mut ui.set_widgets();
+        let mut ui = &mut ui.set_widgets();
 
-        // Add some Hello World Text
-        // "Hello World!" in the middle of the screen.
-        widget::Text::new("Hello World!")
-            .middle_of(ui.window)
-            .color(conrod::color::WHITE)
-            .font_size(32)
-            .set(ids.text, ui);
+        // Instantiate a GUI demonstrating every widget type provided by conrod.
+        // Your GUI could be called here instead
+        conrod_example_shared::gui(&mut ui, &ids, &mut app);
 
         // Draw the UI if it has changed
         if let Some(primitives) = ui.draw_if_changed() {
             renderer.fill(&display, primitives, &image_map);
             let mut target = display.draw();
-            target.clear_color(0.0, 1.0, 0.0, 1.0);
+            // commented out because the screen would flash green at startup otherwise
+            //target.clear_color(0.0, 1.0, 0.0, 1.0);
             renderer.draw(&display, &mut target, &image_map).unwrap();
             target.finish().unwrap();
         }
