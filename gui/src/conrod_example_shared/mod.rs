@@ -335,7 +335,7 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
     //// Text Input  ////
     /////////////////////
 
-    widget::Text::new("Test Text")
+    widget::text_box::TextBox::new("Test Text")
         .down_from(ids.plot_path, 40.0)
         .align_middle_x_of(ids.canvas)
         .font_size(SUBTITLE_SIZE)
