@@ -335,12 +335,15 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
     //// Text Input  ////
     /////////////////////
 
-    widget::text_box::TextBox::new("Test Text")
+    for event in widget::text_box::TextBox::new("Test Text")
         .down_from(ids.plot_path, 40.0)
         .align_middle_x_of(ids.canvas)
         .font_size(SUBTITLE_SIZE)
         .h(40f64)
-        .set(ids.test_text, ui);
+        .set(ids.test_text, ui) {
+        
+        println!("Event! {:?}", event);
+    }
 
 
     /////////////////////
