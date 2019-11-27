@@ -96,6 +96,8 @@ widget_ids! {
         dialer_title,
         number_dialer,
         plot_path,
+        // Test Text
+        test_text,
         // Scrollbar
         canvas_scrollbar,
     }
@@ -327,6 +329,17 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
         .down(60.0)
         .align_middle_x_of(ids.canvas)
         .set(ids.plot_path, ui);
+
+
+    /////////////////////
+    //// Text Input  ////
+    /////////////////////
+
+    widget::Text::new("Test Text")
+        .down_from(ids.plot_path, 40.0)
+        .align_middle_x_of(ids.canvas)
+        .font_size(SUBTITLE_SIZE)
+        .set(ids.test_text, ui);
 
 
     /////////////////////
