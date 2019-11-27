@@ -342,7 +342,10 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
         .h(40f64)
         .set(ids.test_text, ui) {
         
-        println!("Event! {:?}", event);
+        match event {
+            widget::text_box::Event::Update(newtext) => println!("Event! new text: {}", newtext),
+            widget::text_box::Event::Enter => println!("Enter Event!"),
+        }
     }
 
 
