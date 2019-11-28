@@ -358,7 +358,7 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
     /////////////////////
 
     // email TextBox
-    let email_textbox = widget::text_box::TextBox::new(app.email_textbox_text.as_ref());
+    let email_textbox: widget::text_box::TextBox = widget::text_box::TextBox::new(app.email_textbox_text.as_ref());
 
     for event in email_textbox
         .down_from(ids.plot_path, 45.0)
@@ -414,11 +414,7 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
     //// Handle More Events //
     /////////////////////
 
-    for keypress in (email_textbox as conrod::widget::Widget<
-                     State = conrod::widget::text_box::State,
-                     Style = conrod::widget::text_box::Style,
-                     Event = Vec<conrod::widget::text_box::Event>
-                     >).presses().key() { // conrod::input::widget::Presses -> KeyPresses
+    for keypress in conrod::input::widget::presses(&email_textbox).key() { // conrod::input::widget::Presses -> KeyPresses
         let k: conrod::event::KeyPress;
         if k.key == conrod::input::Key::Tab {
             println!("Tab pressed!");
