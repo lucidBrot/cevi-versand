@@ -17,6 +17,10 @@ use rand;
 pub const WIN_W: u32 = 600;
 pub const WIN_H: u32 = 420;
 
+const UNEDITABLE_TEXTBOX_COLOR_BAD  : conrod::color::Color = conrod::color::DARK_RED;
+const UNEDITABLE_TEXTBOX_COLOR_GOOD : conrod::color::Color = conrod::color::DARK_GREEN;
+
+
 /// A demonstration of some application state we want to control with a conrod GUI.
 pub struct DemoApp {
     ball_xy: conrod::Point,
@@ -24,6 +28,8 @@ pub struct DemoApp {
     sine_frequency: f32,
     rust_logo: conrod::image::Id,
     email_textbox_text: String,
+    password_textbox_text: String,
+    auth_textbox_text: String,
 }
 
 
@@ -36,7 +42,14 @@ impl DemoApp {
             sine_frequency: 1.0,
             rust_logo: rust_logo,
             email_textbox_text: "ceviname@cevi.ch".to_string(),
+            password_textbox_text: "".to_string(),
+            auth_textbox_text: "".to_string(),
         }
+    }
+
+    fn get_and_display_auth_token(&mut self) {
+        self.auth_textbox_text = "a1b2d3e4f5".to_string();
+        // TODO: set to color good
     }
 }
 
@@ -98,8 +111,10 @@ widget_ids! {
         dialer_title,
         number_dialer,
         plot_path,
-        // Test Text
-        test_text,
+        // Text Boxes
+        email_text,
+        pass_text,
+        auth_text,
         // Scrollbar
         canvas_scrollbar,
     }
@@ -339,17 +354,40 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
 
     // email TextBox
     for event in widget::text_box::TextBox::new(app.email_textbox_text.as_ref())
-        .down_from(ids.plot_path, 40.0)
+        .down_from(ids.plot_path, 45.0)
         .align_middle_x_of(ids.canvas)
         .font_size(SUBTITLE_SIZE)
-        .h(40f64)
-        .set(ids.test_text, ui) {
+        .h(45f64)
+        .set(ids.email_text, ui) {
         
         match event {
             widget::text_box::Event::Update(newtext) => app.email_textbox_text = newtext,
-            widget::text_box::Event::Enter => println!("Enter Event!"),
+            widget::text_box::Event::Enter => println!("Enter Event!"), // TODO: focus next text box
         }
     }
+
+    // password TextBox
+    for event in widget::text_box::TextBox::new(app.password_textbox_text.as_ref())
+        .down_from(ids.email_text, 40.0)
+        .align_middle_x_of(ids.canvas)
+        .font_size(SUBTITLE_SIZE)
+        .h(45f64)
+        .set(ids.pass_text, ui) {
+        
+        match event {
+            widget::text_box::Event::Update(newtext) => app.password_textbox_text = newtext,
+            widget::text_box::Event::Enter => app.get_and_display_auth_token(), // TODO: focus next text box
+        }
+    }
+
+    // auth token TextBox readonly
+    widget::text_box::TextBox::new(app.auth_textbox_text.as_ref())
+        .down_from(ids.pass_text, 40.0)
+        .align_middle_x_of(ids.canvas)
+        .font_size(SUBTITLE_SIZE)
+        .h(40f64)
+        .color(UNEDITABLE_TEXTBOX_COLOR_BAD)
+        .set(ids.auth_text, ui);
 
 
     /////////////////////
@@ -359,3 +397,4 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
 
     widget::Scrollbar::y_axis(ids.canvas).auto_hide(true).set(ids.canvas_scrollbar, ui);
 }
+
