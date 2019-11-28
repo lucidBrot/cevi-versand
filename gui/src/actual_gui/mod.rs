@@ -358,13 +358,14 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
     /////////////////////
 
     // email TextBox
-    for event in widget::text_box::TextBox::new(app.email_textbox_text.as_ref())
+    let email_textbox = widget::text_box::TextBox::new(app.email_textbox_text.as_ref());
+
+    for event in email_textbox
         .down_from(ids.plot_path, 45.0)
         .align_middle_x_of(ids.canvas)
         .font_size(SUBTITLE_SIZE)
         .h(45f64)
         .set(ids.email_text, ui) {
-        
         match event {
             widget::text_box::Event::Update(newtext) => {
                 app.email_textbox_text = newtext;
@@ -408,5 +409,20 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
 
 
     widget::Scrollbar::y_axis(ids.canvas).auto_hide(true).set(ids.canvas_scrollbar, ui);
+
+    /////////    ////////
+    //// Handle More Events //
+    /////////////////////
+
+    for keypress in (email_textbox as conrod::widget::Widget<
+                     State = conrod::widget::text_box::State,
+                     Style = conrod::widget::text_box::Style,
+                     Event = Vec<conrod::widget::text_box::Event>
+                     >).presses().key() { // conrod::input::widget::Presses -> KeyPresses
+        let k: conrod::event::KeyPress;
+        if k.key == conrod::input::Key::Tab {
+            println!("Tab pressed!");
+        }
+    }
 }
 
