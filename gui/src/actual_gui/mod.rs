@@ -12,6 +12,7 @@
 
 use conrod;
 use conrod::widget_ids;
+use conrod::color::Color;
 use rand;
 
 pub const WIN_W: u32 = 600;
@@ -31,6 +32,7 @@ pub struct DemoApp {
     password_textbox_text: String,
     password_textbox_text_display: String,
     auth_textbox_text: String,
+    auth_textbox_color: Color,
 }
 
 
@@ -46,12 +48,13 @@ impl DemoApp {
             password_textbox_text: "".to_string(),
             password_textbox_text_display: "".to_string(),
             auth_textbox_text: "".to_string(),
+            auth_textbox_color: UNEDITABLE_TEXTBOX_COLOR_BAD,
         }
     }
 
     fn get_and_display_auth_token(&mut self) {
         self.auth_textbox_text = "a1b2d3e4f5".to_string();
-        // TODO: set to color good
+        self.auth_textbox_color = UNEDITABLE_TEXTBOX_COLOR_GOOD;
     }
 }
 
@@ -393,7 +396,7 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
         .align_middle_x_of(ids.canvas)
         .font_size(SUBTITLE_SIZE)
         .h(40f64)
-        .color(UNEDITABLE_TEXTBOX_COLOR_BAD)
+        .color(app.auth_textbox_color)
         .set(ids.auth_text, ui);
 
 
