@@ -3,7 +3,7 @@ use conrod::backend::glium::glium;
 use conrod::{widget_ids, widget, Positionable, Colorable, Widget};
 
 // set window height and width
-use conrod_example_shared::{WIN_W, WIN_H};
+use actual_gui::{WIN_W, WIN_H};
 
 use image;
 
@@ -12,7 +12,7 @@ use image;
  */
 mod support;
 
-mod conrod_example_shared;
+mod actual_gui;
 
 /*
  The first chunk of boilerplate creates an event loop, which will handle
@@ -41,7 +41,7 @@ pub fn main() {
 
        And apply the theme from the helper file.
        */
-    let mut ui = conrod::UiBuilder::new([WIN_W as f64, WIN_H as f64]).theme(conrod_example_shared::theme()).build();
+    let mut ui = conrod::UiBuilder::new([WIN_W as f64, WIN_H as f64]).theme(actual_gui::theme()).build();
     /*
        Boilerplate code to load fonts into the Ui's font::Map
        */
@@ -51,8 +51,8 @@ pub fn main() {
 
 
     // Generate the widget identifiers.
-    // The `widget::Id` of each widget instantiated in `conrod_example_shared::gui`.
-    let ids = conrod_example_shared::Ids::new(ui.widget_id_generator());
+    // The `widget::Id` of each widget instantiated in `actual_gui::gui`.
+    let ids = actual_gui::Ids::new(ui.widget_id_generator());
 
     // Load the Rust logo from our assets folder to use as an example image.
     fn load_rust_logo(display: &glium::Display) -> conrod::glium::texture::Texture2d {
@@ -74,7 +74,7 @@ pub fn main() {
 
 
     // A demonstration of some app state that we want to control with the conrod GUI.
-    let mut app = conrod_example_shared::DemoApp::new(rust_logo);
+    let mut app = actual_gui::DemoApp::new(rust_logo);
 
     /*
        Finally, Conrod needs to render its UI. It uses a renderer to do this, so
@@ -86,7 +86,7 @@ pub fn main() {
     // It still requires the original events_loop we defined at the start of main()
     //
     // - Poll the window for available events.
-    // - Update the widgets via the `conrod_example_shared::gui` fn.
+    // - Update the widgets via the `actual_gui::gui` fn.
     // - Render the current state of the `Ui`.
     // - Repeat.
     let mut event_loop = support::EventLoop::new();
@@ -124,7 +124,7 @@ pub fn main() {
 
         // Instantiate a GUI demonstrating every widget type provided by conrod.
         // Your GUI could be called here instead
-        conrod_example_shared::gui(&mut ui, &ids, &mut app);
+        actual_gui::gui(&mut ui, &ids, &mut app);
 
         // Draw the UI if it has changed
         if let Some(primitives) = ui.draw_if_changed() {
