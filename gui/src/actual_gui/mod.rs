@@ -29,6 +29,7 @@ pub struct DemoApp {
     rust_logo: conrod::image::Id,
     email_textbox_text: String,
     password_textbox_text: String,
+    password_textbox_text_display: String,
     auth_textbox_text: String,
 }
 
@@ -43,6 +44,7 @@ impl DemoApp {
             rust_logo: rust_logo,
             email_textbox_text: "ceviname@cevi.ch".to_string(),
             password_textbox_text: "".to_string(),
+            password_textbox_text_display: "".to_string(),
             auth_textbox_text: "".to_string(),
         }
     }
@@ -367,7 +369,7 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
     }
 
     // password TextBox
-    for event in widget::text_box::TextBox::new(app.password_textbox_text.as_ref())
+    for event in widget::text_box::TextBox::new(app.password_textbox_text_display.as_ref())
         .down_from(ids.email_text, 40.0)
         .align_middle_x_of(ids.canvas)
         .font_size(SUBTITLE_SIZE)
@@ -375,7 +377,12 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
         .set(ids.pass_text, ui) {
         
         match event {
-            widget::text_box::Event::Update(newtext) => app.password_textbox_text = newtext,
+            widget::text_box::Event::Update(newtext) => {
+                assert_eq!("•".len(), 3);
+                let num_dots = if newtext.len() <= 1 { 0 } else { ( newtext.len() -1 )/"•".len() };
+                app.password_textbox_text_display = "•".repeat(num_dots + 1);
+                app.password_textbox_text = newtext;
+            },
             widget::text_box::Event::Enter => app.get_and_display_auth_token(), // TODO: focus next text box
         }
     }
