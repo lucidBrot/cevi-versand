@@ -417,15 +417,21 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
     //// Handle More Events //
     /////////////////////
 
-    let rect_opt = ui.kids_bounding_box(ids.email_text);
+    let rect_opt = ui.rect_of(ids.email_text);
     if let Some(rect) = rect_opt {
-    for keypress in conrod::input::widget::Widget::for_widget(ids.email_text, rect, &app.global_keyhandler).presses().key() { // conrod::input::widget::Presses -> KeyPresses
+    for keypress in conrod::input::widget::Widget::for_widget(ids.email_text, rect, &ui.global_input()).presses().key() { // conrod::input::widget::Presses -> KeyPresses
         let k: conrod::event::KeyPress = keypress;
         println!("Key pressed!");
         if k.key == conrod::input::Key::Tab {
             println!("Tab pressed!");
         }
     }
+    for keypress in conrod::input::widget::Widget::for_widget(ids.email_text, rect, &ui.global_input()).events() {
+        println!("Key: {:?}", keypress);
+    }
+    }
+    for global_press in ui.global_input().events() {
+        println!("Global Event: {:?}", global_press);
     }
 }
 
