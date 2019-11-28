@@ -366,7 +366,9 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
         .set(ids.email_text, ui) {
         
         match event {
-            widget::text_box::Event::Update(newtext) => app.email_textbox_text = newtext,
+            widget::text_box::Event::Update(newtext) => {
+                app.email_textbox_text = newtext;
+            },
             widget::text_box::Event::Enter => println!("Enter Event!"), // TODO: focus next text box
         }
     }
