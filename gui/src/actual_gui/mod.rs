@@ -58,6 +58,14 @@ impl DemoApp {
         self.auth_textbox_text = "a1b2d3e4f5".to_string();
         self.auth_textbox_color = UNEDITABLE_TEXTBOX_COLOR_GOOD;
     }
+
+    fn on_button_released(&mut self, b: &conrod::event::Button){
+        use conrod::input::Key;
+        use conrod::event::Button::Keyboard;
+        if let Keyboard(Key::Tab) = b {
+            println!("Tab print");
+        }
+    }
 }
 
 /// A set of reasonable stylistic defaults that works for the `gui` below.
@@ -417,22 +425,14 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
     //// Handle More Events //
     /////////////////////
 
-    let rect_opt = ui.rect_of(ids.email_text);
-    if let Some(rect) = rect_opt {
-    for keypress in conrod::input::widget::Widget::for_widget(ids.email_text, rect, &ui.global_input()).presses().key() { // conrod::input::widget::Presses -> KeyPresses
-        let k: conrod::event::KeyPress = keypress;
-        println!("Key pressed!");
-        if k.key == conrod::input::Key::Tab {
-            println!("Tab pressed!");
+    for global_ev in ui.global_input().events() {
+        if let conrod::event::Event::Ui(uievent) = global_ev {
+            use conrod::event::Ui;
+            match uievent {
+                Ui::Release(_, conrod::event::Release {button: b, modifiers: _m}) => app.on_button_released(b),
+                _ => (),
+            }
         }
-    }
-    for keypress in ui.widget_input(ids.email_text).events() {
-        println!("Key: {:?}", keypress);
-    }
-    }
-    for global_press in ui.global_input().events() {
-        println!("Global Event: {:?}", global_press);
-        println!("email id: {:?}", ids.email_text);
     }
 }
 
