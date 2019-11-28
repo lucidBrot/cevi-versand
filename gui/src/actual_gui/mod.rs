@@ -33,6 +33,7 @@ pub struct DemoApp {
     password_textbox_text_display: String,
     auth_textbox_text: String,
     auth_textbox_color: Color,
+    global_keyhandler: conrod::input::global::Global,
 }
 
 
@@ -49,6 +50,7 @@ impl DemoApp {
             password_textbox_text_display: "".to_string(),
             auth_textbox_text: "".to_string(),
             auth_textbox_color: UNEDITABLE_TEXTBOX_COLOR_BAD,
+            global_keyhandler: conrod::input::global::Global::new(),
         }
     }
 
@@ -385,8 +387,9 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
         match event {
             widget::text_box::Event::Update(newtext) => {
                 assert_eq!("•".len(), 3);
-                let num_dots = if newtext.len() <= 1 { 0 } else { ( newtext.len() -1 )/"•".len() };
-                app.password_textbox_text_display = "•".repeat(num_dots + 1);
+                let substitute = if newtext.len() == 0 { 0 } else { 1 };
+                let num_dots = if newtext.len() <= 1 { substitute } else { ( newtext.len() -1 )/"•".len() + 1};
+                app.password_textbox_text_display = "•".repeat(num_dots);
                 app.password_textbox_text = newtext;
             },
             widget::text_box::Event::Enter => app.get_and_display_auth_token(), // TODO: focus next text box
@@ -414,11 +417,15 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
     //// Handle More Events //
     /////////////////////
 
-    for keypress in conrod::input::widget::presses(&email_textbox).key() { // conrod::input::widget::Presses -> KeyPresses
-        let k: conrod::event::KeyPress;
+    let rect_opt = ui.kids_bounding_box(ids.email_text);
+    if let Some(rect) = rect_opt {
+    for keypress in conrod::input::widget::Widget::for_widget(ids.email_text, rect, &app.global_keyhandler).presses().key() { // conrod::input::widget::Presses -> KeyPresses
+        let k: conrod::event::KeyPress = keypress;
+        println!("Key pressed!");
         if k.key == conrod::input::Key::Tab {
             println!("Tab pressed!");
         }
+    }
     }
 }
 
