@@ -426,12 +426,13 @@ pub fn gui(ui: &mut conrod::UiCell, ids: &Ids, app: &mut DemoApp) {
             println!("Tab pressed!");
         }
     }
-    for keypress in conrod::input::widget::Widget::for_widget(ids.email_text, rect, &ui.global_input()).events() {
+    for keypress in ui.widget_input(ids.email_text).events() {
         println!("Key: {:?}", keypress);
     }
     }
     for global_press in ui.global_input().events() {
         println!("Global Event: {:?}", global_press);
+        println!("email id: {:?}", ids.email_text);
     }
 }
 
