@@ -24,7 +24,6 @@ impl Component for Model {
         match msg {
             Msg::Click => {
                 self.email = Some("herbert".to_string());
-                //self.console.log("clicked!");
             }
         }
         true
@@ -33,7 +32,8 @@ impl Component for Model {
     fn view(&self) -> Html<Self> {
         html! {
             <div>
-                <button onclick=|_| Msg::Click>{ {&self.email_text()} }</button>
+                <input type="text">{ &self.email_text() }</input>
+                <button onclick=|_| Msg::Click>{ &self.email_text() }</button>
             </div>
         }
     }
