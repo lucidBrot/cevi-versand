@@ -104,9 +104,8 @@ impl DB_Conf {
     }
 }
 
-fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, reqwest::Error> {
-    let body : String = reqwest::get(&db_conf.versand_endpoint())?
-    .text()?;
+fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, chttp::Error> {
+    let body : String = chttp::get(&db_conf.versand_endpoint())?.into_body().text()?;
     // deserialize the json data into a struct
     let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(&body).expect("dbparse: The request response is not well-formatted.");
 
