@@ -1,4 +1,5 @@
 use yew::{html, Component, ComponentLink, Html, ShouldRender};
+use combine;
 
 pub struct Model {
     email: String,
@@ -27,8 +28,8 @@ impl Component for Model {
         match msg {
             Msg::Click => {
                 self.email = "herbert".to_string();
-            }
-            Msg::StartDownload => {()}
+            },
+            Msg::StartDownload => {combine::main();} // TODO: use correct function call
         }
         true
     }
@@ -43,12 +44,11 @@ impl Component for Model {
                 <button onclick=|_| Msg::Click>{ "Auth Token holen" }</button>
                 <br/>
                 <input type="text">{ &self.auth_token }</input>
-                </br>
+                <br/>
                 <button onclick=|_| Msg::StartDownload>{ "Loslegen!" }</button>
             </div>
         }
     }
 }
-
 
 
