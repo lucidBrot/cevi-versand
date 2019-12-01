@@ -1,0 +1,2248 @@
+   Compiling rand_pcg v0.1.2
+   Compiling rand_chacha v0.1.1
+   Compiling num-traits v0.2.10
+   Compiling num-integer v0.1.41
+   Compiling rand v0.6.5
+   Compiling num-rational v0.2.2
+   Compiling num-iter v0.1.39
+   Compiling yew-macro v0.10.0
+   Compiling libc v0.2.66
+   Compiling ring v0.16.9
+   Compiling net2 v0.2.33
+   Compiling backtrace-sys v0.1.32
+   Compiling tokio-sync v0.1.7
+error[E0432]: unresolved import `sys`
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\tcp.rs:18:5
+   |
+18 | use sys::c;
+   |     ^^^ maybe a missing `extern crate sys;`?
+error[E0432]: unresolved import `sys`
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\udp.rs:18:5
+   |
+18 | use sys::c;
+   |     ^^^ maybe a missing `extern crate sys;`?
+error[E0432]: unresolved import `sys`
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\socket.rs:22:5
+   |
+22 | use sys;
+   |     ^^^ no `sys` in the root
+error[E0432]: unresolved import `sys`
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\socket.rs:23:5
+   |
+23 | use sys::c;
+   |     ^^^ maybe a missing `extern crate sys;`?
+error[E0432]: unresolved import `sys`
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:19:5
+   |
+19 | use sys;
+   |     ^^^ no `sys` in the root
+error[E0432]: unresolved import `sys`
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:20:5
+   |
+20 | use sys::c;
+   |     ^^^ maybe a missing `extern crate sys;`?
+   Compiling unicase v2.6.0
+   Compiling unicode-normalization v0.1.11
+   Compiling unicode-bidi v0.3.4
+   Compiling proc-macro2 v0.4.30
+   Compiling ryu v1.0.0
+   Compiling failure_derive v0.1.6
+   Compiling httparse v1.3.4
+error[E0412]: cannot find type `c_int` in this scope
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\socket.rs:30:24
+   |
+30 |     pub fn new(family: c_int, ty: c_int) -> io::Result<Socket> {
+   |                        ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+   |
+11 | use std::os::raw::c_int;
+   |
+
+error[E0412]: cannot find type `c_int` in this scope
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\socket.rs:30:35
+   |
+30 |     pub fn new(family: c_int, ty: c_int) -> io::Result<Socket> {
+   |                                   ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+   |
+11 | use std::os::raw::c_int;
+   |
+
+error[E0412]: cannot find type `c_int` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\socket.rs:101:32
+    |
+101 |     match storage.ss_family as c_int {
+    |                                ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+11  | use std::os::raw::c_int;
+    |
+
+error[E0412]: cannot find type `Socket` in this scope
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:62:31
+   |
+62 | pub fn set_opt<T: Copy>(sock: Socket, opt: c_int, val: c_int,
+   |                               ^^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+   |
+13 | use socket::Socket;
+   |
+
+error[E0412]: cannot find type `c_int` in this scope
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:62:44
+   |
+62 | pub fn set_opt<T: Copy>(sock: Socket, opt: c_int, val: c_int,
+   |                                            ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+   |
+13 | use std::os::raw::c_int;
+   |
+
+error[E0412]: cannot find type `c_int` in this scope
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:62:56
+   |
+62 | pub fn set_opt<T: Copy>(sock: Socket, opt: c_int, val: c_int,
+   |                                                        ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+   |
+13 | use std::os::raw::c_int;
+   |
+
+error[E0412]: cannot find type `c_void` in this scope
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:65:54
+   |
+65 |         let payload = &payload as *const T as *const c_void;
+   |                                                      ^^^^^^ not found in this scope
+help: possible candidates are found in other modules, you can import them into scope
+   |
+13 | use std::ffi::c_void;
+   |
+13 | use std::os::raw::c_void;
+   |
+
+error[E0425]: cannot find function `setsockopt` in this scope
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:68:20
+   |
+68 |         try!(::cvt(setsockopt(sock, opt, val, payload as *const _,
+   |                    ^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `socklen_t` in this scope
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:69:54
+   |
+69 |                               mem::size_of::<T>() as socklen_t)));
+   |                                                      ^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `Socket` in this scope
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:74:31
+   |
+74 | pub fn get_opt<T: Copy>(sock: Socket, opt: c_int, val: c_int) -> io::Result<T> {
+   |                               ^^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+   |
+13 | use socket::Socket;
+   |
+
+error[E0412]: cannot find type `c_int` in this scope
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:74:44
+   |
+74 | pub fn get_opt<T: Copy>(sock: Socket, opt: c_int, val: c_int) -> io::Result<T> {
+   |                                            ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+   |
+13 | use std::os::raw::c_int;
+   |
+
+error[E0412]: cannot find type `c_int` in this scope
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:74:56
+   |
+74 | pub fn get_opt<T: Copy>(sock: Socket, opt: c_int, val: c_int) -> io::Result<T> {
+   |                                                        ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+   |
+13 | use std::os::raw::c_int;
+   |
+
+error[E0412]: cannot find type `socklen_t` in this scope
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:77:46
+   |
+77 |         let mut len = mem::size_of::<T>() as socklen_t;
+   |                                              ^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `getsockopt` in this scope
+  --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:80:20
+   |
+80 |         try!(::cvt(getsockopt(sock, opt, val,
+   |                    ^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `Socket` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:641:26
+    |
+641 |     fn as_sock(&self) -> Socket;
+    |                          ^^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+13  | use socket::Socket;
+    |
+
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:675:33
+    |
+675 |         set_opt(self.as_sock(), SOL_SOCKET, SO_RCVBUF, size as c_int)
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_RCVBUF` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:675:45
+    |
+675 |         set_opt(self.as_sock(), SOL_SOCKET, SO_RCVBUF, size as c_int)
+    |                                             ^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:675:64
+    |
+675 |         set_opt(self.as_sock(), SOL_SOCKET, SO_RCVBUF, size as c_int)
+    |                                                                ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+13  | use std::os::raw::c_int;
+    |
+
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:679:33
+    |
+679 |         get_opt(self.as_sock(), SOL_SOCKET, SO_RCVBUF).map(int2usize)
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_RCVBUF` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:679:45
+    |
+679 |         get_opt(self.as_sock(), SOL_SOCKET, SO_RCVBUF).map(int2usize)
+    |                                             ^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:683:33
+    |
+683 |         set_opt(self.as_sock(), SOL_SOCKET, SO_SNDBUF, size as c_int)
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_SNDBUF` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:683:45
+    |
+683 |         set_opt(self.as_sock(), SOL_SOCKET, SO_SNDBUF, size as c_int)
+    |                                             ^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:683:64
+    |
+683 |         set_opt(self.as_sock(), SOL_SOCKET, SO_SNDBUF, size as c_int)
+    |                                                                ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+13  | use std::os::raw::c_int;
+    |
+
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:687:33
+    |
+687 |         get_opt(self.as_sock(), SOL_SOCKET, SO_SNDBUF).map(int2usize)
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_SNDBUF` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:687:45
+    |
+687 |         get_opt(self.as_sock(), SOL_SOCKET, SO_SNDBUF).map(int2usize)
+    |                                             ^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `v` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:691:33
+    |
+691 |         set_opt(self.as_sock(), v(IPPROTO_TCP), TCP_NODELAY,
+    |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_TCP` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:691:35
+    |
+691 |         set_opt(self.as_sock(), v(IPPROTO_TCP), TCP_NODELAY,
+    |                                   ^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `TCP_NODELAY` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:691:49
+    |
+691 |         set_opt(self.as_sock(), v(IPPROTO_TCP), TCP_NODELAY,
+    |                                                 ^^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:692:27
+    |
+692 |                nodelay as c_int)
+    |                           ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+13  | use std::os::raw::c_int;
+    |
+
+error[E0425]: cannot find function `v` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:695:33
+    |
+695 |         get_opt(self.as_sock(), v(IPPROTO_TCP), TCP_NODELAY)
+    |                                 ^ not found in this scope
+   Compiling rand_core v0.3.1
+error[E0425]: cannot find value `IPPROTO_TCP` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:695:35
+    |
+695 |         get_opt(self.as_sock(), v(IPPROTO_TCP), TCP_NODELAY)
+    |                                   ^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `TCP_NODELAY` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:695:49
+    |
+695 |         get_opt(self.as_sock(), v(IPPROTO_TCP), TCP_NODELAY)
+    |                                                 ^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:802:33
+    |
+802 |         set_opt(self.as_sock(), SOL_SOCKET, SO_RCVTIMEO,
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_RCVTIMEO` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:802:45
+    |
+802 |         set_opt(self.as_sock(), SOL_SOCKET, SO_RCVTIMEO,
+    |                                             ^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `ms2timeout` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:803:16
+    |
+803 |                ms2timeout(dur))
+    |                ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:807:33
+    |
+807 |         get_opt(self.as_sock(), SOL_SOCKET, SO_RCVTIMEO)
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_RCVTIMEO` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:807:45
+    |
+807 |         get_opt(self.as_sock(), SOL_SOCKET, SO_RCVTIMEO)
+    |                                             ^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `timeout2ms` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:808:18
+    |
+808 |             .map(timeout2ms)
+    |                  ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:812:33
+    |
+812 |         set_opt(self.as_sock(), SOL_SOCKET, SO_SNDTIMEO,
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_SNDTIMEO` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:812:45
+    |
+812 |         set_opt(self.as_sock(), SOL_SOCKET, SO_SNDTIMEO,
+    |                                             ^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `ms2timeout` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:813:16
+    |
+813 |                ms2timeout(dur))
+    |                ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:817:33
+    |
+817 |         get_opt(self.as_sock(), SOL_SOCKET, SO_SNDTIMEO)
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_SNDTIMEO` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:817:45
+    |
+817 |         get_opt(self.as_sock(), SOL_SOCKET, SO_SNDTIMEO)
+    |                                             ^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `timeout2ms` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:818:18
+    |
+818 |             .map(timeout2ms)
+    |                  ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:838:33
+    |
+838 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_TTL` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:838:45
+    |
+838 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+    |                                             ^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:838:60
+    |
+838 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+    |                                                            ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+13  | use std::os::raw::c_int;
+    |
+
+error[E0412]: cannot find type `c_int` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:842:19
+    |
+842 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_TTL)
+    |                   ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+13  | use std::os::raw::c_int;
+    |
+
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:842:42
+    |
+842 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_TTL)
+    |                                          ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_TTL` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:842:54
+    |
+842 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_TTL)
+    |                                                      ^^^^^^ not found in this scope
+error[E0425]: cannot find function `v` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:847:33
+    |
+847 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+    |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:847:35
+    |
+847 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+    |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_V6ONLY` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:847:50
+    |
+847 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+    |                                                  ^^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:847:74
+    |
+847 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+    |                                                                          ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+13  | use std::os::raw::c_int;
+    |
+
+error[E0425]: cannot find function `v` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:851:33
+    |
+851 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY).map(int2bool)
+    |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:851:35
+    |
+851 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY).map(int2bool)
+    |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_V6ONLY` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:851:50
+    |
+851 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY).map(int2bool)
+    |                                                  ^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:859:33
+    |
+859 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_ERROR` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:859:45
+    |
+859 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+    |                                             ^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `set_nonblocking` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:863:9
+    |
+863 |         set_nonblocking(self.as_sock(), nonblocking)
+    |         ^^^^^^^^^^^^^^^ help: try: `self.set_nonblocking`
+
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:867:33
+    |
+867 |         set_opt(self.as_sock(), SOL_SOCKET, SO_LINGER, dur2linger(dur))
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_LINGER` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:867:45
+    |
+867 |         set_opt(self.as_sock(), SOL_SOCKET, SO_LINGER, dur2linger(dur))
+    |                                             ^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `dur2linger` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:867:56
+    |
+867 |         set_opt(self.as_sock(), SOL_SOCKET, SO_LINGER, dur2linger(dur))
+    |                                                        ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:871:33
+    |
+871 |         get_opt(self.as_sock(), SOL_SOCKET, SO_LINGER).map(linger2dur)
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_LINGER` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:871:45
+    |
+871 |         get_opt(self.as_sock(), SOL_SOCKET, SO_LINGER).map(linger2dur)
+    |                                             ^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `linger` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:910:27
+    |
+910 | fn linger2dur(linger_opt: linger) -> Option<Duration> {
+    |                           ^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:953:20
+    |
+953 | pub fn int2bool(n: c_int) -> bool {
+    |                    ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+13  | use std::os::raw::c_int;
+    |
+
+error[E0412]: cannot find type `c_int` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:957:21
+    |
+957 | pub fn int2usize(n: c_int) -> usize {
+    |                     ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+13  | use std::os::raw::c_int;
+    |
+
+error[E0412]: cannot find type `c_int` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:962:19
+    |
+962 | pub fn int2err(n: c_int) -> Option<io::Error> {
+    |                   ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+13  | use std::os::raw::c_int;
+    |
+
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:973:33
+    |
+973 |         set_opt(self.as_sock(), SOL_SOCKET, SO_RCVBUF, size as c_int)
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_RCVBUF` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:973:45
+    |
+973 |         set_opt(self.as_sock(), SOL_SOCKET, SO_RCVBUF, size as c_int)
+    |                                             ^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:973:64
+    |
+973 |         set_opt(self.as_sock(), SOL_SOCKET, SO_RCVBUF, size as c_int)
+    |                                                                ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+13  | use std::os::raw::c_int;
+    |
+
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:977:33
+    |
+977 |         get_opt(self.as_sock(), SOL_SOCKET, SO_RCVBUF).map(int2usize)
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_RCVBUF` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:977:45
+    |
+977 |         get_opt(self.as_sock(), SOL_SOCKET, SO_RCVBUF).map(int2usize)
+    |                                             ^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:981:33
+    |
+981 |         set_opt(self.as_sock(), SOL_SOCKET, SO_SNDBUF, size as c_int)
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_SNDBUF` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:981:45
+    |
+981 |         set_opt(self.as_sock(), SOL_SOCKET, SO_SNDBUF, size as c_int)
+    |                                             ^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:981:64
+    |
+981 |         set_opt(self.as_sock(), SOL_SOCKET, SO_SNDBUF, size as c_int)
+    |                                                                ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+13  | use std::os::raw::c_int;
+    |
+
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:985:33
+    |
+985 |         get_opt(self.as_sock(), SOL_SOCKET, SO_SNDBUF).map(int2usize)
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_SNDBUF` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:985:45
+    |
+985 |         get_opt(self.as_sock(), SOL_SOCKET, SO_SNDBUF).map(int2usize)
+    |                                             ^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:989:33
+    |
+989 |         set_opt(self.as_sock(), SOL_SOCKET, SO_BROADCAST,
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_BROADCAST` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:989:45
+    |
+989 |         set_opt(self.as_sock(), SOL_SOCKET, SO_BROADCAST,
+    |                                             ^^^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:990:29
+    |
+990 |                broadcast as c_int)
+    |                             ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+13  | use std::os::raw::c_int;
+    |
+
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:993:33
+    |
+993 |         get_opt(self.as_sock(), SOL_SOCKET, SO_BROADCAST)
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_BROADCAST` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:993:45
+    |
+993 |         get_opt(self.as_sock(), SOL_SOCKET, SO_BROADCAST)
+    |                                             ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:997:33
+    |
+997 |         set_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_LOOP,
+    |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_MULTICAST_LOOP` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:997:45
+    |
+997 |         set_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_LOOP,
+    |                                             ^^^^^^^^^^^^^^^^^ not found in this scope
+   Compiling serde v1.0.103
+error[E0412]: cannot find type `c_int` in this scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:998:37
+    |
+998 |                multicast_loop_v4 as c_int)
+    |                                     ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+    |
+13  | use std::os::raw::c_int;
+    |
+
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1001:33
+     |
+1001 |         get_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_LOOP)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_MULTICAST_LOOP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1001:45
+     |
+1001 |         get_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_LOOP)
+     |                                             ^^^^^^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1006:33
+     |
+1006 |         set_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_TTL,
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_MULTICAST_TTL` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1006:45
+     |
+1006 |         set_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_TTL,
+     |                                             ^^^^^^^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1007:36
+     |
+1007 |                multicast_ttl_v4 as c_int)
+     |                                    ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1011:19
+     |
+1011 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_MULTICAST_TTL)
+     |                   ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1011:42
+     |
+1011 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_MULTICAST_TTL)
+     |                                          ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_MULTICAST_TTL` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1011:54
+     |
+1011 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_MULTICAST_TTL)
+     |                                                      ^^^^^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1019:33
+     |
+1019 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_HOPS,
+     |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1019:35
+     |
+1019 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_HOPS,
+     |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_MULTICAST_HOPS` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1019:50
+     |
+1019 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_HOPS,
+     |                                                  ^^^^^^^^^^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1020:25
+     |
+1020 |                _hops as c_int)
+     |                         ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1027:19
+     |
+1027 |         get_opt::<c_int>(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_HOPS)
+     |                   ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1027:42
+     |
+1027 |         get_opt::<c_int>(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_HOPS)
+     |                                          ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1027:44
+     |
+1027 |         get_opt::<c_int>(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_HOPS)
+     |                                            ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_MULTICAST_HOPS` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1027:59
+     |
+1027 |         get_opt::<c_int>(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_HOPS)
+     |                                                           ^^^^^^^^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1032:33
+     |
+1032 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_LOOP,
+     |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1032:35
+     |
+1032 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_LOOP,
+     |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_MULTICAST_LOOP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1032:50
+     |
+1032 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_LOOP,
+     |                                                  ^^^^^^^^^^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1033:37
+     |
+1033 |                multicast_loop_v6 as c_int)
+     |                                     ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1036:33
+     |
+1036 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_LOOP)
+     |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1036:35
+     |
+1036 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_LOOP)
+     |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_MULTICAST_LOOP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1036:50
+     |
+1036 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_LOOP)
+     |                                                  ^^^^^^^^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1044:33
+     |
+1044 |         set_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_IF, ip2in_addr(_interface))
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_MULTICAST_IF` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1044:45
+     |
+1044 |         set_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_IF, ip2in_addr(_interface))
+     |                                             ^^^^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `ip2in_addr` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1044:62
+     |
+1044 |         set_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_IF, ip2in_addr(_interface))
+     |                                                              ^^^^^^^^^^ help: a function with a similar name exists: `ip2in6_addr`
+
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1051:33
+     |
+1051 |         get_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_IF).map(in_addr2ip)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_MULTICAST_IF` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1051:45
+     |
+1051 |         get_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_IF).map(in_addr2ip)
+     |                                             ^^^^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1058:33
+     |
+1058 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_IF, to_ipv6mr_interface(_interface))
+     |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1058:35
+     |
+1058 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_IF, to_ipv6mr_interface(_interface))
+     |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_MULTICAST_IF` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1058:50
+     |
+1058 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_IF, to_ipv6mr_interface(_interface))
+     |                                                  ^^^^^^^^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1065:19
+     |
+1065 |         get_opt::<c_int>(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_IF).map(|b| b as u32)
+     |                   ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1065:42
+     |
+1065 |         get_opt::<c_int>(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_IF).map(|b| b as u32)
+     |                                          ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1065:44
+     |
+1065 |         get_opt::<c_int>(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_IF).map(|b| b as u32)
+     |                                            ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_MULTICAST_IF` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1065:59
+     |
+1065 |         get_opt::<c_int>(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_IF).map(|b| b as u32)
+     |                                                           ^^^^^^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1069:33
+     |
+1069 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_TTL` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1069:45
+     |
+1069 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                                             ^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1069:60
+     |
+1069 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                                                            ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1073:19
+     |
+1073 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_TTL)
+     |                   ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1073:42
+     |
+1073 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_TTL)
+     |                                          ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_TTL` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1073:54
+     |
+1073 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_TTL)
+     |                                                      ^^^^^^ not found in this scope
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1081:33
+     |
+1081 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_UNICAST_HOPS, _ttl as c_int)
+     |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1081:35
+     |
+1081 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_UNICAST_HOPS, _ttl as c_int)
+     |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_UNICAST_HOPS` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1081:50
+     |
+1081 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_UNICAST_HOPS, _ttl as c_int)
+     |                                                  ^^^^^^^^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1081:77
+     |
+1081 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_UNICAST_HOPS, _ttl as c_int)
+     |                                                                             ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1088:19
+     |
+1088 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IPV6_UNICAST_HOPS)
+     |                   ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1088:42
+     |
+1088 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IPV6_UNICAST_HOPS)
+     |                                          ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_UNICAST_HOPS` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1088:54
+     |
+1088 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IPV6_UNICAST_HOPS)
+     |                                                      ^^^^^^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1093:33
+     |
+1093 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1093:35
+     |
+1093 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_V6ONLY` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1093:50
+     |
+1093 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                                  ^^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1093:74
+     |
+1093 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                                                          ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1097:33
+     |
+1097 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY).map(int2bool)
+     |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1097:35
+     |
+1097 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY).map(int2bool)
+     |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_V6ONLY` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1097:50
+     |
+1097 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY).map(int2bool)
+     |                                                  ^^^^^^^^^^^ not found in this scope
+error[E0422]: cannot find struct, variant or union type `ip_mreq` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1102:20
+     |
+1102 |         let mreq = ip_mreq {
+     |                    ^^^^^^^ not found in this scope
+error[E0425]: cannot find function `ip2in_addr` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1103:28
+     |
+1103 |             imr_multiaddr: ip2in_addr(multiaddr),
+     |                            ^^^^^^^^^^ help: a function with a similar name exists: `ip2in6_addr`
+
+error[E0425]: cannot find function `ip2in_addr` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1104:28
+     |
+1104 |             imr_interface: ip2in_addr(interface),
+     |                            ^^^^^^^^^^ help: a function with a similar name exists: `ip2in6_addr`
+
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1106:33
+     |
+1106 |         set_opt(self.as_sock(), IPPROTO_IP, IP_ADD_MEMBERSHIP, mreq)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_ADD_MEMBERSHIP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1106:45
+     |
+1106 |         set_opt(self.as_sock(), IPPROTO_IP, IP_ADD_MEMBERSHIP, mreq)
+     |                                             ^^^^^^^^^^^^^^^^^ not found in this scope
+error[E0422]: cannot find struct, variant or union type `ipv6_mreq` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1111:20
+     |
+1111 |         let mreq = ipv6_mreq {
+     |                    ^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1115:33
+     |
+1115 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_ADD_MEMBERSHIP,
+     |                                 ^ not found in this scope
+   Compiling rand_os v0.1.3
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1115:35
+     |
+1115 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_ADD_MEMBERSHIP,
+     |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_ADD_MEMBERSHIP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1115:50
+     |
+1115 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_ADD_MEMBERSHIP,
+     |                                                  ^^^^^^^^^^^^^^^^^^^ not found in this scope
+error[E0422]: cannot find struct, variant or union type `ip_mreq` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1121:20
+     |
+1121 |         let mreq = ip_mreq {
+     |                    ^^^^^^^ not found in this scope
+error[E0425]: cannot find function `ip2in_addr` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1122:28
+     |
+1122 |             imr_multiaddr: ip2in_addr(multiaddr),
+     |                            ^^^^^^^^^^ help: a function with a similar name exists: `ip2in6_addr`
+
+error[E0425]: cannot find function `ip2in_addr` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1123:28
+     |
+1123 |             imr_interface: ip2in_addr(interface),
+     |                            ^^^^^^^^^^ help: a function with a similar name exists: `ip2in6_addr`
+
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1125:33
+     |
+1125 |         set_opt(self.as_sock(), IPPROTO_IP, IP_DROP_MEMBERSHIP, mreq)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_DROP_MEMBERSHIP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1125:45
+     |
+1125 |         set_opt(self.as_sock(), IPPROTO_IP, IP_DROP_MEMBERSHIP, mreq)
+     |                                             ^^^^^^^^^^^^^^^^^^ not found in this scope
+error[E0422]: cannot find struct, variant or union type `ipv6_mreq` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1130:20
+     |
+1130 |         let mreq = ipv6_mreq {
+     |                    ^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1134:33
+     |
+1134 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_DROP_MEMBERSHIP,
+     |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1134:35
+     |
+1134 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_DROP_MEMBERSHIP,
+     |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_DROP_MEMBERSHIP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1134:50
+     |
+1134 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_DROP_MEMBERSHIP,
+     |                                                  ^^^^^^^^^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1139:33
+     |
+1139 |         set_opt(self.as_sock(), SOL_SOCKET, SO_RCVTIMEO,
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_RCVTIMEO` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1139:45
+     |
+1139 |         set_opt(self.as_sock(), SOL_SOCKET, SO_RCVTIMEO,
+     |                                             ^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `ms2timeout` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1140:16
+     |
+1140 |                ms2timeout(dur))
+     |                ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1144:33
+     |
+1144 |         get_opt(self.as_sock(), SOL_SOCKET, SO_RCVTIMEO)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_RCVTIMEO` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1144:45
+     |
+1144 |         get_opt(self.as_sock(), SOL_SOCKET, SO_RCVTIMEO)
+     |                                             ^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `timeout2ms` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1145:18
+     |
+1145 |             .map(timeout2ms)
+     |                  ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1149:33
+     |
+1149 |         set_opt(self.as_sock(), SOL_SOCKET, SO_SNDTIMEO,
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_SNDTIMEO` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1149:45
+     |
+1149 |         set_opt(self.as_sock(), SOL_SOCKET, SO_SNDTIMEO,
+     |                                             ^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `ms2timeout` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1150:16
+     |
+1150 |                ms2timeout(dur))
+     |                ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1154:33
+     |
+1154 |         get_opt(self.as_sock(), SOL_SOCKET, SO_SNDTIMEO)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_SNDTIMEO` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1154:45
+     |
+1154 |         get_opt(self.as_sock(), SOL_SOCKET, SO_SNDTIMEO)
+     |                                             ^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `timeout2ms` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1155:18
+     |
+1155 |             .map(timeout2ms)
+     |                  ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1175:33
+     |
+1175 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_ERROR` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1175:45
+     |
+1175 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+     |                                             ^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `set_nonblocking` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1233:9
+     |
+1233 |         set_nonblocking(self.as_sock(), nonblocking)
+     |         ^^^^^^^^^^^^^^^ help: try: `self.set_nonblocking`
+
+error[E0412]: cannot find type `Socket` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1237:39
+     |
+1237 | fn do_connect<A: ToSocketAddrs>(sock: Socket, addr: A) -> io::Result<()> {
+     |                                       ^^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use socket::Socket;
+     |
+
+error[E0412]: cannot find type `in_addr` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1318:20
+     |
+1318 | fn in_addr2ip(ip: &in_addr) -> Ipv4Addr {
+     |                    ^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_uint` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1335:39
+     |
+1335 | fn to_ipv6mr_interface(value: u32) -> c_uint {
+     |                                       ^^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_uint;
+     |
+
+error[E0412]: cannot find type `c_uint` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1336:14
+     |
+1336 |     value as c_uint
+     |              ^^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_uint;
+     |
+
+error[E0412]: cannot find type `in6_addr` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1339:34
+     |
+1339 | fn ip2in6_addr(ip: &Ipv6Addr) -> in6_addr {
+     |                                  ^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `in6_addr` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1340:18
+     |
+1340 |     let mut ret: in6_addr = unsafe { mem::zeroed() };
+     |                  ^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1368:33
+     |
+1368 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_TTL` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1368:45
+     |
+1368 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                                             ^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1368:60
+     |
+1368 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                                                            ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1372:19
+     |
+1372 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_TTL)
+     |                   ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1372:42
+     |
+1372 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_TTL)
+     |                                          ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_TTL` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1372:54
+     |
+1372 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_TTL)
+     |                                                      ^^^^^^ not found in this scope
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1377:33
+     |
+1377 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1377:35
+     |
+1377 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_V6ONLY` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1377:50
+     |
+1377 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                                  ^^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1377:74
+     |
+1377 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                                                          ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1381:33
+     |
+1381 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY).map(int2bool)
+     |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1381:35
+     |
+1381 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY).map(int2bool)
+     |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_V6ONLY` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1381:50
+     |
+1381 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY).map(int2bool)
+     |                                                  ^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1385:33
+     |
+1385 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_ERROR` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1385:45
+     |
+1385 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+     |                                             ^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `set_nonblocking` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1389:9
+     |
+1389 |         set_nonblocking(self.as_sock(), nonblocking)
+     |         ^^^^^^^^^^^^^^^ help: try: `self.set_nonblocking`
+
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1393:33
+     |
+1393 |         set_opt(self.as_sock(), SOL_SOCKET, SO_LINGER, dur2linger(dur))
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_LINGER` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1393:45
+     |
+1393 |         set_opt(self.as_sock(), SOL_SOCKET, SO_LINGER, dur2linger(dur))
+     |                                             ^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `dur2linger` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1393:56
+     |
+1393 |         set_opt(self.as_sock(), SOL_SOCKET, SO_LINGER, dur2linger(dur))
+     |                                                        ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1397:33
+     |
+1397 |         get_opt(self.as_sock(), SOL_SOCKET, SO_LINGER).map(linger2dur)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_LINGER` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1397:45
+     |
+1397 |         get_opt(self.as_sock(), SOL_SOCKET, SO_LINGER).map(linger2dur)
+     |                                             ^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1408:33
+     |
+1408 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_TTL` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1408:45
+     |
+1408 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                                             ^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1408:60
+     |
+1408 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                                                            ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1418:33
+     |
+1418 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1418:35
+     |
+1418 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_V6ONLY` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1418:50
+     |
+1418 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                                  ^^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1418:74
+     |
+1418 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                                                          ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1428:33
+     |
+1428 |         set_opt(self.as_sock(), SOL_SOCKET, SO_REUSEADDR,
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_REUSEADDR` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1428:45
+     |
+1428 |         set_opt(self.as_sock(), SOL_SOCKET, SO_REUSEADDR,
+     |                                             ^^^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1429:25
+     |
+1429 |                reuse as c_int).map(|()| self)
+     |                         ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1434:33
+     |
+1434 |         get_opt(self.as_sock(), SOL_SOCKET, SO_REUSEADDR).map(int2bool)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_REUSEADDR` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1434:45
+     |
+1434 |         get_opt(self.as_sock(), SOL_SOCKET, SO_REUSEADDR).map(int2bool)
+     |                                             ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1443:33
+     |
+1443 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_ERROR` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1443:45
+     |
+1443 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+     |                                             ^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1448:33
+     |
+1448 |         set_opt(self.as_sock(), SOL_SOCKET, SO_LINGER, dur2linger(dur))
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_LINGER` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1448:45
+     |
+1448 |         set_opt(self.as_sock(), SOL_SOCKET, SO_LINGER, dur2linger(dur))
+     |                                             ^^^^^^^^^ not found in this scope
+error[E0425]: cannot find function `dur2linger` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1448:56
+     |
+1448 |         set_opt(self.as_sock(), SOL_SOCKET, SO_LINGER, dur2linger(dur))
+     |                                                        ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1453:33
+     |
+1453 |         get_opt(self.as_sock(), SOL_SOCKET, SO_LINGER).map(linger2dur)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_LINGER` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1453:45
+     |
+1453 |         get_opt(self.as_sock(), SOL_SOCKET, SO_LINGER).map(linger2dur)
+     |                                             ^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IP` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1464:33
+     |
+1464 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IP_TTL` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1464:45
+     |
+1464 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                                             ^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1464:60
+     |
+1464 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                                                            ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0425]: cannot find function `v` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1474:33
+     |
+1474 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                 ^ not found in this scope
+error[E0425]: cannot find value `IPPROTO_IPV6` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1474:35
+     |
+1474 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                   ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `IPV6_V6ONLY` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1474:50
+     |
+1474 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                                  ^^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1474:74
+     |
+1474 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                                                                          ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1484:33
+     |
+1484 |         set_opt(self.as_sock(), SOL_SOCKET, SO_REUSEADDR,
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_REUSEADDR` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1484:45
+     |
+1484 |         set_opt(self.as_sock(), SOL_SOCKET, SO_REUSEADDR,
+     |                                             ^^^^^^^^^^^^ not found in this scope
+error[E0412]: cannot find type `c_int` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1485:25
+     |
+1485 |                reuse as c_int).map(|()| self)
+     |                         ^^^^^ not found in this scope
+help: possible candidate is found in another module, you can import it into scope
+     |
+13   | use std::os::raw::c_int;
+     |
+
+   Compiling rand_jitter v0.1.4
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1490:33
+     |
+1490 |         get_opt(self.as_sock(), SOL_SOCKET, SO_REUSEADDR).map(int2bool)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_REUSEADDR` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1490:45
+     |
+1490 |         get_opt(self.as_sock(), SOL_SOCKET, SO_REUSEADDR).map(int2bool)
+     |                                             ^^^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SOL_SOCKET` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1499:33
+     |
+1499 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+     |                                 ^^^^^^^^^^ not found in this scope
+error[E0425]: cannot find value `SO_ERROR` in this scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1499:45
+     |
+1499 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+     |                                             ^^^^^^^^ not found in this scope
+error[E0046]: not all trait items implemented, missing: `set_keepalive_ms`, `keepalive_ms`
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:671:1
+    |
+144 |     fn set_keepalive_ms(&self, keepalive: Option<u32>) -> io::Result<()>;
+    |     --------------------------------------------------------------------- `set_keepalive_ms` from trait
+...
+152 |     fn keepalive_ms(&self) -> io::Result<Option<u32>>;
+    |     -------------------------------------------------- `keepalive_ms` from trait
+...
+671 | impl TcpStreamExt for TcpStream {
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ missing `set_keepalive_ms`, `keepalive_ms` in implementation
+
+error[E0046]: not all trait items implemented, missing: `send`, `recv`
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:970:1
+    |
+621 |     fn send(&self, buf: &[u8]) -> io::Result<usize>;
+    |     ------------------------------------------------ `send` from trait
+...
+628 |     fn recv(&self, buf: &mut [u8]) -> io::Result<usize>;
+    |     ---------------------------------------------------- `recv` from trait
+...
+970 | impl UdpSocketExt for UdpSocket {
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ missing `send`, `recv` in implementation
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:675:22
+    |
+675 |         set_opt(self.as_sock(), SOL_SOCKET, SO_RCVBUF, size as c_int)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:679:22
+    |
+679 |         get_opt(self.as_sock(), SOL_SOCKET, SO_RCVBUF).map(int2usize)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:683:22
+    |
+683 |         set_opt(self.as_sock(), SOL_SOCKET, SO_SNDBUF, size as c_int)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:687:22
+    |
+687 |         get_opt(self.as_sock(), SOL_SOCKET, SO_SNDBUF).map(int2usize)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:691:22
+    |
+691 |         set_opt(self.as_sock(), v(IPPROTO_TCP), TCP_NODELAY,
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:695:22
+    |
+695 |         get_opt(self.as_sock(), v(IPPROTO_TCP), TCP_NODELAY)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:802:22
+    |
+802 |         set_opt(self.as_sock(), SOL_SOCKET, SO_RCVTIMEO,
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:807:22
+    |
+807 |         get_opt(self.as_sock(), SOL_SOCKET, SO_RCVTIMEO)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:812:22
+    |
+812 |         set_opt(self.as_sock(), SOL_SOCKET, SO_SNDTIMEO,
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:817:22
+    |
+817 |         get_opt(self.as_sock(), SOL_SOCKET, SO_SNDTIMEO)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:838:22
+    |
+838 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:842:31
+    |
+842 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_TTL)
+    |                               ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:847:22
+    |
+847 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:851:22
+    |
+851 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY).map(int2bool)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:855:25
+    |
+855 |         do_connect(self.as_sock(), addr)
+    |                         ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:859:22
+    |
+859 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:863:30
+    |
+863 |         set_nonblocking(self.as_sock(), nonblocking)
+    |                              ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:867:22
+    |
+867 |         set_opt(self.as_sock(), SOL_SOCKET, SO_LINGER, dur2linger(dur))
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpStream` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:871:22
+    |
+871 |         get_opt(self.as_sock(), SOL_SOCKET, SO_LINGER).map(linger2dur)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:973:22
+    |
+973 |         set_opt(self.as_sock(), SOL_SOCKET, SO_RCVBUF, size as c_int)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:977:22
+    |
+977 |         get_opt(self.as_sock(), SOL_SOCKET, SO_RCVBUF).map(int2usize)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:981:22
+    |
+981 |         set_opt(self.as_sock(), SOL_SOCKET, SO_SNDBUF, size as c_int)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:985:22
+    |
+985 |         get_opt(self.as_sock(), SOL_SOCKET, SO_SNDBUF).map(int2usize)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:989:22
+    |
+989 |         set_opt(self.as_sock(), SOL_SOCKET, SO_BROADCAST,
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:993:22
+    |
+993 |         get_opt(self.as_sock(), SOL_SOCKET, SO_BROADCAST)
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+   --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:997:22
+    |
+997 |         set_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_LOOP,
+    |                      ^^^^^^^
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+            candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1001:22
+     |
+1001 |         get_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_LOOP)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1006:22
+     |
+1006 |         set_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_TTL,
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1011:31
+     |
+1011 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_MULTICAST_TTL)
+     |                               ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1019:22
+     |
+1019 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_HOPS,
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1027:31
+     |
+1027 |         get_opt::<c_int>(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_HOPS)
+     |                               ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1032:22
+     |
+1032 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_LOOP,
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1036:22
+     |
+1036 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_LOOP)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1044:22
+     |
+1044 |         set_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_IF, ip2in_addr(_interface))
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1051:22
+     |
+1051 |         get_opt(self.as_sock(), IPPROTO_IP, IP_MULTICAST_IF).map(in_addr2ip)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1058:22
+     |
+1058 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_IF, to_ipv6mr_interface(_interface))
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1065:31
+     |
+1065 |         get_opt::<c_int>(self.as_sock(), v(IPPROTO_IPV6), IPV6_MULTICAST_IF).map(|b| b as u32)
+     |                               ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1069:22
+     |
+1069 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1073:31
+     |
+1073 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_TTL)
+     |                               ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1081:22
+     |
+1081 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_UNICAST_HOPS, _ttl as c_int)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+   Compiling syn v0.15.44
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1088:31
+     |
+1088 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IPV6_UNICAST_HOPS)
+     |                               ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1093:22
+     |
+1093 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1097:22
+     |
+1097 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY).map(int2bool)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1106:22
+     |
+1106 |         set_opt(self.as_sock(), IPPROTO_IP, IP_ADD_MEMBERSHIP, mreq)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1115:22
+     |
+1115 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_ADD_MEMBERSHIP,
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1125:22
+     |
+1125 |         set_opt(self.as_sock(), IPPROTO_IP, IP_DROP_MEMBERSHIP, mreq)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+   Compiling crc32fast v1.2.0
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1134:22
+     |
+1134 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_DROP_MEMBERSHIP,
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+   Compiling encoding_rs v0.8.20
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1139:22
+     |
+1139 |         set_opt(self.as_sock(), SOL_SOCKET, SO_RCVTIMEO,
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1144:22
+     |
+1144 |         get_opt(self.as_sock(), SOL_SOCKET, SO_RCVTIMEO)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1149:22
+     |
+1149 |         set_opt(self.as_sock(), SOL_SOCKET, SO_SNDTIMEO,
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1154:22
+     |
+1154 |         get_opt(self.as_sock(), SOL_SOCKET, SO_SNDTIMEO)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1175:22
+     |
+1175 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1179:25
+     |
+1179 |         do_connect(self.as_sock(), addr)
+     |                         ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::UdpSocket` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1233:30
+     |
+1233 |         set_nonblocking(self.as_sock(), nonblocking)
+     |                              ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpListener` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1368:22
+     |
+1368 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpListener` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1372:31
+     |
+1372 |         get_opt::<c_int>(self.as_sock(), IPPROTO_IP, IP_TTL)
+     |                               ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpListener` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1377:22
+     |
+1377 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpListener` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1381:22
+     |
+1381 |         get_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY).map(int2bool)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpListener` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1385:22
+     |
+1385 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpListener` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1389:30
+     |
+1389 |         set_nonblocking(self.as_sock(), nonblocking)
+     |                              ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpListener` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1393:22
+     |
+1393 |         set_opt(self.as_sock(), SOL_SOCKET, SO_LINGER, dur2linger(dur))
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&std::net::TcpListener` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1397:22
+     |
+1397 |         get_opt(self.as_sock(), SOL_SOCKET, SO_LINGER).map(linger2dur)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&tcp::TcpBuilder` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1408:22
+     |
+1408 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&tcp::TcpBuilder` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1418:22
+     |
+1418 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&tcp::TcpBuilder` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1428:22
+     |
+1428 |         set_opt(self.as_sock(), SOL_SOCKET, SO_REUSEADDR,
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&tcp::TcpBuilder` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1434:22
+     |
+1434 |         get_opt(self.as_sock(), SOL_SOCKET, SO_REUSEADDR).map(int2bool)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&tcp::TcpBuilder` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1443:22
+     |
+1443 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&tcp::TcpBuilder` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1448:22
+     |
+1448 |         set_opt(self.as_sock(), SOL_SOCKET, SO_LINGER, dur2linger(dur))
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&tcp::TcpBuilder` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1453:22
+     |
+1453 |         get_opt(self.as_sock(), SOL_SOCKET, SO_LINGER).map(linger2dur)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&udp::UdpBuilder` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1464:22
+     |
+1464 |         set_opt(self.as_sock(), IPPROTO_IP, IP_TTL, ttl as c_int)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&udp::UdpBuilder` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1474:22
+     |
+1474 |         set_opt(self.as_sock(), v(IPPROTO_IPV6), IPV6_V6ONLY, only_v6 as c_int)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&udp::UdpBuilder` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1484:22
+     |
+1484 |         set_opt(self.as_sock(), SOL_SOCKET, SO_REUSEADDR,
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&udp::UdpBuilder` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1490:22
+     |
+1490 |         get_opt(self.as_sock(), SOL_SOCKET, SO_REUSEADDR).map(int2bool)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error[E0599]: no method named `as_sock` found for type `&udp::UdpBuilder` in the current scope
+    --> C:\Users\Eric\.cargo\registry\src\github.com-1ecc6299db9ec823\net2-0.2.33\src\ext.rs:1499:22
+     |
+1499 |         get_opt(self.as_sock(), SOL_SOCKET, SO_ERROR).map(int2err)
+     |                      ^^^^^^^
+     |
+     = help: items from traits can only be used if the trait is implemented and in scope
+     = note: the following trait defines an item `as_sock`, perhaps you need to implement it:
+             candidate #1: `ext::AsSock`
+
+error: aborting due to 317 previous errors
+Some errors have detailed explanations: E0046, E0412, E0422, E0425, E0432, E0599.
+For more information about an error, try `rustc --explain E0046`.
+error: Could not compile `net2`.
+warning: build failed, waiting for other jobs to finish...
+error: build failed
+error: build failed
