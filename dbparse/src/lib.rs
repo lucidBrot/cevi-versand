@@ -104,8 +104,11 @@ impl DB_Conf {
     }
 }
 
-fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, chttp::Error> {
-    let body : String = chttp::get(&db_conf.versand_endpoint())?.into_body().text()?;
+fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, Option<String>> {
+    let request = seed::fetch::Request::new(db_conf.versand_endpoint())
+        .method(seed::fetch::Method::Get);
+    request.fetch_string_data(|res| println!("yey!"));
+    /*
     // deserialize the json data into a struct
     let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(&body).expect("dbparse: The request response is not well-formatted.");
 
@@ -122,7 +125,11 @@ fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, chttp:
     let reasonable_dataset : ReasonableDataset = dese.to_reasonable_dataset();
     if reasonable_dataset.people.len() < 1 {panic!("There are no people in the dataset!");}
 
+    
     Ok(reasonable_dataset)
+    */
+    Err(None)
+
 }
 
 #[derive(Serialize, Deserialize, Debug)]
