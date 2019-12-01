@@ -3,6 +3,8 @@ use yew::{html, Component, ComponentLink, Html, ShouldRender};
 pub struct Model {
     email: Option<String>,
     email_placeholder: String,
+    password: String,
+    auth_token: String,
 }
 
 pub enum Msg {
@@ -17,6 +19,8 @@ impl Component for Model {
         Model {
             email: None::<String>,
             email_placeholder: "ich@cevi.ch".to_string(),
+            password: String::new(),
+            auth_token: String::new()
         }
     }
 
@@ -32,7 +36,11 @@ impl Component for Model {
     fn view(&self) -> Html<Self> {
         html! {
             <div>
-                <input type="text">{ &self.email_text() }</input>
+                <input type="email">{ &self.email_text() }</input>
+                <br/>
+                <input type="password">{ &self.password }</input>
+                <br/>
+                <input type="text">{ &self.auth_token }</input>
                 <button onclick=|_| Msg::Click>{ &self.email_text() }</button>
             </div>
         }
