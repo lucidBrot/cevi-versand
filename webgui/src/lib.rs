@@ -8,6 +8,7 @@ pub struct Model {
 
 pub enum Msg {
     Click,
+    StartDownload
 }
 
 impl Component for Model {
@@ -27,6 +28,7 @@ impl Component for Model {
             Msg::Click => {
                 self.email = "herbert".to_string();
             }
+            Msg::StartDownload => {()}
         }
         true
     }
@@ -41,9 +43,12 @@ impl Component for Model {
                 <button onclick=|_| Msg::Click>{ "Auth Token holen" }</button>
                 <br/>
                 <input type="text">{ &self.auth_token }</input>
+                </br>
+                <button onclick=|_| Msg::StartDownload>{ "Loslegen!" }</button>
             </div>
         }
     }
 }
+
 
 
