@@ -2,3 +2,5 @@ https://stackoverflow.com/questions/52327290/linking-openssl-with-webassembly
 
 
 https://github.com/seanmonstar/reqwest/issues/495
+
+fetch api: https://www.steadylearner.com/blog/read/How-to-render-blog-posts-with-Rust-Yew-mounted-API
