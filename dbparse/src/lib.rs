@@ -105,10 +105,10 @@ impl DB_Conf {
 }
 
 fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, Option<String>> {
-    let request = seed::fetch::Request::new(db_conf.versand_endpoint())
+    /*let request = seed::fetch::Request::new(db_conf.versand_endpoint())
         .method(seed::fetch::Method::Get);
     request.fetch_string_data(|res| println!("yey!"));
-    /*
+    *//*
     // deserialize the json data into a struct
     let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(&body).expect("dbparse: The request response is not well-formatted.");
 
