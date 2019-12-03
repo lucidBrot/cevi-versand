@@ -45,7 +45,7 @@ impl InternetLeek for WebInternetLeek {
         use futures::future;
         use std::future::Future;
         let future_result = request.fetch_string_data(|_| ());
-        let result = tokio::runtime::Runtime::new().expect("tokio fucked up creating a runtime!").block_on(future_result);
+        let result = futures::executor::block_on<futures::future::Future>(future_result.into());
         // TODO: find a way that will not block the event loop
         return result;
     }

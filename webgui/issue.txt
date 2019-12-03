@@ -6,3 +6,5 @@ https://github.com/seanmonstar/reqwest/issues/495
 fetch api: https://www.steadylearner.com/blog/read/How-to-render-blog-posts-with-Rust-Yew-mounted-API
 
 other fetch: https://rustwasm.github.io/wasm-bindgen/examples/fetch.html
+
+seed tutorial: https://seed-rs.org/guide/http-requests-and-state
