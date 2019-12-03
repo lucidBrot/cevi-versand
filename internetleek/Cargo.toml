@@ -9,6 +9,6 @@ edition = "2018"
 [dependencies]
 
 [target.'cfg(target_arch = "asm32")'.dependencies]
-chttp = "0.5.5"
 
 [target.'cfg(not(target_arch = "asm32"))'.dependencies]
+chttp = "0.5.5"
