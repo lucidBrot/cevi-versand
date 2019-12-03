@@ -8,3 +8,4 @@ edition = "2018"
 yew = "0.10"
 combine = { path = "../combine" }
 internetleek = { path = "../internetleek" }
+seed = "0.4.2"

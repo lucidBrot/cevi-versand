@@ -12,7 +12,9 @@ pub struct Model {
 
 pub enum Msg {
     Click,
-    StartDownload
+    StartDownload,
+    StartDownloading,
+    DoneDownloading(seed::fetch::ResponseDataResult<String>),
 }
 
 impl Component for Model {
@@ -32,14 +34,19 @@ impl Component for Model {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Msg::Click => {
-                self.buttontext = "tested_internet".to_string();
-                use internetleek::InternetLeek;
-                let a = internetleek::get_internet_leek().GET_body("https://docs.rs/seed/0.2.8/seed/fetch/struct.Request.html");
-                if let Ok(s) = a {
-                    self.debugtext = s;
-                }
+                self.buttontext = "useless button".to_string();
             },
-            Msg::StartDownload => {combine::main();} // TODO: use correct function call
+            Msg::StartDownload => {combine::main();}, // TODO: use correct function call
+            Msg::StartDownloading => {
+                let url : &str = "https://seed-rs.org/guide/http-requests-and-state";
+                seed::Request::new(url.to_string()).fetch_string_data(Msg::DoneDownloading);
+            },
+            Msg::DoneDownloading(Ok(data)) => {
+                self.debugtext = format!("data received: {}", data);
+            },
+            Msg::DoneDownloading(Err(fail_reason)) => {
+                self.debugtext = format!("no data received: {:?}", fail_reason);
+            }
         }
         true
     }
@@ -55,7 +62,7 @@ impl Component for Model {
                 <br/>
                 <input type="text">{ &self.auth_token }</input>
                 <br/>
-                <button onclick=|_| Msg::StartDownload>{ "Loslegen!" }</button>
+                <button onclick=|_| Msg::StartDownloading>{ "Loslegen!" }</button>
                 <hr/>
                 <p>{ &self.debugtext }</p>
             </div>
