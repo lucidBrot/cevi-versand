@@ -1223,6 +1223,7 @@ name = "webgui"
 version = "0.1.0"
 dependencies = [
  "combine 0.1.0",
+ "internetleek 0.1.0",
  "yew 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 

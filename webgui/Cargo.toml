@@ -7,3 +7,4 @@ edition = "2018"
 [dependencies]
 yew = "0.10"
 combine = { path = "../combine" }
+internetleek = { path = "../internetleek" }
