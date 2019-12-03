@@ -10,6 +10,7 @@ edition = "2018"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 seed = "0.4.2"
+tokio = "0.2.2"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 chttp = "0.5.5"
