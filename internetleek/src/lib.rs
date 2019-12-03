@@ -1,11 +1,19 @@
+pub fn get_internet_leek () -> impl InternetLeek {
+    #[cfg(not(target_arch = "wasm32"))]
+    return CliInternetLeek::new();
+
+    #[cfg(target_arch = "wasm32")]
+    return WebInternetLeek::new();
+}
+
 pub trait InternetLeek {
     #[allow(non_snake_case)]
     fn GET_body (url: &str) -> Result<String, Box<dyn std::error::Error>>;
 }
 
-#[cfg(not(target_arch = "asm32"))]
+#[cfg(not(target_arch = "wasm32"))]
 pub struct CliInternetLeek {}
-#[cfg(not(target_arch = "asm32"))]
+#[cfg(not(target_arch = "wasm32"))]
 impl CliInternetLeek {
     fn new() -> Self {
         CliInternetLeek{}
@@ -13,9 +21,25 @@ impl CliInternetLeek {
 }
 
 
-#[cfg(not(target_arch = "asm32"))]
+#[cfg(not(target_arch = "wasm32"))]
 impl InternetLeek for CliInternetLeek {
     fn GET_body (url: &str) -> Result<String, Box<dyn std::error::Error>>  {
         Ok(chttp::get(url)?.into_body().text()?)
+    }
+}
+
+#[cfg(target_arch = "wasm32")]
+pub struct WebInternetLeek {}
+#[cfg(target_arch = "wasm32")]
+impl WebInternetLeek {
+    fn new() -> Self {
+        WebInternetLeek{}
+    }
+}
+
+#[cfg(target_arch = "wasm32")]
+impl InternetLeek for WebInternetLeek {
+    fn GET_body (url: &str) -> Result<String, Box<dyn std::error::Error>>  {
+        Ok("placeholder body".to_string())
     }
 }
