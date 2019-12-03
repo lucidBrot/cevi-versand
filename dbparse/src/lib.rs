@@ -104,11 +104,14 @@ impl DB_Conf {
     }
 }
 
-fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, Option<String>> {
+fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {
+    use internetleek::InternetLeek;
+    let leek = internetleek::get_internet_leek();
+    let body = leek.GET_body(db_conf.versand_endpoint().as_ref())?;
     /*let request = seed::fetch::Request::new(db_conf.versand_endpoint())
         .method(seed::fetch::Method::Get);
     request.fetch_string_data(|res| println!("yey!"));
-    *//*
+    */
     // deserialize the json data into a struct
     let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(&body).expect("dbparse: The request response is not well-formatted.");
 
@@ -127,9 +130,6 @@ fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, Option
 
     
     Ok(reasonable_dataset)
-    */
-    Err(None)
-
 }
 
 #[derive(Serialize, Deserialize, Debug)]

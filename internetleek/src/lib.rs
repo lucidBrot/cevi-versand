@@ -8,7 +8,7 @@ pub fn get_internet_leek () -> impl InternetLeek {
 
 pub trait InternetLeek {
     #[allow(non_snake_case)]
-    fn GET_body (url: &str) -> Result<String, Box<dyn std::error::Error>>;
+    fn GET_body (&self, url: &str) -> Result<String, Box<dyn std::error::Error>>;
 }
 
 #[cfg(not(target_arch = "wasm32"))]
@@ -23,7 +23,7 @@ impl CliInternetLeek {
 
 #[cfg(not(target_arch = "wasm32"))]
 impl InternetLeek for CliInternetLeek {
-    fn GET_body (url: &str) -> Result<String, Box<dyn std::error::Error>>  {
+    fn GET_body (&self, url: &str) -> Result<String, Box<dyn std::error::Error>>  {
         Ok(chttp::get(url)?.into_body().text()?)
     }
 }
@@ -39,7 +39,7 @@ impl WebInternetLeek {
 
 #[cfg(target_arch = "wasm32")]
 impl InternetLeek for WebInternetLeek {
-    fn GET_body (url: &str) -> Result<String, Box<dyn std::error::Error>>  {
+    fn GET_body (&self, url: &str) -> Result<String, Box<dyn std::error::Error>>  {
         Ok("placeholder body".to_string())
     }
 }
