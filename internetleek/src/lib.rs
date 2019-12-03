@@ -29,24 +29,38 @@ impl InternetLeek for CliInternetLeek {
 }
 
 #[cfg(target_arch = "wasm32")]
-pub struct WebInternetLeek {}
+pub struct WebInternetLeek { data: Option<String>}
 #[cfg(target_arch = "wasm32")]
 impl WebInternetLeek {
     fn new() -> Self {
-        WebInternetLeek{}
+        WebInternetLeek{ data: None, }
     }
 }
 
 #[cfg(target_arch = "wasm32")]
 impl InternetLeek for WebInternetLeek {
     fn GET_body (&self, url: &str) -> Result<String, Box<dyn std::error::Error>>  {
-        let request = seed::fetch::Request::new(url)
-            .method(seed::fetch::Method::Get);
-        use futures::future;
-        use std::future::Future;
-        let future_result = request.fetch_string_data(|_| ());
-        let result = futures::executor::block_on<futures::future::Future>(future_result.into());
-        // TODO: find a way that will not block the event loop
-        return result;
+        match &self.data {
+            Some(a) => Ok(a.to_string()),
+            None => Err(Box::new(GenericAsFuckError::new())),
+        }
+    }
+}
+
+#[derive(Debug)]
+pub struct GenericAsFuckError {}
+impl std::error::Error for GenericAsFuckError {
+    fn description(&self) -> &str {
+        "Anything might have happened"
+    }
+}
+impl std::fmt::Display for GenericAsFuckError {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "{}", "Anything might have happened".to_string())
+    }
+}
+impl GenericAsFuckError {
+    fn new() -> Self {
+        GenericAsFuckError {}
     }
 }
