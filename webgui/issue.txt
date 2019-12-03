@@ -8,3 +8,5 @@ fetch api: https://www.steadylearner.com/blog/read/How-to-render-blog-posts-with
 other fetch: https://rustwasm.github.io/wasm-bindgen/examples/fetch.html
 
 seed tutorial: https://seed-rs.org/guide/http-requests-and-state
+
+wasm sample for fetch: https://github.com/rustwasm/wasm-bindgen/blob/master/examples/fetch/src/lib.rs
