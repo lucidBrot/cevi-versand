@@ -40,6 +40,12 @@ impl WebInternetLeek {
 #[cfg(target_arch = "wasm32")]
 impl InternetLeek for WebInternetLeek {
     fn GET_body (&self, url: &str) -> Result<String, Box<dyn std::error::Error>>  {
-        Ok("placeholder body".to_string())
+        let request = seed::fetch::Request::new(url)
+            .method(seed::fetch::Method::Get);
+        use std::future::Future;
+        let future_result = request.fetch_string_data(|_| ());
+        let result = future_result.wait();
+        // TODO: find a way that will not block the event loop
+        return result;
     }
 }
