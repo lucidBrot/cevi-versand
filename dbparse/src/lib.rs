@@ -108,9 +108,14 @@ fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, Box<dy
     use internetleek::InternetLeek;
     let leek = internetleek::get_internet_leek();
     let body = leek.GET_body(db_conf.versand_endpoint().as_ref())?;
+    
+    return reasonablify_body(&body);
+}
 
+fn reasonablify_body (body: &String) -> Result<ReasonableDataset , Box<dyn std::error::Error>>
+{ 
     // deserialize the json data into a struct
-    let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(&body).expect("dbparse: The request response is not well-formatted.");
+    let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(body.as_ref()).expect("dbparse: The request response is not well-formatted.");
 
     let mut i = 0;
 
