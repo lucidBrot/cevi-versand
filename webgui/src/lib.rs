@@ -73,7 +73,7 @@ impl Component for Model {
 }
 
 impl Model {
-    fn download_people_data(&self, uri: &str) {
+    fn download_people_data(&mut self, uri: &str) {
         let request = Request::get(uri).body(()).expect("Failed to build request");
         let callback = self.component_link.send_back(move |response: Response<Result<String, _>>| {
             if response.status().is_success() {
@@ -82,7 +82,7 @@ impl Model {
                 return Msg::DoneDownloading(response.into_body());
             }
         });
-        self.fetch_service.fetch(request, callback);
+        //self.fetch_service.fetch(request, callback);
 
     }
 }
