@@ -28,39 +28,3 @@ impl InternetLeek for CliInternetLeek {
     }
 }
 
-#[cfg(target_arch = "wasm32")]
-pub struct WebInternetLeek { data: Option<String>}
-#[cfg(target_arch = "wasm32")]
-impl WebInternetLeek {
-    fn new() -> Self {
-        WebInternetLeek{ data: None, }
-    }
-}
-
-#[cfg(target_arch = "wasm32")]
-impl InternetLeek for WebInternetLeek {
-    fn GET_body (&self, url: &str) -> Result<String, Box<dyn std::error::Error>>  {
-        match &self.data {
-            Some(a) => Ok(a.to_string()),
-            None => Err(Box::new(GenericAsFuckError::new())),
-        }
-    }
-}
-
-#[derive(Debug)]
-pub struct GenericAsFuckError {}
-impl std::error::Error for GenericAsFuckError {
-    fn description(&self) -> &str {
-        "Anything might have happened"
-    }
-}
-impl std::fmt::Display for GenericAsFuckError {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "{}", "Anything might have happened".to_string())
-    }
-}
-impl GenericAsFuckError {
-    fn new() -> Self {
-        GenericAsFuckError {}
-    }
-}

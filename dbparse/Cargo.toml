@@ -13,5 +13,4 @@ serde_yaml = "0.8"
 #reqwest = { version = "0.9", default-features = false, features = ["rustls-tls"] }
 #chttp = "0.5.5"
 #seed = "0.4.2"
-internetleek = { path = "../internetleek" }
 serde-aux = "0.6"

@@ -3,6 +3,7 @@ use pdfgen;
 use regex;
 mod roletranslation;
 
+#[cfg(not(target_arch = "wasm32"))]
 pub fn main() {
     use ui::UserInteractor;
     let user_interface = ui::CliUi{};
@@ -31,6 +32,10 @@ pub fn main() {
         .save(&mut outfile)
         .expect("Failed to save file...");
 }
+
+
+#[cfg(target_arch = "wasm32")]
+pub fn main() {}
 
 fn merge_households<'b>(
     people: &'b mut Vec<dbparse::ReasonablePerson>,

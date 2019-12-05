@@ -1,5 +1,6 @@
 #![recursion_limit="256"]
 use yew::{html, Component, ComponentLink, Html, ShouldRender};
+use yew::services::fetch::{FetchService, Response, Request};
 use combine;
 
 pub struct Model {
@@ -8,26 +9,30 @@ pub struct Model {
     auth_token: String,
     buttontext: String,
     debugtext: String,
+    fetch_service: FetchService,
+    component_link: ComponentLink<Self>,
 }
 
 pub enum Msg {
     Click,
     StartDownload,
     StartDownloading,
-    DoneDownloading(seed::fetch::ResponseDataResult<String>),
+    DoneDownloading(Result<String, failure::Error>),
 }
 
 impl Component for Model {
     type Message = Msg;
     type Properties = ();
 
-    fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
+    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         Model {
             email: String::new(),
             password: String::new(),
             auth_token: String::new(),
             buttontext: "Auth token holen".to_string(),
             debugtext: "nothing to report".to_string(),
+            fetch_service: FetchService::new(),
+            component_link: link,
         }
     }
 
@@ -39,14 +44,11 @@ impl Component for Model {
             Msg::StartDownload => {combine::main();}, // TODO: use correct function call
             Msg::StartDownloading => {
                 let url : &str = "https://seed-rs.org/guide/http-requests-and-state";
-                seed::Request::new(url.to_string()).fetch_string_data(Msg::DoneDownloading);
+                self.download_people_data(url);
             },
-            Msg::DoneDownloading(Ok(data)) => {
-                self.debugtext = format!("data received: {}", data);
+            Msg::DoneDownloading(data) => {
+                self.debugtext = format!("data received: {:?}", data);
             },
-            Msg::DoneDownloading(Err(fail_reason)) => {
-                self.debugtext = format!("no data received: {:?}", fail_reason);
-            }
         }
         true
     }
@@ -70,4 +72,17 @@ impl Component for Model {
     }
 }
 
+impl Model {
+    fn download_people_data(&self, uri: &str) {
+        let request = Request::get(uri).body(()).expect("Failed to build request");
+        let callback = self.component_link.send_back(move |response: Response<Result<String, _>>| {
+            if response.status().is_success() {
+                return Msg::DoneDownloading(response.into_body());
+            } else {
+                return Msg::DoneDownloading(response.into_body());
+            }
+        });
+        self.fetch_service.fetch(request, callback);
 
+    }
+}

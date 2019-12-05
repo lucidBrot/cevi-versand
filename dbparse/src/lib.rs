@@ -38,6 +38,7 @@ pub struct MainReturns {
     pub dataset: ReasonableDataset,
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 pub fn run(user_interface: &dyn DbparseInteractor) -> Result<MainReturns, Box<dyn Error>> {
     // load database API token
     let config = setup_config();
@@ -107,10 +108,9 @@ impl DB_Conf {
     }
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {
-    use internetleek::InternetLeek;
-    let leek = internetleek::get_internet_leek();
-    let body = leek.GET_body(db_conf.versand_endpoint().as_ref())?;
+    let body = chttp::get(url)?.into_body().text()?;
     
     return reasonablify_body(&body);
 }
