@@ -82,7 +82,7 @@ impl Model {
                 return Msg::DoneDownloading(response.into_body());
             }
         });
-        //self.fetch_service.fetch(request, callback);
+        self.fetch_service.fetch(request, callback);
 
     }
 }
