@@ -43,7 +43,10 @@ pub fn run(user_interface: &dyn DbparseInteractor) -> Result<MainReturns, Box<dy
     let config = setup_config();
     let dataset : ReasonableDataset = get_data_for_versand(&config).expect("WTF in main!");
     user_interface.on_download_finished();
+    return run_with_reasonable_dataset(dataset);
+}
 
+pub fn run_with_reasonable_dataset(dataset: ReasonableDataset) -> Result<MainReturns, Box<dyn Error>> {
     // load yaml mapping from file if exists
     let yaml_group_mapping : Result<String, std::io::Error> = read_to_string(MAPPING_YAML_FILE);
     // combine with new groups from database
