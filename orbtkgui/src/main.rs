@@ -1,0 +1,3 @@
+fn main () {
+    orbtkgui::main();
+}
