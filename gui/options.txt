@@ -1,7 +1,0 @@
-https://gitlab.com/bloom42/research/rust_gui_ecosystem
-
-look at Electron+Neon
-
-https://github.com/ivanceras/sauron-native
-
-https://dev.to/deciduously/lets-build-a-rust-frontend-with-yew---part-1-3k2o
