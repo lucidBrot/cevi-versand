@@ -110,7 +110,7 @@ impl DB_Conf {
 
 #[cfg(not(target_arch = "wasm32"))]
 fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {
-    let body = chttp::get(url)?.into_body().text()?;
+    let body = chttp::get(db_conf.versand_endpoint())?.into_body().text()?;
     
     return reasonablify_body(&body);
 }
