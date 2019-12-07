@@ -11,4 +11,6 @@ pub fn main() {
                 .build(ctx)
         })
         .run();
+
+        combine::main();
 }

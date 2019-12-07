@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 orbtk = { git = "https://github.com/redox-os/orbtk.git", branch = "master" }
+combine = { path = "../combine" }

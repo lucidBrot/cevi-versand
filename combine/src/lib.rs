@@ -35,7 +35,9 @@ pub fn main() {
 
 
 #[cfg(target_arch = "wasm32")]
-pub fn main() {}
+pub fn main() {
+    println!("combine: main() not implemented for wasm32");
+}
 
 fn merge_households<'b>(
     people: &'b mut Vec<dbparse::ReasonablePerson>,
