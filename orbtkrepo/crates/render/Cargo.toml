@@ -1,0 +1,21 @@
+[package]
+name = "orbtk-render"
+version = "0.3.1-alpha2"
+authors = ["Florian Blasius <flovanpt@posteo.de>"]
+description = "2D Render library use by OrbTk."
+repository = "https://github.com/redox-os/orbtk"
+readme = "README.md"
+license = "MIT"
+keywords = ["2D", "render", "canvas"]
+edition = "2018"
+
+[target.wasm32-unknown-unknown.dependencies]
+stdweb = "0.4.20"
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+raqote = { version = "0.7.6", default-features = false}
+rusttype = "0.8.2"
+image = "0.22.3"
+
+[dependencies]
+orbtk-utils = { path = "../utils", version = "0.3.1-alpha2" }

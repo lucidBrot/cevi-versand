@@ -827,34 +827,34 @@ dependencies = [
 [[package]]
 name = "orbtk"
 version = "0.3.1-alpha1"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
+source = "git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
 dependencies = [
  "dces 0.2.0 (git+https://gitlab.redox-os.org/redox-os/dces-rust.git?branch=develop)",
- "orbtk-api 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-css-engine 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-proc-macros 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-render 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-shell 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-theme 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-tree 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-utils 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-widgets 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
+ "orbtk-api 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-css-engine 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-proc-macros 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-render 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-shell 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-theme 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-tree 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-utils 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-widgets 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
 ]
 
 [[package]]
 name = "orbtk-api"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
+source = "git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
 dependencies = [
  "dces 0.2.0 (git+https://gitlab.redox-os.org/redox-os/dces-rust.git?branch=develop)",
  "derive_more 0.99.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "dirs 2.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "orbtk-css-engine 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-render 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-shell 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-theme 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-tree 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-utils 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
+ "orbtk-css-engine 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-render 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-shell 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-theme 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-tree 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-utils 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
  "ron 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.103 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.103 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -863,16 +863,16 @@ dependencies = [
 [[package]]
 name = "orbtk-css-engine"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
+source = "git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
 dependencies = [
  "cssparser 0.17.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "orbtk-utils 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
+ "orbtk-utils 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
 ]
 
 [[package]]
 name = "orbtk-proc-macros"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
+source = "git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
 dependencies = [
  "quote 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "syn 1.0.11 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -881,10 +881,10 @@ dependencies = [
 [[package]]
 name = "orbtk-render"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
+source = "git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
 dependencies = [
  "image 0.22.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "orbtk-utils 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
+ "orbtk-utils 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
  "raqote 0.7.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "rusttype 0.8.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "stdweb 0.4.20 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -893,14 +893,14 @@ dependencies = [
 [[package]]
 name = "orbtk-shell"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
+source = "git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
 dependencies = [
  "image 0.22.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "lazy_static 1.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "minifb 0.14.0 (git+https://github.com/emoon/rust_minifb.git)",
  "minifb-fix 0.14.0 (git+https://github.com/FloVanGH/rust_minifb?branch=redox_unix)",
- "orbtk-render 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-utils 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
+ "orbtk-render 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-utils 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
  "spin_sleep 0.3.7 (registry+https://github.com/rust-lang/crates.io-index)",
  "stdweb 0.4.20 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -908,16 +908,16 @@ dependencies = [
 [[package]]
 name = "orbtk-theme"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
+source = "git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
 dependencies = [
  "lazy_static 1.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "orbtk-css-engine 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
+ "orbtk-css-engine 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
 ]
 
 [[package]]
 name = "orbtk-tree"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
+source = "git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
 dependencies = [
  "dces 0.2.0 (git+https://gitlab.redox-os.org/redox-os/dces-rust.git?branch=develop)",
 ]
@@ -925,20 +925,20 @@ dependencies = [
 [[package]]
 name = "orbtk-utils"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
+source = "git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
 
 [[package]]
 name = "orbtk-widgets"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
+source = "git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a#c9ad176d6d5c9c991ae4069829d73f9c59356f7a"
 dependencies = [
  "dces 0.2.0 (git+https://gitlab.redox-os.org/redox-os/dces-rust.git?branch=develop)",
- "orbtk-api 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-proc-macros 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-render 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-shell 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-theme 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
- "orbtk-utils 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
+ "orbtk-api 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-proc-macros 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-render 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-shell 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-theme 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
+ "orbtk-utils 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
 ]
 
 [[package]]
@@ -946,7 +946,7 @@ name = "orbtkgui"
 version = "0.1.0"
 dependencies = [
  "combine 0.1.0",
- "orbtk 0.3.1-alpha1 (git+https://github.com/redox-os/orbtk.git?branch=develop)",
+ "orbtk 0.3.1-alpha1 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)",
 ]
 
 [[package]]
@@ -1827,16 +1827,16 @@ dependencies = [
 "checksum openssl-probe 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)" = "77af24da69f9d9341038eba93a073b1fdaaa1b788221b00a69bce9e762cb32de"
 "checksum openssl-sys 0.9.53 (registry+https://github.com/rust-lang/crates.io-index)" = "465d16ae7fc0e313318f7de5cecf57b2fbe7511fd213978b457e1c96ff46736f"
 "checksum orbclient 0.3.27 (registry+https://github.com/rust-lang/crates.io-index)" = "f8b18f57ab94fbd058e30aa57f712ec423c0bb7403f8493a6c58eef0c36d9402"
-"checksum orbtk 0.3.1-alpha1 (git+https://github.com/redox-os/orbtk.git?branch=develop)" = "<none>"
-"checksum orbtk-api 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)" = "<none>"
-"checksum orbtk-css-engine 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)" = "<none>"
-"checksum orbtk-proc-macros 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)" = "<none>"
-"checksum orbtk-render 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)" = "<none>"
-"checksum orbtk-shell 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)" = "<none>"
-"checksum orbtk-theme 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)" = "<none>"
-"checksum orbtk-tree 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)" = "<none>"
-"checksum orbtk-utils 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)" = "<none>"
-"checksum orbtk-widgets 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?branch=develop)" = "<none>"
+"checksum orbtk 0.3.1-alpha1 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)" = "<none>"
+"checksum orbtk-api 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)" = "<none>"
+"checksum orbtk-css-engine 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)" = "<none>"
+"checksum orbtk-proc-macros 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)" = "<none>"
+"checksum orbtk-render 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)" = "<none>"
+"checksum orbtk-shell 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)" = "<none>"
+"checksum orbtk-theme 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)" = "<none>"
+"checksum orbtk-tree 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)" = "<none>"
+"checksum orbtk-utils 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)" = "<none>"
+"checksum orbtk-widgets 0.3.1-alpha2 (git+https://github.com/redox-os/orbtk.git?rev=c9ad176d6d5c9c991ae4069829d73f9c59356f7a)" = "<none>"
 "checksum ordered-float 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)" = "18869315e81473c951eb56ad5558bbc56978562d3ecfb87abb7a1e944cea4518"
 "checksum phf 0.7.24 (registry+https://github.com/rust-lang/crates.io-index)" = "b3da44b85f8e8dfaec21adae67f95d93244b2ecf6ad2a692320598dcc8e6dd18"
 "checksum phf_codegen 0.7.24 (registry+https://github.com/rust-lang/crates.io-index)" = "b03e85129e324ad4166b06b2c7491ae27fe3ec353af72e72cd1654c7225d517e"

@@ -7,5 +7,5 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-orbtk = { git = "https://github.com/redox-os/orbtk.git", branch = "develop" }
+orbtk = { git = "https://github.com/redox-os/orbtk.git", rev = "c9ad176d6d5c9c991ae4069829d73f9c59356f7a" }
 combine = { path = "../combine" }

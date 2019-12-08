@@ -1,0 +1,105 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "cargo",
+      "type": "shell",
+      "args": [
+        "build",
+        "--examples=minimal"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build release",
+      "command": "cargo",
+      "type": "shell",
+      "args": [
+        "build",
+        "--examples=minimal",
+        "--release"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build preview",
+      "command": "cargo",
+      "type": "shell",
+      "args": [
+        "build",
+        "--examples=minimal",
+        "--features",
+        "preview"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build debug",
+      "command": "cargo",
+      "type": "shell",
+      "args": [
+        "build",
+        "--examples=minimal",
+        "--features",
+        "debug"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "run-web",
+      "command": "cargo",
+      "type": "shell",
+      "args": [
+          "web",
+          "start",
+          "--target=wasm32-unknown-unknown",
+          "--auto-reload",
+          "--example",
+          "widgets"
+      ],
+      "presentation": {
+          "reveal": "always",
+          "panel": "new"
+      },
+      "group": {
+          "kind": "build",
+          "isDefault": true
+      }
+  },
+
+  ]
+}
