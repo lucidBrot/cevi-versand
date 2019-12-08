@@ -50,6 +50,7 @@ impl Template for MainView {
                         .text("Clear")
                         .build(ctx),
                 )
+                .child(TextBox::create().border_width(Thickness::new(3.0, 3.0, 3.0, 3.0)).text("something".to_string()).build(ctx))
                 .build(ctx),
         )
     }
