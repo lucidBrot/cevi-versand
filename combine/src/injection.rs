@@ -1,5 +1,6 @@
 use pdfgen::{CouvertInfo, Receiver, Role};
-use std::File;
+use std::fs::File;
+use std::io::Write;
 
 fn serialize_couvert_infos ( yaml_text : &str ) {
     let c_i_list : Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(yaml_text);
@@ -29,8 +30,8 @@ pub fn inject_couvert_infos(couvert_infos: &mut Vec<CouvertInfo>) {
     ];
     println!("Injected {} people after merging", drug.len());
     println!("As yaml:\n{:?}\n", serde_yaml::to_string(&drug).unwrap());
-    let mut fil = File::create("injectedPeople.yaml");
-    fil.write_all(serde_yaml::to_string(&drug).unwrap());
+    let mut fil = File::create("injectedPeople.yaml").unwrap();
+    fil.write_all(serde_yaml::to_string(&drug).unwrap().as_bytes()).unwrap();
 
     couvert_infos.append(&mut drug);
 }
