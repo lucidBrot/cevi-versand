@@ -1,0 +1,18 @@
+---
+- receivers:
+    - nickname: Herbert
+      group: Herbert Fan Club
+      role: Teilnehmer
+  address:
+    - Herbert Herber
+    - Herbertstrasse h32
+    - 8332 Herbhausen
+- receivers:
+    - nickname: Zweibert
+      group: Herbert Fan Club
+      role: Teilnehmer
+  address:
+    - Zweibert Herber
+    - Herbertstrasse h32
+    - 8332 Herbhausen
+
