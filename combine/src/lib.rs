@@ -2,6 +2,7 @@ use dbparse;
 use pdfgen;
 use regex;
 mod roletranslation;
+mod injection;
 
 #[cfg(not(target_arch = "wasm32"))]
 pub fn main() {
@@ -20,6 +21,7 @@ pub fn main() {
     user_interface.on_parsing_finished();
 
     let mut couvert_infos: Vec<pdfgen::CouvertInfo> = merge_households(&mut dataset.people, &mapping, &user_interface);
+    injection::inject_couvert_infos(&mut couvert_infos);
     couvert_infos.sort_by(|a:&pdfgen::CouvertInfo, b:&pdfgen::CouvertInfo|
         a.receivers[0].group.cmp(&b.receivers[0].group));
 
