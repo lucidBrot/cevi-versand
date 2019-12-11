@@ -76,8 +76,11 @@ pub fn run_with_reasonable_dataset(dataset: ReasonableDataset) -> Result<MainRet
 }
 
 fn setup_config() -> DB_Conf {
-    let fil = fs::File::open("config.yaml")
-        .expect("config file missing or not readable");
+    let fil = match fs::File::open("config.yaml") {
+        Ok(f) => f,
+        Err(e) => { 
+            panic!("failed to find config.yaml: {:?}", e); }
+    };
     let yaml: serde_yaml::Value = serde_yaml::from_reader(fil)
         .expect("file should be proper YAML");
     
