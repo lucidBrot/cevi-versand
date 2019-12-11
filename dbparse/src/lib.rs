@@ -17,6 +17,20 @@ use mapping::GroupMapping;
 const MAPPING_YAML_FILE : &str = "mapping.yaml";
 const VERBOSITY : Verbosity = Verbosity::No;
 
+const CONFIG_YAML_FILE : &str = "config.yaml";
+const CONFIG_YAML_FILLABLE_TEMPLATE : &str = 
+r###"db_conf:
+    # paste your api_token here
+    api_token: "th1s1sY0ur70k3n"
+    # der Ceviname zum einloggen in der db.cevi.ch
+    login_name: "GenerischerCeviname"
+    # die e-mail adresse zum einloggen in der db.cevi.ch
+    login_email: "irgendwer@irgendwas.ch"
+    # Der link zu den Leuten in der datenbank. Relevant für dich als user sind nur die Zahlen.
+    # Ersetze sie durch die gruppen-id und filter-id, die du verwenden möchtest.
+    versand_endpoint_fmtstr: "https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email={login_email}&user_token={api_token}"
+"###;
+
 pub enum Verbosity {
     No,
     ABit,
@@ -76,12 +90,13 @@ pub fn run_with_reasonable_dataset(dataset: ReasonableDataset) -> Result<MainRet
 }
 
 fn setup_config(ui: &dyn DbparseInteractor ) -> DB_Conf {
-    let filename = "config.yaml";
+    let filename = CONFIG_YAML_FILE;
     let fil = match fs::File::open(filename) {
         Ok(f) => f,
         Err(e) => { 
+            let _result = generate_template_config_file(filename.to_string());
             ui.error_missing_config_file(filename.to_string());
-            panic!("failed to find config.yaml: {:?}", e); }
+            panic!("failed to find {}: {:?}", filename, e); }
     };
     let yaml: serde_yaml::Value = serde_yaml::from_reader(fil)
         .expect("file should be proper YAML");
@@ -90,6 +105,13 @@ fn setup_config(ui: &dyn DbparseInteractor ) -> DB_Conf {
     let db_conf : DB_Conf = serde_yaml::from_value(db_conf_in_yaml.clone()).unwrap();
     println!("deserialized = {:?}", db_conf);
     return db_conf;
+}
+
+fn generate_template_config_file(filename: String) -> Result<(), std::io::Error> {
+   let mut file = File::create(filename)?;
+   file.write_all(CONFIG_YAML_FILLABLE_TEMPLATE.as_bytes())?;
+   println!("generated config.yaml template - please fill it in");
+   Ok(())
 }
 
 

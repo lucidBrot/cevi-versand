@@ -6,7 +6,7 @@ pub trait UserInteractor {
     fn on_parsing_finished(&self){}
     fn report_bad_address(&self, _broken_person: &dbparse::ReasonablePerson){}
     fn on_pdf_generation_finished(&self){}
-    fn error_missing_config_file(&self, filename: String) {}
+    fn error_missing_config_file(&self, _filename: String) {}
 }
 
 /// Simplistic default user interface
