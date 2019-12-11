@@ -41,7 +41,7 @@ pub struct MainReturns {
 #[cfg(not(target_arch = "wasm32"))]
 pub fn run(user_interface: &dyn DbparseInteractor) -> Result<MainReturns, Box<dyn Error>> {
     // load database API token
-    let config = setup_config();
+    let config = setup_config(user_interface);
     let dataset : ReasonableDataset = get_data_for_versand(&config).expect("WTF in main!");
     user_interface.on_download_finished();
     return run_with_reasonable_dataset(dataset);
@@ -75,10 +75,12 @@ pub fn run_with_reasonable_dataset(dataset: ReasonableDataset) -> Result<MainRet
     }
 }
 
-fn setup_config() -> DB_Conf {
-    let fil = match fs::File::open("config.yaml") {
+fn setup_config(ui: &dyn DbparseInteractor ) -> DB_Conf {
+    let filename = "config.yaml";
+    let fil = match fs::File::open(filename) {
         Ok(f) => f,
         Err(e) => { 
+            ui.error_missing_config_file(filename.to_string());
             panic!("failed to find config.yaml: {:?}", e); }
     };
     let yaml: serde_yaml::Value = serde_yaml::from_reader(fil)
@@ -455,4 +457,5 @@ impl PeopleRequest {
 
 pub trait DbparseInteractor {
     fn on_download_finished(&self);
+    fn error_missing_config_file(&self, filename: String);
 }

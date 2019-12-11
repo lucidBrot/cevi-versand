@@ -276,6 +276,13 @@ impl<'a> dbparse::DbparseInteractor for DbparseRedirector<'a> {
             Some(addr) => addr.on_download_finished(),
         }
     }
+
+    fn error_missing_config_file(&self, filename: String) {
+        match self.user_interface {
+            None => (),
+            Some(ui) => ui.error_missing_config_file(filename),
+        }
+    }
 }
 
 #[cfg(test)]
