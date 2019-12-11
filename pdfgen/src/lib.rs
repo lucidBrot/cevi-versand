@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::env;
 use chrono;
+use serde::{Serialize, Deserialize};
 
 const CALIBRI_FONT: &'static [u8] = include_bytes!("../res/fonts/calibri.ttf");
 const CALIBRI_LIGHT_FONT: &'static [u8] = include_bytes!("../res/fonts/calibriL.ttf");
@@ -50,6 +51,7 @@ pub fn main() {
     doc_generated.save( &mut buf ).expect("The Fuck?");
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct CouvertInfo {
     pub receivers: Vec<Receiver>,
     pub address: Vec<String>,
@@ -372,7 +374,7 @@ fn sample_graphical_page(){
     doc.save(&mut BufWriter::new(File::create("test_graphic.pdf").unwrap())).unwrap();
 }
 
-#[derive(Debug, Clone, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Debug, Clone, Eq, PartialEq, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct Receiver {
     pub nickname: String,
     pub group: String,
@@ -380,7 +382,7 @@ pub struct Receiver {
 }
 
 /// Used for the sidebadges
-#[derive(Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
 pub enum Role {
     Leiter,
     Teilnehmer,

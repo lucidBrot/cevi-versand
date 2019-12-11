@@ -11,5 +11,4 @@ pdfgen = { path = "../pdfgen" }
 dbparse = { path = "../dbparse" }
 regex = "1.3.1"
 ui = { path = "../ui" }
-serde = { version = "1.0", features = ["derive", "rc"] }
-serde_json = "1.0"
+serde_yaml = "0.8"
