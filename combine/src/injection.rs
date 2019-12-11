@@ -1,4 +1,31 @@
 use pdfgen::{CouvertInfo, Receiver, Role};
+use serde::{Serialize, Deserialize};
+
+/// Implementing Serialize for a stranger's type. See https://serde.rs/remote-derive.html
+#[derive(Serialize, Deserialize)]
+#[serde(remote = "CouvertInfo")]
+struct CouvertInfoDef {
+    receivers: Vec<Receiver>,
+    address: Vec<String>,
+}
+
+/// Implementing Serialize for a stranger's type. See https://serde.rs/remote-derive.html
+#[derive(Serialize, Deserialize)]
+#[serde(remote = "Receiver")]
+struct ReceiverDef {
+    nickname: String,
+    group: String,
+    role: Role,
+}
+
+fn serialize_couvert_infos ( text : String ) {
+    let mut deserializer = serde_json::Deserializer::from_str(text);
+    let rec_result = ReceiverDef::deserialize(&mut deserializer);
+    match rec_result {
+        Ok(rec) => println!("success"),
+        Err(e) => println!("failure"),
+    };
+}
 
 pub fn inject_couvert_infos(couvert_infos: &mut Vec<CouvertInfo>) {
     let mut drug: Vec<CouvertInfo> = vec![
