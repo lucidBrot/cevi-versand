@@ -30,4 +30,8 @@ impl UserInteractor for CliUi {
         println!("UI: Finished generating pdf");
     }
 
+    fn error_missing_config_file(&self, filename: String){
+        println!("UI: File {} is missing. There should now be a template for you to fill in. Do that, then try again.", filename);
+    }
+
 }

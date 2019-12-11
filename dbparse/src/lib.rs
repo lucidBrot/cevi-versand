@@ -380,7 +380,7 @@ mod items_serder_set {
     }
 }
 
-/// ad deserializer implementation for turning null into an empty string
+/// a deserializer implementation for turning null into an empty string
 mod null_str_serder {
     use serde::ser::Serializer;
     use serde::de::{Deserialize, Deserializer};
