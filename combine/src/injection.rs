@@ -12,15 +12,31 @@ fn serialize_couvert_infos ( yaml_text : &str ) {
 
 /// Reads from `inject_people.yaml` and adds those persons to the parameter `couvert_infos`
 pub fn inject_couvert_infos(couvert_infos: &mut Vec<CouvertInfo>) {
+    // TODO: replace println with UI interaction?
     let mut fil = OpenOptions::new()
         .write(true)
-        .read(true)
+        //.read(true)
         .create(true)
         .truncate(false)
         .open("inject_people.yaml")
         .expect("Creating file inject_people.yaml failed");
     let mut text = String::new();
-    dbg!(fil.read_to_string(&mut text));
+    match fil.read_to_string(&mut text) {
+        Ok(_success_code) => {
+            return;
+        },
+        Err(error) => {
+            match error.kind(){
+                PermissionDenied => {
+                    println!("Permission Denied");
+                },
+                e => {
+                    println!("Error injecting {:?}", e);
+                },
+            };
+        },
+    };
+
     let content_result: Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(&text);
     match content_result {
         Ok(mut content) => {
