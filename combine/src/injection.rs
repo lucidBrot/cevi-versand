@@ -1,12 +1,14 @@
-use pdfgen::{CouvertInfo, Receiver, Role};
-use std::fs::{OpenOptions, File};
-use std::io::{Write, Read};
+use pdfgen::{CouvertInfo};
+use std::fs::{OpenOptions};
+use std::io::{Read};
+
+const INJECTION_YAML_FILE_PATH: &str = "inject_people.yaml";
 
 fn serialize_couvert_infos ( yaml_text : &str ) {
     let c_i_list : Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(yaml_text);
     match c_i_list {
-        Ok(rec) => println!("success"),
-        Err(e) => println!("failure"),
+        Ok(_rec) => println!("success"),
+        Err(e) => println!("failure: {:?}",e),
     };
 }
 
@@ -15,25 +17,18 @@ pub fn inject_couvert_infos(couvert_infos: &mut Vec<CouvertInfo>) {
     // TODO: replace println with UI interaction?
     let mut fil = OpenOptions::new()
         .write(true)
-        //.read(true)
+        .read(true)
         .create(true)
         .truncate(false)
-        .open("inject_people.yaml")
-        .expect("Creating file inject_people.yaml failed");
+        .open(INJECTION_YAML_FILE_PATH)
+        .expect(&*format!("Creating file {} failed", INJECTION_YAML_FILE_PATH));
     let mut text = String::new();
     match fil.read_to_string(&mut text) {
         Ok(_success_code) => {
             return;
         },
         Err(error) => {
-            match error.kind(){
-                PermissionDenied => {
-                    println!("Permission Denied");
-                },
-                e => {
-                    println!("Error injecting {:?}", e);
-                },
-            };
+            println!("An error occurred while reading {}: {:?}", INJECTION_YAML_FILE_PATH, error.kind());
         },
     };
 
