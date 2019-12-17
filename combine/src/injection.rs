@@ -2,8 +2,9 @@ use pdfgen::{CouvertInfo};
 use std::fs::{OpenOptions};
 use std::io::{Read};
 
-const INJECTION_YAML_FILE_PATH: &str = "inject_people.yaml";
+pub const INJECTION_YAML_FILE_PATH: &str = "inject_people.yaml";
 
+// mostly for debug purposes
 #[allow(dead_code)]
 fn serialize_couvert_infos ( yaml_text : &str ) {
     let c_i_list : Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(yaml_text);
@@ -14,7 +15,7 @@ fn serialize_couvert_infos ( yaml_text : &str ) {
 }
 
 /// Reads from `inject_people.yaml` and adds those persons to the parameter `couvert_infos`
-pub fn inject_couvert_infos(couvert_infos: &mut Vec<CouvertInfo>) {
+pub fn inject_couvert_infos(couvert_infos: &mut Vec<CouvertInfo>, user_interface: &dyn ui::UserInteractor) {
     // TODO: replace println with UI interaction?
     let mut fil = OpenOptions::new()
         .write(true)
@@ -29,7 +30,9 @@ pub fn inject_couvert_infos(couvert_infos: &mut Vec<CouvertInfo>) {
             return;
         },
         Err(error) => {
-            println!("An error occurred while reading {}: {:?}", INJECTION_YAML_FILE_PATH, error.kind());
+            dbg!("An error occurred while reading {}: {:?}", INJECTION_YAML_FILE_PATH, error.kind());
+            user_interface.error_injecting_couverts(&error);
+
         },
     };
 

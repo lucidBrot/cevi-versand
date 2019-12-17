@@ -7,6 +7,7 @@ pub trait UserInteractor {
     fn report_bad_address(&self, _broken_person: &dbparse::ReasonablePerson){}
     fn on_pdf_generation_finished(&self){}
     fn error_missing_config_file(&self, _filename: String) {}
+    fn error_injecting_couverts(&self, _error: &dyn std::error::Error){}
 }
 
 /// Simplistic default user interface
@@ -32,6 +33,17 @@ impl UserInteractor for CliUi {
 
     fn error_missing_config_file(&self, filename: String){
         println!("UI: File {} was missing. There should now be a template for you to fill in. Do that, then try again.", filename);
+    }
+
+    fn error_injecting_couverts(&self, error: &dyn std::error::Error){
+        println!(
+r###"\
+UI: There was an error while trying to inject additional people:
+  {:?}
+  Perhaps there's a problem with inject_people.yaml?
+"###,
+            error
+        );
     }
 
 }
