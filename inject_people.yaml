@@ -15,4 +15,12 @@
     - Zweibert Herber
     - Herbertstrasse h32
     - 8332 Herbhausen
+- receivers:
+    - nickname: HERBERT
+      group: Herbert Fan Club
+      role: Teilnehmer
+  address:
+    - Herbert Herber
+    - Herbertstrasse h32
+    - 8332 Herbhausen
 

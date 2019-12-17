@@ -34,9 +34,7 @@ pub fn inject_couvert_infos(couvert_infos: &mut Vec<CouvertInfo>, user_interface
 
     let mut text = String::new();
     match file.read_to_string(&mut text) {
-        Ok(_success_code) => {
-            return;
-        },
+        Ok(_success_code) => (),
         Err(error) => {
             dbg!("An error occurred while reading {}: {:?}", INJECTION_YAML_FILE_PATH, error.kind());
             user_interface.error_injecting_couverts(&error);
@@ -54,7 +52,5 @@ pub fn inject_couvert_infos(couvert_infos: &mut Vec<CouvertInfo>, user_interface
             user_interface.error_injecting_couverts(&e);
         },
     };
-
-
-    
+ 
 }
