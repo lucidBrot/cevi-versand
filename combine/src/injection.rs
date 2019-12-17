@@ -4,6 +4,7 @@ use std::io::{Read};
 
 const INJECTION_YAML_FILE_PATH: &str = "inject_people.yaml";
 
+#[allow(dead_code)]
 fn serialize_couvert_infos ( yaml_text : &str ) {
     let c_i_list : Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(yaml_text);
     match c_i_list {
