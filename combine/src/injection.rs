@@ -50,12 +50,13 @@ pub fn inject_couvert_infos(couvert_infos: &mut Vec<CouvertInfo>) {
 
     let mut fil = OpenOptions::new()
         .write(true)
+        .read(true)
         .create(true)
         .truncate(false)
         .open("inject_people.yaml")
         .expect("Creating file inject_people.yaml failed");
     let mut text = String::new();
-    fil.read_to_string(&mut text);
+    dbg!(fil.read_to_string(&mut text));
     let content_result: Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(&text);
     match content_result {
         Ok(content) => println!("success"),
