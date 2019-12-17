@@ -1,24 +1,24 @@
 // TODO: error messages e.g. when no internet
-use serde::{Serialize, Deserialize};
-use std::fs;
-use std::fs::File;
-use std::io::Write;
-use std::fs::read_to_string;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::rc::Rc;
 use std::collections::HashSet;
 use std::error::Error;
+use std::fs;
+use std::fs::read_to_string;
+use std::fs::File;
+use std::io::Write;
+use std::rc::Rc;
 pub mod mapping;
 use mapping::GroupMapping;
 
 // config.yaml is stored both in examples dir and in dbparse dir, currently. Because it is read
 // from the working dir
 
-const MAPPING_YAML_FILE : &str = "mapping.yaml";
-const VERBOSITY : Verbosity = Verbosity::No;
+const MAPPING_YAML_FILE: &str = "mapping.yaml";
+const VERBOSITY: Verbosity = Verbosity::No;
 
-const CONFIG_YAML_FILE : &str = "config.yaml";
-const CONFIG_YAML_FILLABLE_TEMPLATE : &str = 
+const CONFIG_YAML_FILE: &str = "config.yaml";
+const CONFIG_YAML_FILLABLE_TEMPLATE : &str =
 r###"db_conf:
     # paste your api_token here
     api_token: "th1s1sY0ur70k3n"
@@ -56,29 +56,37 @@ pub struct MainReturns {
 pub fn run(user_interface: &dyn DbparseInteractor) -> Result<MainReturns, Box<dyn Error>> {
     // load database API token
     let config = setup_config(user_interface);
-    let dataset : ReasonableDataset = get_data_for_versand(&config).expect("WTF in main!");
+    let dataset: ReasonableDataset = get_data_for_versand(&config).expect("WTF in main!");
     user_interface.on_download_finished();
     return run_with_reasonable_dataset(dataset);
 }
 
-pub fn run_with_reasonable_dataset(dataset: ReasonableDataset) -> Result<MainReturns, Box<dyn Error>> {
+pub fn run_with_reasonable_dataset(
+    dataset: ReasonableDataset,
+) -> Result<MainReturns, Box<dyn Error>> {
     // load yaml mapping from file if exists
-    let yaml_group_mapping : Result<String, std::io::Error> = read_to_string(MAPPING_YAML_FILE);
+    let yaml_group_mapping: Result<String, std::io::Error> = read_to_string(MAPPING_YAML_FILE);
     // combine with new groups from database
-    let loaded_group_mapping : GroupMapping =
-        match yaml_group_mapping {
-            Ok(mapping) => mapping::create_map_from_yaml(&mapping).expect("Creating map from yaml failed"),
-            Err(e) => { println!("problem loading yaml mapping: {}.\nRecreating it...", e); GroupMapping::new() },
-        };
+    let loaded_group_mapping: GroupMapping = match yaml_group_mapping {
+        Ok(mapping) => {
+            mapping::create_map_from_yaml(&mapping).expect("Creating map from yaml failed")
+        }
+        Err(e) => {
+            println!("problem loading yaml mapping: {}.\nRecreating it...", e);
+            GroupMapping::new()
+        }
+    };
     // create mapping from Database
-    let db_group_mapping : GroupMapping = GroupMapping::from_set(&dataset.groups);
+    let db_group_mapping: GroupMapping = GroupMapping::from_set(&dataset.groups);
     // merge mappings
-    let merged_group_mapping : GroupMapping = mapping::store_map_in_map(&loaded_group_mapping, &db_group_mapping);
+    let merged_group_mapping: GroupMapping =
+        mapping::store_map_in_map(&loaded_group_mapping, &db_group_mapping);
     // save new mapping to file
-    let new_yaml_group_mapping : String = mapping::create_yaml_from_map(&merged_group_mapping).expect("Generating yaml for group mapping failed");
+    let new_yaml_group_mapping: String = mapping::create_yaml_from_map(&merged_group_mapping)
+        .expect("Generating yaml for group mapping failed");
     let mut file = File::create(MAPPING_YAML_FILE).expect("Writing mapping failed");
     let res = file.write_all(new_yaml_group_mapping.as_bytes());
-    
+
     return match res {
         Ok(_) => Ok(MainReturns {
             file: file,
@@ -86,38 +94,38 @@ pub fn run_with_reasonable_dataset(dataset: ReasonableDataset) -> Result<MainRet
             dataset: dataset,
         }),
         Err(e) => Err(Box::new(e)),
-    }
+    };
 }
 
-fn setup_config(ui: &dyn DbparseInteractor ) -> DB_Conf {
+fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
     let filename = CONFIG_YAML_FILE;
     let fil = match fs::File::open(filename) {
         Ok(f) => f,
-        Err(e) => { 
+        Err(e) => {
             let _result = generate_template_config_file(filename.to_string());
             ui.error_missing_config_file(filename.to_string());
-            panic!("failed to find {}: {:?}", filename, e); }
+            panic!("failed to find {}: {:?}", filename, e);
+        }
     };
-    let yaml: serde_yaml::Value = serde_yaml::from_reader(fil)
-        .expect("file should be proper YAML");
-    
-    let db_conf_in_yaml : &serde_yaml::Value = yaml.get("db_conf").unwrap();
-    let db_conf : DB_Conf = serde_yaml::from_value(db_conf_in_yaml.clone()).unwrap();
+    let yaml: serde_yaml::Value = serde_yaml::from_reader(fil).expect("file should be proper YAML");
+
+    let db_conf_in_yaml: &serde_yaml::Value = yaml.get("db_conf").unwrap();
+    let db_conf: DB_Conf = serde_yaml::from_value(db_conf_in_yaml.clone()).unwrap();
     println!("deserialized = {:?}", db_conf);
     return db_conf;
 }
 
 fn generate_template_config_file(filename: String) -> Result<(), std::io::Error> {
-   let mut file = File::create(filename)?;
-   file.write_all(CONFIG_YAML_FILLABLE_TEMPLATE.as_bytes())?;
-   println!("generated config.yaml template - please fill it in");
-   Ok(())
+    let mut file = File::create(filename)?;
+    file.write_all(CONFIG_YAML_FILLABLE_TEMPLATE.as_bytes())?;
+    println!("generated config.yaml template - please fill it in");
+    Ok(())
 }
-
 
 #[derive(Serialize, Deserialize, Debug)]
 #[allow(non_camel_case_types)]
-struct DB_Conf { // TODO: accept DB_Conf as parameter
+struct DB_Conf {
+    // TODO: accept DB_Conf as parameter
     login_name: String,
     api_token: String,
     login_email: String,
@@ -125,10 +133,10 @@ struct DB_Conf { // TODO: accept DB_Conf as parameter
 }
 impl DB_Conf {
     // used in yaml to be filled in at runtime
-    const PLACEHOLDER_API_TOKEN : &'static str = "{api_token}";
-    const PLACEHOLDER_LOGIN_EMAIL : &'static str = "{login_email}";
+    const PLACEHOLDER_API_TOKEN: &'static str = "{api_token}";
+    const PLACEHOLDER_LOGIN_EMAIL: &'static str = "{login_email}";
 
-    fn versand_endpoint(&self) -> String{
+    fn versand_endpoint(&self) -> String {
         self.versand_endpoint_fmtstr
             .replace(DB_Conf::PLACEHOLDER_LOGIN_EMAIL, &self.login_email)
             .replace(DB_Conf::PLACEHOLDER_API_TOKEN, &self.api_token)
@@ -136,31 +144,34 @@ impl DB_Conf {
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-fn get_data_for_versand (db_conf : &DB_Conf) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {
+fn get_data_for_versand(
+    db_conf: &DB_Conf,
+) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {
     let body = chttp::get(db_conf.versand_endpoint())?.into_body().text()?;
-    
+
     return reasonablify_body(&body);
 }
 
-fn reasonablify_body (body: &String) -> Result<ReasonableDataset , Box<dyn std::error::Error>>
-{ 
+fn reasonablify_body(body: &String) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {
     // deserialize the json data into a struct
-    let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(body.as_ref()).expect("dbparse: The request response is not well-formatted.");
+    let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(body.as_ref())
+        .expect("dbparse: The request response is not well-formatted.");
 
     let mut i = 0;
 
     if VERBOSITY.value() >= Verbosity::Much.value() {
         for role in dese.linked.roles_map.iter() {
-            println!("Roles[{}] = {:?}",i,  role);
-            i+=1;
+            println!("Roles[{}] = {:?}", i, role);
+            i += 1;
         }
     }
 
     // transform the Person into a ReasonablePerson, which directly contains all relevant data
-    let reasonable_dataset : ReasonableDataset = dese.to_reasonable_dataset();
-    if reasonable_dataset.people.len() < 1 {panic!("There are no people in the dataset!");}
+    let reasonable_dataset: ReasonableDataset = dese.to_reasonable_dataset();
+    if reasonable_dataset.people.len() < 1 {
+        panic!("There are no people in the dataset!");
+    }
 
-    
     Ok(reasonable_dataset)
 }
 
@@ -183,7 +194,7 @@ struct Linked {
 /// stored in "people": []
 ///
 /// JSON of a single Person from sorted by address:
-/// 
+///
 /// ```json
 /// "id": "6468",
 ///"type": "people",
@@ -267,7 +278,7 @@ pub struct RoleLinks {
 #[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq, Hash)]
 pub struct Group {
     pub id: String,
-    pub name: String, // Gruppenname
+    pub name: String,       // Gruppenname
     pub group_type: String, // Ortsgruppe/Untergruppe/Mitglieder/Jungschar/Verein...
 }
 
@@ -284,7 +295,13 @@ pub struct Role {
     links: RoleLinks,
 }
 impl Role {
-    pub fn new(id: Rc<str>, role_type: String, label: Option<String>, group_id: String, layer_group: String ) -> Self{
+    pub fn new(
+        id: Rc<str>,
+        role_type: String,
+        label: Option<String>,
+        group_id: String,
+        layer_group: String,
+    ) -> Self {
         Role {
             id: id,
             role_type: role_type,
@@ -303,10 +320,10 @@ pub struct StringHashMap<V>(StringHashMapType<V>);
 /// implement HashMap<Rc<str>, Role>::get() for a String instead of only a &str
 /// See https://www.reddit.com/r/rust/comments/2snn7a/hashmaprcstring_v/
 impl<V> StringHashMap<V> {
-    pub fn gett(&self, s:String) -> Option<&V> {
+    pub fn gett(&self, s: String) -> Option<&V> {
         return self.get(&*s);
     }
-    pub fn gettt(&self, s:&String) -> Option<&V> {
+    pub fn gettt(&self, s: &String) -> Option<&V> {
         return self.get(&**s);
     }
     pub fn new() -> Self {
@@ -334,18 +351,20 @@ impl<V> std::ops::DerefMut for StringHashMap<V> {
 mod items_serder_map {
     use super::Role;
     use super::StringHashMap;
-    use serde::ser::Serializer;
     use serde::de::{Deserialize, Deserializer};
+    use serde::ser::Serializer;
     use std::rc::Rc;
 
     pub fn serialize<S>(map: &StringHashMap<Role>, serializer: S) -> Result<S::Ok, S::Error>
-        where S: Serializer
+    where
+        S: Serializer,
     {
         serializer.collect_seq(map.values())
     }
 
     pub fn deserialize<'de, D>(deserializer: D) -> Result<StringHashMap<Role>, D::Error>
-        where D: Deserializer<'de>
+    where
+        D: Deserializer<'de>,
     {
         let mut map = StringHashMap::<Role>::new();
         for item in Vec::<Role>::deserialize(deserializer)? {
@@ -359,18 +378,20 @@ mod items_serder_map {
 mod items_serder_set {
 
     use super::Group;
-    use std::collections::HashSet;
-    use serde::ser::Serializer;
     use serde::de::{Deserialize, Deserializer};
+    use serde::ser::Serializer;
+    use std::collections::HashSet;
 
     pub fn serialize<S>(set: &HashSet<Group>, serializer: S) -> Result<S::Ok, S::Error>
-        where S: Serializer
+    where
+        S: Serializer,
     {
         serializer.collect_seq(set.iter())
     }
 
     pub fn deserialize<'de, D>(deserializer: D) -> Result<HashSet<Group>, D::Error>
-        where D: Deserializer<'de>
+    where
+        D: Deserializer<'de>,
     {
         let mut set = HashSet::<Group>::new();
         for item in Vec::<Group>::deserialize(deserializer)? {
@@ -382,17 +403,19 @@ mod items_serder_set {
 
 /// a deserializer implementation for turning null into an empty string
 mod null_str_serder {
-    use serde::ser::Serializer;
     use serde::de::{Deserialize, Deserializer};
-    
-    pub fn serialize<S>(stringthing: &String, serializer: S) -> Result<S::Ok, S::Error> 
-        where S: Serializer 
+    use serde::ser::Serializer;
+
+    pub fn serialize<S>(stringthing: &String, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
     {
         serializer.serialize_str(stringthing)
     }
 
     pub fn deserialize<'de, D>(deserializer: D) -> Result<String, D::Error>
-        where D: Deserializer<'de>
+    where
+        D: Deserializer<'de>,
     {
         let optstr = Option::<String>::deserialize(deserializer)?;
         match optstr {
@@ -403,10 +426,12 @@ mod null_str_serder {
 }
 
 #[derive(Eq, Debug, PartialEq, Clone, Hash)]
-pub struct ReasonableGroup{pub inner_group: Group}
+pub struct ReasonableGroup {
+    pub inner_group: Group,
+}
 impl From<Group> for ReasonableGroup {
     fn from(g: Group) -> Self {
-        ReasonableGroup{inner_group: g}
+        ReasonableGroup { inner_group: g }
     }
 }
 pub struct ReasonableDataset {
@@ -430,9 +455,11 @@ pub struct ReasonablePerson {
 }
 impl PeopleRequest {
     fn to_reasonable_dataset(&self) -> ReasonableDataset {
-        let mut all_groups : HashSet<ReasonableGroup> = HashSet::new();
-        let mut all_people : Vec<ReasonablePerson> = Vec::<ReasonablePerson>::new();
-        if self.people.len() < 1 {panic!("There are no people in the dataset!");}
+        let mut all_groups: HashSet<ReasonableGroup> = HashSet::new();
+        let mut all_people: Vec<ReasonablePerson> = Vec::<ReasonablePerson>::new();
+        if self.people.len() < 1 {
+            panic!("There are no people in the dataset!");
+        }
 
         print!("---\n");
         for p in self.people.iter() {
@@ -451,13 +478,26 @@ impl PeopleRequest {
             // get roles directly
             for role_id in p.links.roles.iter() {
                 //let strx: String = as_string(role_id);
-                let role: &Role = self.linked.roles_map.gettt(role_id).expect(&format!("role_id = {} does not exist", role_id)); 
+                let role: &Role = self
+                    .linked
+                    .roles_map
+                    .gettt(role_id)
+                    .expect(&format!("role_id = {} does not exist", role_id));
                 reasonable_person.roles.insert(role.clone());
 
                 // get group corresponding to role (linked in Role links) (This could be optimized)
-                let group: Group = self.linked.groups.iter().find(|&grp| grp.id == role.links.group_id).expect(&format!("Group with id {} does not exist!", role.links.group_id)).clone();
+                let group: Group = self
+                    .linked
+                    .groups
+                    .iter()
+                    .find(|&grp| grp.id == role.links.group_id)
+                    .expect(&format!(
+                        "Group with id {} does not exist!",
+                        role.links.group_id
+                    ))
+                    .clone();
                 let reasonable_group: ReasonableGroup = group.into();
-                reasonable_person.groups.insert(reasonable_group.clone()); 
+                reasonable_person.groups.insert(reasonable_group.clone());
                 // store group if it appeared at least once also at the top level of the dataset
                 all_groups.insert(reasonable_group);
             }

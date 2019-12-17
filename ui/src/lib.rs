@@ -2,42 +2,45 @@
 ///
 /// An interface that allows internal functions to inform the user about something
 pub trait UserInteractor {
-    fn on_download_finished(&self){}
-    fn on_parsing_finished(&self){}
-    fn report_bad_address(&self, _broken_person: &dbparse::ReasonablePerson){}
-    fn on_pdf_generation_finished(&self){}
+    fn on_download_finished(&self) {}
+    fn on_parsing_finished(&self) {}
+    fn report_bad_address(&self, _broken_person: &dbparse::ReasonablePerson) {}
+    fn on_pdf_generation_finished(&self) {}
     fn error_missing_config_file(&self, _filename: String) {}
-    fn error_injecting_couverts(&self, _error: &dyn std::error::Error){}
+    fn error_injecting_couverts(&self, _error: &dyn std::error::Error) {}
 }
 
 /// Simplistic default user interface
 pub struct CliUi {}
 
 impl UserInteractor for CliUi {
-    fn on_download_finished(&self){
+    fn on_download_finished(&self) {
         println!("UI: Download Finished.");
     }
 
-    fn on_parsing_finished(&self){
+    fn on_parsing_finished(&self) {
         println!("UI: Parsing Finished.");
     }
 
     fn report_bad_address(&self, broken_person: &dbparse::ReasonablePerson) {
-        println!("UI: Broken Address Found:
-                 {:?}", broken_person);
+        println!(
+            "UI: Broken Address Found:
+                 {:?}",
+            broken_person
+        );
     }
 
     fn on_pdf_generation_finished(&self) {
         println!("UI: Finished generating pdf");
     }
 
-    fn error_missing_config_file(&self, filename: String){
+    fn error_missing_config_file(&self, filename: String) {
         println!("UI: File {} was missing. There should now be a template for you to fill in. Do that, then try again.", filename);
     }
 
-    fn error_injecting_couverts(&self, error: &dyn std::error::Error){
+    fn error_injecting_couverts(&self, error: &dyn std::error::Error) {
         println!(
-r###"\
+            r###"\
 UI: There was an error while trying to inject additional people:
   {:?}
   Perhaps there's a problem with inject_people.yaml?
@@ -45,5 +48,4 @@ UI: There was an error while trying to inject additional people:
             error
         );
     }
-
 }

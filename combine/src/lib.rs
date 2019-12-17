@@ -1,29 +1,34 @@
 use dbparse;
 use pdfgen;
 use regex;
-mod roletranslation;
 mod injection;
+mod roletranslation;
 
 #[cfg(not(target_arch = "wasm32"))]
 pub fn main() {
     use ui::UserInteractor;
-    let user_interface = ui::CliUi{};
-    let dbparse_interactor = DbparseRedirector { user_interface : Some(&user_interface) };
+    let user_interface = ui::CliUi {};
+    let dbparse_interactor = DbparseRedirector {
+        user_interface: Some(&user_interface),
+    };
 
     println!("combine: loading data from database");
-    let database_returns: Result<dbparse::MainReturns, Box<dyn std::error::Error>> = dbparse::run(&dbparse_interactor);
+    let database_returns: Result<dbparse::MainReturns, Box<dyn std::error::Error>> =
+        dbparse::run(&dbparse_interactor);
     if database_returns.is_err() {
         std::process::exit(1);
     }
     let ret_db: dbparse::MainReturns = database_returns.unwrap();
     let mapping: dbparse::mapping::GroupMapping = ret_db.group_mapping;
-    let mut dataset: dbparse::ReasonableDataset = ret_db.dataset; 
+    let mut dataset: dbparse::ReasonableDataset = ret_db.dataset;
     user_interface.on_parsing_finished();
 
-    let mut couvert_infos: Vec<pdfgen::CouvertInfo> = merge_households(&mut dataset.people, &mapping, &user_interface);
+    let mut couvert_infos: Vec<pdfgen::CouvertInfo> =
+        merge_households(&mut dataset.people, &mapping, &user_interface);
     injection::inject_couvert_infos(&mut couvert_infos, &user_interface);
-    couvert_infos.sort_by(|a:&pdfgen::CouvertInfo, b:&pdfgen::CouvertInfo|
-        a.receivers[0].group.cmp(&b.receivers[0].group));
+    couvert_infos.sort_by(|a: &pdfgen::CouvertInfo, b: &pdfgen::CouvertInfo| {
+        a.receivers[0].group.cmp(&b.receivers[0].group)
+    });
 
     println!("combine: creating pdf");
     let filename = "output_versand.pdf";
@@ -35,7 +40,6 @@ pub fn main() {
         .expect("Failed to save file...");
 }
 
-
 #[cfg(target_arch = "wasm32")]
 pub fn main() {
     println!("combine: main() not implemented for wasm32");
@@ -44,22 +48,22 @@ pub fn main() {
 fn merge_households<'b>(
     people: &'b mut Vec<dbparse::ReasonablePerson>,
     mapping: &dbparse::mapping::GroupMapping,
-    user_interface: &dyn ui::UserInteractor
+    user_interface: &dyn ui::UserInteractor,
 ) -> Vec<pdfgen::CouvertInfo> {
     assert!(people.len() > 0);
 
     // normalize entries in each person so that we can sort
     for person in people.iter_mut() {
         /* Person
-           first_name: String
-           last_name: String
-           nickname: String
-           address: String
-           zip_code: String
-           town: String
-           name_parents: String
-           roles: HashSet<Role>
-           groups: HashSet<ReasonableGroup>*/
+        first_name: String
+        last_name: String
+        nickname: String
+        address: String
+        zip_code: String
+        town: String
+        name_parents: String
+        roles: HashSet<Role>
+        groups: HashSet<ReasonableGroup>*/
 
         person.address = normalize_address(&person.address);
         warn_if_address_incomplete(&person, user_interface);
@@ -107,10 +111,11 @@ fn merge_households<'b>(
         }
     }
 
-
     // sort by nickname within household
     for couvert in couvert_infos.iter_mut() {
-        couvert.receivers.sort_by(|ra:&pdfgen::Receiver, rb:&pdfgen::Receiver| ra.nickname.cmp(&rb.nickname));
+        couvert
+            .receivers
+            .sort_by(|ra: &pdfgen::Receiver, rb: &pdfgen::Receiver| ra.nickname.cmp(&rb.nickname));
     }
 
     return couvert_infos;
@@ -134,14 +139,15 @@ pub fn normalize_address(address: &String) -> String {
     return String::from(replaced2);
 }
 
-fn warn_if_address_incomplete(person: &dbparse::ReasonablePerson,
-                              user_interface: &dyn ui::UserInteractor) -> bool{
-
-    let issue: bool = person.first_name.is_empty() || 
-                        person.last_name.is_empty() ||
-                        person.address.is_empty() ||
-                        person.zip_code.is_empty() ||
-                        person.town.is_empty();
+fn warn_if_address_incomplete(
+    person: &dbparse::ReasonablePerson,
+    user_interface: &dyn ui::UserInteractor,
+) -> bool {
+    let issue: bool = person.first_name.is_empty()
+        || person.last_name.is_empty()
+        || person.address.is_empty()
+        || person.zip_code.is_empty()
+        || person.town.is_empty();
 
     if issue {
         user_interface.report_bad_address(person);
@@ -192,13 +198,20 @@ fn into_receiver(
     person: &dbparse::ReasonablePerson,
     group_mapping: &dbparse::mapping::GroupMapping,
 ) -> pdfgen::Receiver {
+    let pdfgen_roles = person
+        .roles
+        .iter()
+        .map(|x| roletranslation::role_to_role(x));
+    let mut best_pdfgen_role: pdfgen::Role = pdfgen_roles
+        .max_by_key(|x| x.priority())
+        .unwrap_or(pdfgen::Role::Nothing);
 
-    let pdfgen_roles = person.roles.iter().map(|x| roletranslation::role_to_role(x));
-    let mut best_pdfgen_role: pdfgen::Role = pdfgen_roles.max_by_key(|x| x.priority()).unwrap_or(pdfgen::Role::Nothing);
-
-    let best_group_perhaps: Option<&dbparse::ReasonableGroup> = person.groups.iter().max_by_key(|x| x.priority());
+    let best_group_perhaps: Option<&dbparse::ReasonableGroup> =
+        person.groups.iter().max_by_key(|x| x.priority());
     let display_name = match best_group_perhaps {
-        Some(group) => group_mapping.get_display_name(&group.inner_group.id).expect("Group id does not exist. Something is messed up."),
+        Some(group) => group_mapping
+            .get_display_name(&group.inner_group.id)
+            .expect("Group id does not exist. Something is messed up."),
         None => String::from(""),
     };
 
@@ -207,7 +220,7 @@ fn into_receiver(
         true => person.first_name.clone(),
         false => person.nickname.clone(),
     };
-    
+
     // replace Role::Nothing with the name of the person
     if let pdfgen::Role::Nothing = best_pdfgen_role {
         best_pdfgen_role = pdfgen::Role::Custom(name.clone());
@@ -216,12 +229,12 @@ fn into_receiver(
     pdfgen::Receiver {
         nickname: name,
         group: display_name,
-        role: best_pdfgen_role, 
+        role: best_pdfgen_role,
     }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Priority ( i32 );
+struct Priority(i32);
 trait Prioritized {
     fn priority(&self) -> Priority;
 }
@@ -250,7 +263,7 @@ impl Prioritized for dbparse::ReasonableGroup {
             "Sektion" => Priority(40),
             "Verein" => Priority(45),
             "Jungschar" => Priority(49),
-            "Gruppe" => Priority(50), // M oder F
+            "Gruppe" => Priority(50),     // M oder F
             "Ortsgruppe" => Priority(60), // Pfä-Feh-Hi-Rus
             "Stufe" => Priority(70),
             "Mitglieder" => Priority(71),
@@ -269,7 +282,7 @@ impl Prioritized for dbparse::ReasonableGroup {
 
 /// this exists solely to avoid cyclic dependencies from ui to dbparse and back
 struct DbparseRedirector<'a> {
-    user_interface: Option<&'a dyn ui::UserInteractor>
+    user_interface: Option<&'a dyn ui::UserInteractor>,
 }
 impl<'a> dbparse::DbparseInteractor for DbparseRedirector<'a> {
     fn on_download_finished(&self) {
@@ -288,6 +301,4 @@ impl<'a> dbparse::DbparseInteractor for DbparseRedirector<'a> {
 }
 
 #[cfg(test)]
-mod tests {
-
-}
+mod tests {}
