@@ -16,16 +16,24 @@ fn serialize_couvert_infos ( yaml_text : &str ) {
 
 /// Reads from `inject_people.yaml` and adds those persons to the parameter `couvert_infos`
 pub fn inject_couvert_infos(couvert_infos: &mut Vec<CouvertInfo>, user_interface: &dyn ui::UserInteractor) {
-    // TODO: replace println with UI interaction?
-    let mut fil = OpenOptions::new()
+    let fil = OpenOptions::new()
         .write(true)
         .read(true)
         .create(true)
         .truncate(false)
-        .open(INJECTION_YAML_FILE_PATH)
-        .expect(&*format!("Creating file {} failed", INJECTION_YAML_FILE_PATH));
+        .open(INJECTION_YAML_FILE_PATH);
+    match fil {
+        Err(e) => {
+            dbg!("Creating file {} failed", INJECTION_YAML_FILE_PATH);
+            user_interface.error_injecting_couverts(&e);
+            return;
+        },
+        Ok(_) => (),
+    };
+    let mut file = fil.unwrap();
+
     let mut text = String::new();
-    match fil.read_to_string(&mut text) {
+    match file.read_to_string(&mut text) {
         Ok(_success_code) => {
             return;
         },
@@ -39,10 +47,12 @@ pub fn inject_couvert_infos(couvert_infos: &mut Vec<CouvertInfo>, user_interface
     let content_result: Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(&text);
     match content_result {
         Ok(mut content) => {
-            println!("success");
             couvert_infos.append(&mut content);
         },
-        Err(e) => println!("Parsing failed: {:?}", e),
+        Err(e) => {
+            println!("Parsing failed: {:?}", e);
+            user_interface.error_injecting_couverts(&e);
+        },
     };
 
 
