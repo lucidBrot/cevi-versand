@@ -142,7 +142,7 @@ impl DB_Conf {
             .replace(DB_Conf::PLACEHOLDER_API_TOKEN, &self.api_token)
     }
 
-    fn versand_endpoints(&self) -> impl Iterator<Item=String> {
+    fn versand_endpoints(&self) -> impl Iterator<Item=String> + '_{
         self.versand_endpoint_fmtstrs.iter().map(|s| self.format_versand_endpoint(s.to_string())).into_iter()
     }
 }
@@ -154,8 +154,10 @@ fn get_data_for_versand(
     let endpoints = db_conf.versand_endpoints();
     let endpoint = endpoints.next();
     if endpoint.is_none() {
-        return Err("No endpoints specified in database config!".to_owned());
-    }
+        return Err(Box::new(std::io::Error::from(std::io::ErrorKind::Other.into())));
+    } 
+
+    let endpoint = endpoint.unwrap();
     let body = chttp::get(endpoint)?.into_body().text()?;
     let mut reasonable_dataset = reasonablify_body(&body);
     for endpoint in endpoints {
