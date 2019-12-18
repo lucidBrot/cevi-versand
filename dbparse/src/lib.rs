@@ -463,8 +463,8 @@ impl ReasonableDataset {
 
     /// ADDS people from new dataset, does not perform any checks whether they are already included
     fn extend(&mut self, other: &Self){
-        self.people.extend(other.people);
-        self.groups = self.groups.union(other.get_groups()).collect();
+        self.people.extend(other.people.clone());
+        self.groups = self.groups.union(other.get_groups()).cloned().collect();
     }
 }
 // to get reasonable information, we want the group that is stored in Role:links, which is found
