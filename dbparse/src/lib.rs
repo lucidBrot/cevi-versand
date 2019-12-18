@@ -159,10 +159,11 @@ fn get_data_for_versand(
 
     let endpoint = endpoint.unwrap();
     let body = chttp::get(endpoint)?.into_body().text()?;
-    let mut reasonable_dataset = reasonablify_body(&body);
+    let mut reasonable_dataset = reasonablify_body(&body)?;
     for endpoint in endpoints {
         let body = chttp::get(endpoint)?.into_body().text()?;
-        reasonable_dataset.extend(reasonablify_body(&body));
+        let reasonable_ds = reasonablify_body(&body)?;
+        reasonable_dataset.extend(&reasonable_ds);
     }
 
     return reasonable_dataset;
@@ -453,6 +454,17 @@ impl From<Group> for ReasonableGroup {
 pub struct ReasonableDataset {
     pub people: Vec<ReasonablePerson>,
     groups: HashSet<ReasonableGroup>,
+}
+impl ReasonableDataset {
+    fn get_groups(&self) -> HashSet<ReasonableGroup> {
+        self.groups
+    }
+
+    /// ADDS people from new dataset, does not perform any checks whether they are already included
+    fn extend(&mut self, other: &Self){
+        self.people.extend(other.people);
+        self.groups.extend(other.get_groups());
+    }
 }
 // to get reasonable information, we want the group that is stored in Role:links, which is found
 // by id which we get from Person:links
