@@ -86,13 +86,19 @@ impl GroupMapping {
         const M: &str = " (M)";
         // Abteilung could also be found generically by searching for a group with group_type
         // Ortsgruppe and taking its name
-        let result = String::from(
+        let mut result = String::from(
             name.clone()
                 .trim_end_matches(F)
                 .trim_end_matches(M)
                 .trim_end_matches(ABTEILUNG)
                 .trim(),
         );
+
+        // automatically truncate "Trägerkreis Mitglieder" into "Trägerkreis"
+        if result == "Trägerkreis Mitglieder" {
+            result = "Trägerkreis".to_string();
+        }
+
         if VERBOSE {
             println!("autocorrect: {}  =>  {}", name, result);
         }
