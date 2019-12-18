@@ -137,13 +137,15 @@ impl DB_Conf {
     const PLACEHOLDER_LOGIN_EMAIL: &'static str = "{login_email}";
 
     fn format_versand_endpoint(&self, s: String) -> String {
-        s
-            .replace(DB_Conf::PLACEHOLDER_LOGIN_EMAIL, &self.login_email)
+        s.replace(DB_Conf::PLACEHOLDER_LOGIN_EMAIL, &self.login_email)
             .replace(DB_Conf::PLACEHOLDER_API_TOKEN, &self.api_token)
     }
 
-    fn versand_endpoints(&self) -> impl Iterator<Item=String> + '_{
-        self.versand_endpoint_fmtstrs.iter().map(move |s| self.format_versand_endpoint(s.to_string())).into_iter()
+    fn versand_endpoints(&self) -> impl Iterator<Item = String> + '_ {
+        self.versand_endpoint_fmtstrs
+            .iter()
+            .map(move |s| self.format_versand_endpoint(s.to_string()))
+            .into_iter()
     }
 }
 
@@ -155,7 +157,7 @@ fn get_data_for_versand(
     let endpoint = endpoints.next();
     if endpoint.is_none() {
         return Err(Box::new(std::io::Error::from(std::io::ErrorKind::Other)));
-    } 
+    }
 
     let endpoint = endpoint.unwrap();
     let body = chttp::get(endpoint)?.into_body().text()?;
@@ -462,7 +464,7 @@ impl ReasonableDataset {
     }
 
     /// ADDS people from new dataset, does not perform any checks whether they are already included
-    fn extend(&mut self, other: &Self){
+    fn extend(&mut self, other: &Self) {
         self.people.extend(other.people.clone());
         self.groups = self.groups.union(other.get_groups()).cloned().collect();
     }

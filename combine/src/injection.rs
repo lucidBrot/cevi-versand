@@ -50,27 +50,28 @@ pub fn inject_couvert_infos(
     couvert_infos: &mut Vec<CouvertInfo>,
     user_interface: &dyn ui::UserInteractor,
 ) {
-
     // create empty-ish template file iff there is no current file there
-    let mut fi = OpenOptions::new().write(true).create_new(true).open(INJECTION_YAML_FILE_PATH);
+    let mut fi = OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(INJECTION_YAML_FILE_PATH);
     let fil = match fi {
         Err(_) => {
-    // if failed to create a new file, it was already there. That's good.
-    OpenOptions::new()
-        .write(true)
-        .read(true)
-        .create(true)
-        .truncate(false)
-        .open(INJECTION_YAML_FILE_PATH)
-
-        },
+            // if failed to create a new file, it was already there. That's good.
+            OpenOptions::new()
+                .write(true)
+                .read(true)
+                .create(true)
+                .truncate(false)
+                .open(INJECTION_YAML_FILE_PATH)
+        }
         // if successfully created a new file, it is empty
         Ok(mut f) => {
             use std::io::Write;
-           match f.write_all(INJECTION_YAML_FILE_TEMPLATE.as_bytes()) {
-            Ok(()) => Ok(f),
-            Err(e) => Err(e),
-           }
+            match f.write_all(INJECTION_YAML_FILE_TEMPLATE.as_bytes()) {
+                Ok(()) => Ok(f),
+                Err(e) => Err(e),
+            }
         }
     };
 
