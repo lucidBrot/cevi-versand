@@ -143,7 +143,7 @@ impl DB_Conf {
     }
 
     fn versand_endpoints(&self) -> impl Iterator<Item=String> + '_{
-        self.versand_endpoint_fmtstrs.iter().map(|s| self.format_versand_endpoint(s.to_string())).into_iter()
+        self.versand_endpoint_fmtstrs.iter().map(move |s| self.format_versand_endpoint(s.to_string())).into_iter()
     }
 }
 
@@ -151,10 +151,10 @@ impl DB_Conf {
 fn get_data_for_versand(
     db_conf: &DB_Conf,
 ) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {
-    let endpoints = db_conf.versand_endpoints();
+    let mut endpoints = db_conf.versand_endpoints();
     let endpoint = endpoints.next();
     if endpoint.is_none() {
-        return Err(Box::new(std::io::Error::from(std::io::ErrorKind::Other.into())));
+        return Err(Box::new(std::io::Error::from(std::io::ErrorKind::Other)));
     } 
 
     let endpoint = endpoint.unwrap();
@@ -166,7 +166,7 @@ fn get_data_for_versand(
         reasonable_dataset.extend(&reasonable_ds);
     }
 
-    return reasonable_dataset;
+    return Ok(reasonable_dataset);
 }
 
 fn reasonablify_body(body: &String) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {
@@ -451,25 +451,26 @@ impl From<Group> for ReasonableGroup {
         ReasonableGroup { inner_group: g }
     }
 }
+#[derive(Clone, Debug)]
 pub struct ReasonableDataset {
     pub people: Vec<ReasonablePerson>,
     groups: HashSet<ReasonableGroup>,
 }
 impl ReasonableDataset {
-    fn get_groups(&self) -> HashSet<ReasonableGroup> {
-        self.groups
+    fn get_groups(&self) -> &HashSet<ReasonableGroup> {
+        &self.groups
     }
 
     /// ADDS people from new dataset, does not perform any checks whether they are already included
     fn extend(&mut self, other: &Self){
         self.people.extend(other.people);
-        self.groups.extend(other.get_groups());
+        self.groups = self.groups.union(other.get_groups()).collect();
     }
 }
 // to get reasonable information, we want the group that is stored in Role:links, which is found
 // by id which we get from Person:links
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ReasonablePerson {
     pub first_name: String,
     pub last_name: String,
