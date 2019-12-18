@@ -3,6 +3,37 @@ use std::fs::OpenOptions;
 use std::io::Read;
 
 pub const INJECTION_YAML_FILE_PATH: &str = "inject_people.yaml";
+const INJECTION_YAML_FILE_TEMPLATE: &str = r###"---
+# remove the following line (or comment it out):
+[]
+# and replace it with something like this:
+- receivers:
+    - nickname: Herbert
+      group: Herbert Fan Club
+      role: Teilnehmer
+  address:
+    - Herbert Herber
+    - Herbertstrasse h32
+    - 8332 Herbhausen
+- receivers:
+    - nickname: Zweibert
+      group: Herbert Fan Club
+      role: Teilnehmer
+  address:
+    - Zweibert Herber
+    - Herbertstrasse h32
+    - 8332 Herbhausen
+- receivers:
+    - nickname: HERBERT
+      group: Herbert Fan Club
+      role: Teilnehmer
+  address:
+    - Herbert Herber
+    - Herbertstrasse h32
+    - 8332 Herbhausen
+
+# Each receiver will get their own envelope. But the envelopes will be sorted like all the other envelopes, by group name.
+"###;
 
 // mostly for debug purposes
 #[allow(dead_code)]
@@ -19,12 +50,30 @@ pub fn inject_couvert_infos(
     couvert_infos: &mut Vec<CouvertInfo>,
     user_interface: &dyn ui::UserInteractor,
 ) {
-    let fil = OpenOptions::new()
+
+    // create empty-ish template file iff there is no current file there
+    let mut fi = OpenOptions::new().write(true).create_new(true).open(INJECTION_YAML_FILE_PATH);
+    let fil = match fi {
+        Err(_) => {
+    // if failed to create a new file, it was already there. That's good.
+    OpenOptions::new()
         .write(true)
         .read(true)
         .create(true)
         .truncate(false)
-        .open(INJECTION_YAML_FILE_PATH);
+        .open(INJECTION_YAML_FILE_PATH)
+
+        },
+        // if successfully created a new file, it is empty
+        Ok(mut f) => {
+            use std::io::Write;
+           match f.write_all(INJECTION_YAML_FILE_TEMPLATE.as_bytes()) {
+            Ok(()) => Ok(f),
+            Err(e) => Err(e),
+           }
+        }
+    };
+
     match fil {
         Err(e) => {
             dbg!("Creating file {} failed", INJECTION_YAML_FILE_PATH);
