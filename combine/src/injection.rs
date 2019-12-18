@@ -1,38 +1,39 @@
 use pdfgen::CouvertInfo;
 use std::fs::OpenOptions;
-use std::io::Read;
+use std::io::{Write, Read};
 
 pub const INJECTION_YAML_FILE_PATH: &str = "inject_people.yaml";
 const INJECTION_YAML_FILE_TEMPLATE: &str = r###"---
 # remove the following line (or comment it out):
 []
 # and replace it with something like this:
-- receivers:
-    - nickname: Herbert
-      group: Herbert Fan Club
-      role: Teilnehmer
-  address:
-    - Herbert Herber
-    - Herbertstrasse h32
-    - 8332 Herbhausen
-- receivers:
-    - nickname: Zweibert
-      group: Herbert Fan Club
-      role: Teilnehmer
-  address:
-    - Zweibert Herber
-    - Herbertstrasse h32
-    - 8332 Herbhausen
-- receivers:
-    - nickname: HERBERT
-      group: Herbert Fan Club
-      role: Teilnehmer
-  address:
-    - Herbert Herber
-    - Herbertstrasse h32
-    - 8332 Herbhausen
+# - receivers:
+#     - nickname: Herbert
+#       group: Herbert Fan Club
+#       role: Teilnehmer
+#   address:
+#     - Herbert Herber
+#     - Herbertstrasse h32
+#     - 8332 Herbhausen
+# - receivers:
+#     - nickname: Zweibert
+#       group: Herbert Fan Club
+#       role: Teilnehmer
+#   address:
+#     - Zweibert Herber
+#     - Herbertstrasse h32
+#     - 8332 Herbhausen
+# - receivers:
+#     - nickname: HERBERT
+#       group: Herbert Fan Club
+#       role: Teilnehmer
+#   address:
+#     - Herbert Herber
+#     - Herbertstrasse h32
+#     - 8332 Herbhausen
 
 # Each receiver will get their own envelope. But the envelopes will be sorted like all the other envelopes, by group name.
+# This File will be regenerated if you delete it
 "###;
 
 // mostly for debug purposes
@@ -51,8 +52,9 @@ pub fn inject_couvert_infos(
     user_interface: &dyn ui::UserInteractor,
 ) {
     // create empty-ish template file iff there is no current file there
-    let mut fi = OpenOptions::new()
+    let fi = OpenOptions::new()
         .write(true)
+        .read(true)
         .create_new(true)
         .open(INJECTION_YAML_FILE_PATH);
     let fil = match fi {
@@ -67,7 +69,6 @@ pub fn inject_couvert_infos(
         }
         // if successfully created a new file, it is empty
         Ok(mut f) => {
-            use std::io::Write;
             match f.write_all(INJECTION_YAML_FILE_TEMPLATE.as_bytes()) {
                 Ok(()) => Ok(f),
                 Err(e) => Err(e),
@@ -77,7 +78,7 @@ pub fn inject_couvert_infos(
 
     match fil {
         Err(e) => {
-            dbg!("Creating file {} failed", INJECTION_YAML_FILE_PATH);
+            dbg!("Creating/Opening file {} failed", INJECTION_YAML_FILE_PATH);
             user_interface.error_injecting_couverts(&e);
             return;
         }
@@ -85,6 +86,7 @@ pub fn inject_couvert_infos(
     };
     let mut file = fil.unwrap();
 
+    dbg!(&file);
     let mut text = String::new();
     match file.read_to_string(&mut text) {
         Ok(_success_code) => (),
