@@ -129,17 +129,21 @@ struct DB_Conf {
     login_name: String,
     api_token: String,
     login_email: String,
-    versand_endpoint_fmtstr: String,
+    versand_endpoint_fmtstrs: Vec<String>,
 }
 impl DB_Conf {
     // used in yaml to be filled in at runtime
     const PLACEHOLDER_API_TOKEN: &'static str = "{api_token}";
     const PLACEHOLDER_LOGIN_EMAIL: &'static str = "{login_email}";
 
-    fn versand_endpoint(&self) -> String {
-        self.versand_endpoint_fmtstr
+    fn format_versand_endpoint(&self, s: String) -> String {
+        s
             .replace(DB_Conf::PLACEHOLDER_LOGIN_EMAIL, &self.login_email)
             .replace(DB_Conf::PLACEHOLDER_API_TOKEN, &self.api_token)
+    }
+
+    fn versand_endpoints(&self) -> impl Iterator<Item=String> {
+        self.versand_endpoint_fmtstrs.iter().map(|s| self.format_versand_endpoint(s.to_string())).into_iter()
     }
 }
 
@@ -147,9 +151,19 @@ impl DB_Conf {
 fn get_data_for_versand(
     db_conf: &DB_Conf,
 ) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {
-    let body = chttp::get(db_conf.versand_endpoint())?.into_body().text()?;
+    let endpoints = db_conf.versand_endpoints();
+    let endpoint = endpoints.next();
+    if endpoint.is_none() {
+        return Err("No endpoints specified in database config!".to_owned());
+    }
+    let body = chttp::get(endpoint)?.into_body().text()?;
+    let mut reasonable_dataset = reasonablify_body(&body);
+    for endpoint in endpoints {
+        let body = chttp::get(endpoint)?.into_body().text()?;
+        reasonable_dataset.extend(reasonablify_body(&body));
+    }
 
-    return reasonablify_body(&body);
+    return reasonable_dataset;
 }
 
 fn reasonablify_body(body: &String) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {
