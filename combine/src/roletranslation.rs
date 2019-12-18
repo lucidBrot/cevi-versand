@@ -13,7 +13,7 @@ use pdfgen;
 pub fn role_to_role(dbrole: &dbparse::Role) -> pdfgen::Role {
     match dbrole.role_type.as_ref() {
         "Teilnehmer/-in" => pdfgen::Role::Teilnehmer,
-        "Traegerkreis" => pdfgen::Role::Traegerkreis, // TODO: how to recognize trägerkreis?
+        "Traegerkreis" => pdfgen::Role::Traegerkreis, // Trägerkreis is not a role, but a group. Roles would either be "Externe/-r" or "Verantwortliche/-r"
         "Minigruppenleiter/-in" => pdfgen::Role::Leiter,
         "Gruppenleiter/-in" => pdfgen::Role::Leiter,
         "Coach" => pdfgen::Role::Coach,
