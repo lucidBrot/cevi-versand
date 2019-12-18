@@ -244,7 +244,6 @@ impl Prioritized for pdfgen::Role {
     fn priority(&self) -> Priority {
         use pdfgen::Role;
         match self {
-            Role::Traegerkreis => Priority(50),
             Role::Ehemalige => Priority(45),
             Role::Leiter => Priority(40),
             Role::Teilnehmer => Priority(30),
@@ -268,9 +267,9 @@ impl Prioritized for dbparse::ReasonableGroup {
             "Stufe" => Priority(70),
             "Mitglieder" => Priority(71),
             //--- end useless stuff ---
-            "Externe" => Priority(80), // e.g. "Gebetsgruppe", "C-Newsletter", "Leiter ehemalig", "Ehemalige"
             "Ten-Sing" => Priority(80),
             "Gremium" => Priority(85), // e.g. "C-Gruppe", "Cevi Plus Team"
+            "Externe" => Priority(89), // e.g. "Gebetsgruppe", "C-Newsletter", "Leiter ehemalig", "Ehemalige", "Trägerkreis"
             "Vorstand" => Priority(90), // if somebody is in a group and in vorstand, we want the group
             "Untergruppe" => Priority(100), // We want always this. It's e.g. Holon.
             "Fröschli" => Priority(100), // Whyever this exists

@@ -27,7 +27,7 @@ pub fn main() {
     let receiver3 = Receiver {
         nickname: String::from("Pseudo"),
         group: String::from("Trägerkreis"),
-        role: Role::Traegerkreis,
+        role: Role::Teilnehmer,
     };
     let mut receivers = vec![receiver1, receiver2, receiver3];
 
@@ -453,7 +453,6 @@ pub struct Receiver {
 pub enum Role {
     Leiter,
     Teilnehmer,
-    Traegerkreis,
     Ehemalige,
     Nothing,
     Coach,
@@ -471,7 +470,6 @@ impl Role {
         String::from(match self {
             Role::Leiter => "Leiter",
             Role::Teilnehmer => "Teilnehmer",
-            Role::Traegerkreis => "Trägerkreis",
             Role::Ehemalige => "Ehemaliger",
             Role::Nothing => "",
             Role::Coach => "Coach",
@@ -489,7 +487,6 @@ impl Role {
         return vec![
             Role::Leiter,
             Role::Teilnehmer,
-            Role::Traegerkreis,
             Role::Ehemalige,
             Role::Nothing,
             Role::Coach,
