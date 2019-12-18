@@ -69,10 +69,15 @@ pub fn inject_couvert_infos(
         }
         // if successfully created a new file, it is empty
         Ok(mut f) => {
+            // write template content
             match f.write_all(INJECTION_YAML_FILE_TEMPLATE.as_bytes()) {
                 Ok(()) => Ok(f),
                 Err(e) => Err(e),
             }
+
+           // use template content instead of file
+           unnamed_fnctn(&INJECTION_YAML_FILE_TEMPLATE, &mut couvert_infos);
+           return;
         }
     };
 
@@ -89,7 +94,7 @@ pub fn inject_couvert_infos(
     dbg!(&file);
     let mut text = String::new();
     match file.read_to_string(&mut text) {
-        Ok(_success_code) => (),
+        Ok(_success_code) => {()},
         Err(error) => {
             dbg!(
                 "An error occurred while reading {}: {:?}",
@@ -100,7 +105,11 @@ pub fn inject_couvert_infos(
         }
     };
 
-    let content_result: Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(&text);
+    unnamed_fnctn(&text, &mut couvert_infos);
+}
+
+fn unnamed_fnctn(text: &String, couvert_infos: &mut Vec<CouvertInfo>){
+    let content_result: Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(text);
     match content_result {
         Ok(mut content) => {
             couvert_infos.append(&mut content);
