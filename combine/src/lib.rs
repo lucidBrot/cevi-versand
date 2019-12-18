@@ -221,6 +221,11 @@ fn into_receiver(
         false => person.nickname.clone(),
     };
 
+    // if the person is of group Trägerkreis, make them a Trägerkreis Role
+    if let Some(_index) = display_name.find("Trägerkreis") {
+        best_pdfgen_role = pdfgen::Role::Traegerkreis;
+    }
+
     // replace Role::Nothing with the name of the person
     if let pdfgen::Role::Nothing = best_pdfgen_role {
         best_pdfgen_role = pdfgen::Role::Custom(name.clone());
@@ -244,6 +249,8 @@ impl Prioritized for pdfgen::Role {
     fn priority(&self) -> Priority {
         use pdfgen::Role;
         match self {
+            // Logic: just in case somebody is both Leiter, Ehemalige and Trägerkreis
+            Role::Traegerkreis => Priority(50),
             Role::Ehemalige => Priority(45),
             Role::Leiter => Priority(40),
             Role::Teilnehmer => Priority(30),
