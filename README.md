@@ -1,15 +1,15 @@
 # cevi-versand
 A better tool for generating envelopes from our database
 
-![icon](./ui/icon.png)
+![icon](./ui_/icon.png)
 
 ## Targets
 
-* Extract data directly from database, or automatically fetch csv
-* Allow user to intuitively filter who should receive the consignment
-* Generate PDF with relevant information for manual sending, in correct order
-* No dependency on office if possible
-* Acceptable couverts by post standards
+* [x] Extract data directly from database, or automatically fetch csv
+* [ ] Allow user to intuitively filter who should receive the consignment
+* [x] Generate PDF with relevant information for manual sending, in correct order
+* [x] No dependency on office if possible
+* [x] Acceptable couverts by post standards
 
 ### Extract Data
 
