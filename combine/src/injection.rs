@@ -1,6 +1,6 @@
 use pdfgen::CouvertInfo;
 use std::fs::OpenOptions;
-use std::io::{Write, Read};
+use std::io::{Read, Write};
 
 pub const INJECTION_YAML_FILE_PATH: &str = "inject_people.yaml";
 const INJECTION_YAML_FILE_TEMPLATE: &str = r###"---
@@ -69,7 +69,10 @@ pub fn inject_couvert_infos(
 
         match fil {
             Err(e) => {
-                println!("combine::inject: Failed to open r/w file {}", INJECTION_YAML_FILE_PATH);
+                println!(
+                    "combine::inject: Failed to open r/w file {}",
+                    INJECTION_YAML_FILE_PATH
+                );
                 user_interface.error_injecting_couverts(&e);
                 return;
             },
@@ -77,14 +80,17 @@ pub fn inject_couvert_infos(
                 let mut text = String::new();
                 match file.read_to_string(&mut text) {
                     Err(error) => {
-                        println!("combine::inject: Failed to read file {}", INJECTION_YAML_FILE_PATH);
+                        println!(
+                            "combine::inject: Failed to read file {}",
+                            INJECTION_YAML_FILE_PATH
+                        );
                         user_interface.error_injecting_couverts(&error);
                     },
                     Ok(_success_code) => {
                         parse_and_append(&text, couvert_infos, user_interface);
-                    }
+                    },
                 }
-            }
+            },
         }
     } else {
         // if new file created, write template string to it
@@ -94,21 +100,29 @@ pub fn inject_couvert_infos(
             println!("combine::inject: Failed to write template file.");
             user_interface.error_injecting_couverts(&e);
         }
-        
+
         // and use template string as text
-        parse_and_append(&INJECTION_YAML_FILE_TEMPLATE, &mut couvert_infos, user_interface);
+        parse_and_append(
+            &INJECTION_YAML_FILE_TEMPLATE,
+            &mut couvert_infos,
+            user_interface,
+        );
     };
 }
 
-fn parse_and_append(text: &str, couvert_infos: &mut Vec<CouvertInfo>, user_interface: &dyn ui::UserInteractor){
+fn parse_and_append(
+    text: &str,
+    couvert_infos: &mut Vec<CouvertInfo>,
+    user_interface: &dyn ui::UserInteractor,
+) {
     let content_result: Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(text);
     match content_result {
         Ok(mut content) => {
             couvert_infos.append(&mut content);
-        }
+        },
         Err(e) => {
             println!("Parsing failed: {:?}", e);
             user_interface.error_injecting_couverts(&e);
-        }
+        },
     };
 }

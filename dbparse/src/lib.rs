@@ -18,8 +18,7 @@ const MAPPING_YAML_FILE: &str = "mapping.yaml";
 const VERBOSITY: Verbosity = Verbosity::No;
 
 const CONFIG_YAML_FILE: &str = "config.yaml";
-const CONFIG_YAML_FILLABLE_TEMPLATE : &str =
-r###"db_conf:
+const CONFIG_YAML_FILLABLE_TEMPLATE: &str = r###"db_conf:
     # paste your api_token here
     api_token: "th1s1sY0ur70k3n"
     # der Ceviname zum einloggen in der db.cevi.ch
@@ -70,11 +69,11 @@ pub fn run_with_reasonable_dataset(
     let loaded_group_mapping: GroupMapping = match yaml_group_mapping {
         Ok(mapping) => {
             mapping::create_map_from_yaml(&mapping).expect("Creating map from yaml failed")
-        }
+        },
         Err(e) => {
             println!("problem loading yaml mapping: {}.\nRecreating it...", e);
             GroupMapping::new()
-        }
+        },
     };
     // create mapping from Database
     let db_group_mapping: GroupMapping = GroupMapping::from_set(&dataset.groups);
@@ -105,7 +104,7 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
             let _result = generate_template_config_file(filename.to_string());
             ui.error_missing_config_file(filename.to_string());
             panic!("failed to find {}: {:?}", filename, e);
-        }
+        },
     };
     let yaml: serde_yaml::Value = serde_yaml::from_reader(fil).expect("file should be proper YAML");
 
