@@ -48,7 +48,7 @@ fn serialize_couvert_infos(yaml_text: &str) {
 
 /// Reads from `inject_people.yaml` and adds those persons to the parameter `couvert_infos`
 pub fn inject_couvert_infos(
-    couvert_infos: &mut Vec<CouvertInfo>,
+    mut couvert_infos: &mut Vec<CouvertInfo>,
     user_interface: &dyn ui::UserInteractor,
 ) {
     // create empty-ish template file iff there is no current file there
@@ -57,58 +57,50 @@ pub fn inject_couvert_infos(
         .read(true)
         .create_new(true)
         .open(INJECTION_YAML_FILE_PATH);
-    let fil = match fi {
-        Err(_) => {
-            // if failed to create a new file, it was already there. That's good.
-            OpenOptions::new()
-                .write(true)
-                .read(true)
-                .create(true)
-                .truncate(false)
-                .open(INJECTION_YAML_FILE_PATH)
-        }
-        // if successfully created a new file, it is empty
-        Ok(mut f) => {
-            // write template content
-            match f.write_all(INJECTION_YAML_FILE_TEMPLATE.as_bytes()) {
-                Ok(()) => Ok(f),
-                Err(e) => Err(e),
+
+    if let Err(_) = fi {
+        // if failed to create a new file, it was already there. That's good.
+        let fil = OpenOptions::new()
+            .write(true)
+            .read(true)
+            .create(true)
+            .truncate(false)
+            .open(INJECTION_YAML_FILE_PATH);
+
+        match fil {
+            Err(e) => {
+                println!("combine::inject: Failed to open r/w file {}", INJECTION_YAML_FILE_PATH);
+                user_interface.error_injecting_couverts(&e);
+                return;
+            },
+            Ok(mut file) => {
+                let mut text = String::new();
+                match file.read_to_string(&mut text) {
+                    Err(error) => {
+                        println!("combine::inject: Failed to read file {}", INJECTION_YAML_FILE_PATH);
+                        user_interface.error_injecting_couverts(&error);
+                    },
+                    Ok(_success_code) => {
+                        parse_and_append(&text, couvert_infos, user_interface);
+                    }
+                }
             }
-
-           // use template content instead of file
-           unnamed_fnctn(&INJECTION_YAML_FILE_TEMPLATE, &mut couvert_infos);
-           return;
         }
-    };
-
-    match fil {
-        Err(e) => {
-            dbg!("Creating/Opening file {} failed", INJECTION_YAML_FILE_PATH);
+    } else {
+        // if new file created, write template string to it
+        let mut f = fi.unwrap();
+        let res = f.write_all(INJECTION_YAML_FILE_TEMPLATE.as_bytes());
+        if let Err(e) = res {
+            println!("combine::inject: Failed to write template file.");
             user_interface.error_injecting_couverts(&e);
-            return;
         }
-        Ok(_) => (),
+        
+        // and use template string as text
+        parse_and_append(&INJECTION_YAML_FILE_TEMPLATE, &mut couvert_infos, user_interface);
     };
-    let mut file = fil.unwrap();
-
-    dbg!(&file);
-    let mut text = String::new();
-    match file.read_to_string(&mut text) {
-        Ok(_success_code) => {()},
-        Err(error) => {
-            dbg!(
-                "An error occurred while reading {}: {:?}",
-                INJECTION_YAML_FILE_PATH,
-                error.kind()
-            );
-            user_interface.error_injecting_couverts(&error);
-        }
-    };
-
-    unnamed_fnctn(&text, &mut couvert_infos);
 }
 
-fn unnamed_fnctn(text: &String, couvert_infos: &mut Vec<CouvertInfo>){
+fn parse_and_append(text: &str, couvert_infos: &mut Vec<CouvertInfo>, user_interface: &dyn ui::UserInteractor){
     let content_result: Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(text);
     match content_result {
         Ok(mut content) => {
