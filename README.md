@@ -3,6 +3,37 @@ A better tool for generating envelopes from our database
 
 ![icon](./ui_/icon.png)
 
+## Setup
+
+Run the program once and it will generate you a `config.yaml` file that you should fill in.
+
+- [ ] TODO: Guide the user through the process of getting a token and a filter link, then automatically re-run
+
+```yaml
+#config.yaml
+db_conf:
+    # paste your api_token here
+    api_token: "th1s1sY0ur70k3n"
+    # der Ceviname zum einloggen in der db.cevi.ch
+    login_name: "GenerischerCeviname"
+    # die e-mail adresse zum einloggen in der db.cevi.ch
+    login_email: "irgendwer@irgendwas.ch"
+    # Der link zu den Leuten in der datenbank. Relevant für dich als user sind nur die Zahlen.
+    # Ersetze sie durch die gruppen-id und filter-id, die du verwenden möchtest.
+    # Du kannst beliebig viele links verwenden.
+    versand_endpoint_fmtstrs:
+    	- "https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email={login_email}&user_token={api_token}"
+    	- "https://db.cevi.ch/groups/2423/people.json?user_email={login_email}&user_token={api_token}"
+```
+
+When you have set this up, run the program again.
+
+It will tell you that `mapping.yaml` was missing and has been generated. From now on, running the program will look in `mapping.yaml` to replace any `original_name` with the corresponding `display_name`. That is a way for you to customize the generated pdfs - please only touch the `display_name`.
+
+The program might also inform you about any people that are broken. E.g. they lack an address. These are still included as envelopes in the PDF, but will likely cause problems when sending them per post.
+
+The program will at this point also have generated an `inject_people.yaml` file which allows you to add more envelopes, for people that are not in the database.
+
 ## Targets
 
 * [x] Extract data directly from database, or automatically fetch csv
