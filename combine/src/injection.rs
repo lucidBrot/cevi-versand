@@ -75,7 +75,7 @@ pub fn inject_couvert_infos(
                 );
                 user_interface.error_injecting_couverts(&e);
                 return;
-            }
+            },
             Ok(mut file) => {
                 let mut text = String::new();
                 match file.read_to_string(&mut text) {
@@ -85,12 +85,12 @@ pub fn inject_couvert_infos(
                             INJECTION_YAML_FILE_PATH
                         );
                         user_interface.error_injecting_couverts(&error);
-                    }
+                    },
                     Ok(_success_code) => {
                         parse_and_append(&text, couvert_infos, user_interface);
-                    }
+                    },
                 }
-            }
+            },
         }
     } else {
         // if new file created, write template string to it
@@ -119,10 +119,10 @@ fn parse_and_append(
     match content_result {
         Ok(mut content) => {
             couvert_infos.append(&mut content);
-        }
+        },
         Err(e) => {
             println!("Parsing failed: {:?}", e);
             user_interface.error_injecting_couverts(&e);
-        }
+        },
     };
 }

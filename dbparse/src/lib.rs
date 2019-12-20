@@ -76,11 +76,11 @@ pub fn run_with_reasonable_dataset(
     let loaded_group_mapping: GroupMapping = match yaml_group_mapping {
         Ok(mapping) => {
             mapping::create_map_from_yaml(&mapping).expect("Creating map from yaml failed")
-        }
+        },
         Err(e) => {
             println!("problem loading yaml mapping: {}.\nRecreating it...", e);
             GroupMapping::new()
-        }
+        },
     };
     // create mapping from Database
     let db_group_mapping: GroupMapping = GroupMapping::from_set(&dataset.groups);
@@ -108,13 +108,10 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
     let fil = match fs::File::open(filename) {
         Ok(f) => f,
         Err(e) => {
-            let _result = generate_template_config_file(
-                "GenerischerCeviname",
-                "th1s1sY0ur70k3n"
-            );
+            let _result = generate_template_config_file("GenerischerCeviname", "th1s1sY0ur70k3n");
             ui.error_missing_config_file(filename.to_string());
             panic!("failed to find {}: {:?}", filename, e);
-        }
+        },
     };
     let yaml: serde_yaml::Value = serde_yaml::from_reader(fil).expect("file should be proper YAML");
 
@@ -144,24 +141,24 @@ fn generate_template_config_file(login_name: &str, api_token: &str) -> Result<()
     generate_template_config_file_at(CONFIG_YAML_FILE.to_string(), api_token, login_name)
 }
 
-fn get_auth_token_url_data (login_email: &str, password: &str) -> String {
+fn get_auth_token_url_data(login_email: &str, password: &str) -> String {
     let data2 = r#"{
     "person[email]": "{email}",
     "person[password]: "{password}"
 }"#;
 
-    data2.replace("{email}", login_email)
+    data2
+        .replace("{email}", login_email)
         .replace("{password}", password)
         .to_string()
 }
 
-pub fn get_auth_token (login_email: &str, password: &str) -> Result<String, std::io::Error> {
+pub fn get_auth_token(login_email: &str, password: &str) -> Result<String, std::io::Error> {
     let url = SIGNIN_POST_URL;
-    let data : String = get_auth_token_url_data(login_email, password);
+    let data: String = get_auth_token_url_data(login_email, password);
     let body = chttp::post(url, data)?.into_body().text();
     return body;
 }
-
 
 #[derive(Serialize, Deserialize, Debug)]
 #[allow(non_camel_case_types)]
