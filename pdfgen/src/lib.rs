@@ -3,11 +3,11 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::env;
 
-const CALIBRI_FONT : &'static [u8] = include_bytes!("../res/fonts/calibri.ttf");
-const CALIBRI_LIGHT_FONT : &'static [u8] = include_bytes!("../res/fonts/calibriL.ttf");
-const LOGO_BMP_BYTES : &'static [u8] = include_bytes!("../res/images/logo.bmp");
+const CALIBRI_FONT: &'static [u8] = include_bytes!("../res/fonts/calibri.ttf");
+const CALIBRI_LIGHT_FONT: &'static [u8] = include_bytes!("../res/fonts/calibriL.ttf");
+const LOGO_BMP_BYTES: &'static [u8] = include_bytes!("../res/images/logo.bmp");
 
-const VERYBOSE : bool = false;
+const VERYBOSE: bool = false;
 
 pub fn main() {
     println!("Hello, world from {}!", file!());
@@ -15,49 +15,49 @@ pub fn main() {
     let filename = "sample_couvert.pdf";
 
     let receiver1 = Receiver {
-        nickname : String::from("Focus"),
-        group : String::from("Skapande"),
-        role : Role::Leiter,
+        nickname: String::from("Focus"),
+        group: String::from("Skapande"),
+        role: Role::Leiter,
     };
     let receiver2 = Receiver {
-        nickname : String::from("Levanzo"),
-        group : String::from("Holon"),
-        role : Role::Leiter,
+        nickname: String::from("Levanzo"),
+        group: String::from("Holon"),
+        role: Role::Leiter,
     };
     let receiver3 = Receiver {
-        nickname : String::from("Pseudo"),
-        group : String::from("Trägerkreis"),
-        role : Role::Teilnehmer,
+        nickname: String::from("Pseudo"),
+        group: String::from("Trägerkreis"),
+        role: Role::Teilnehmer,
     };
     let mut receivers = vec![receiver1, receiver2, receiver3];
 
     for arg in env::args().skip(1) {
         receivers.push(Receiver {
-            nickname : String::from(arg),
-            group : String::from("Arg Group"),
-            role : Role::Teilnehmer,
+            nickname: String::from(arg),
+            group: String::from("Arg Group"),
+            role: Role::Teilnehmer,
         });
     }
 
     let address = vec!["Familie Mink", "Neuwiesenstr. 2", "8332 Russikon"];
-    let mut couverts : Vec<CouvertInfo> = vec![CouvertInfo {
-        receivers : receivers,
-        address : vec_str_to_vec_string(&address),
+    let mut couverts: Vec<CouvertInfo> = vec![CouvertInfo {
+        receivers: receivers,
+        address: vec_str_to_vec_string(&address),
     }];
 
-    let doc_generated : printpdf::PdfDocumentReference = generate_couverts(&mut couverts, None);
+    let doc_generated: printpdf::PdfDocumentReference = generate_couverts(&mut couverts, None);
     let mut buf = std::io::BufWriter::new(std::fs::File::create(filename).expect("What?"));
     doc_generated.save(&mut buf).expect("The Fuck?");
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct CouvertInfo {
-    pub receivers : Vec<Receiver>,
-    pub address : Vec<String>,
+    pub receivers: Vec<Receiver>,
+    pub address: Vec<String>,
 }
 
-pub fn vec_str_to_vec_string(v : &Vec<&str>) -> Vec<String> {
-    let mut vec : Vec<String> = Vec::<String>::new();
+pub fn vec_str_to_vec_string(v: &Vec<&str>) -> Vec<String> {
+    let mut vec: Vec<String> = Vec::<String>::new();
     for s in v.iter() {
         vec.push(String::from(*s));
     }
@@ -65,8 +65,8 @@ pub fn vec_str_to_vec_string(v : &Vec<&str>) -> Vec<String> {
 }
 
 pub fn generate_couverts(
-    couverts : &mut Vec<CouvertInfo>,
-    user_interface : Option<&dyn ui::UserInteractor>,
+    couverts: &mut Vec<CouvertInfo>,
+    user_interface: Option<&dyn ui::UserInteractor>,
 ) -> printpdf::PdfDocumentReference {
     use printpdf::*;
 
@@ -87,7 +87,7 @@ pub fn generate_couverts(
     let debug_offset_y = page_height - Mm(18.0);
 
     // create the document
-    let (doc, info_page, info_layer) : (
+    let (doc, info_page, info_layer): (
         PdfDocumentReference,
         indices::PdfPageIndex,
         indices::PdfLayerIndex,
@@ -169,7 +169,7 @@ pub fn generate_couverts(
             couvert
                 .receivers
                 .iter()
-                .map(|r : &Receiver| (&r.nickname as &str, &r.group as &str)),
+                .map(|r: &Receiver| (&r.nickname as &str, &r.group as &str)),
         );
 
         // position sample address
@@ -195,7 +195,7 @@ pub fn generate_couverts(
         }
 
         // numbers in sidebadge
-        let rolecount_dict : HashMap<Role, usize> = couvert.receivers.iter().fold(
+        let rolecount_dict: HashMap<Role, usize> = couvert.receivers.iter().fold(
             /*init:*/ HashMap::new(),
             /*f(map, item):*/
             |mut map, Receiver { role: item, .. }| {
@@ -224,11 +224,11 @@ pub fn generate_couverts(
 }
 
 fn draw_names<'a>(
-    current_layer : &printpdf::PdfLayerReference,
-    font : &printpdf::IndirectFontRef,
-    font_size : i64,
-    (start_x, start_y) : (printpdf::Mm, printpdf::Mm),
-    names_and_groups : impl Iterator<Item = (&'a str, &'a str)> + Clone,
+    current_layer: &printpdf::PdfLayerReference,
+    font: &printpdf::IndirectFontRef,
+    font_size: i64,
+    (start_x, start_y): (printpdf::Mm, printpdf::Mm),
+    names_and_groups: impl Iterator<Item = (&'a str, &'a str)> + Clone,
 ) {
     let line_distance_y = printpdf::Mm(5.0);
 
@@ -257,16 +257,16 @@ fn draw_names<'a>(
 }
 
 fn draw_sidebadges(
-    current_layer : &printpdf::PdfLayerReference,
-    font : &printpdf::IndirectFontRef,
-    font_size : i64,
-    (start_x, start_y) : (printpdf::Mm, printpdf::Mm),
-    badge_spacing_y : printpdf::Mm,
-    numbers : HashMap<Role, usize>,
+    current_layer: &printpdf::PdfLayerReference,
+    font: &printpdf::IndirectFontRef,
+    font_size: i64,
+    (start_x, start_y): (printpdf::Mm, printpdf::Mm),
+    badge_spacing_y: printpdf::Mm,
+    numbers: HashMap<Role, usize>,
 ) {
     let mut y = start_y;
     for (role, num) in numbers {
-        let txt : String = role.value();
+        let txt: String = role.value();
         let text = format!("{} {}", num, txt);
         draw_sidebadge(&current_layer, start_x, y, &font, font_size, &text);
         y += badge_spacing_y;
@@ -275,12 +275,12 @@ fn draw_sidebadges(
 
 /// overwrites the fill color of the current layer and draws a badge at (origin_x, origin_y)
 fn draw_sidebadge(
-    current_layer : &printpdf::PdfLayerReference,
-    origin_x : printpdf::Mm,
-    origin_y : printpdf::Mm,
-    font : &printpdf::IndirectFontRef,
-    font_size : i64,
-    text : &str,
+    current_layer: &printpdf::PdfLayerReference,
+    origin_x: printpdf::Mm,
+    origin_y: printpdf::Mm,
+    font: &printpdf::IndirectFontRef,
+    font_size: i64,
+    text: &str,
 ) {
     use printpdf::{Line, Mm, Point};
 
@@ -289,7 +289,7 @@ fn draw_sidebadge(
     let badge_dent_width = badge_width / 10.0;
 
     // point relative to lower left corner (pos_x, pos_y)
-    let point = |posx : f64, posy : f64| -> Point {
+    let point = |posx: f64, posy: f64| -> Point {
         let printpdf::Mm(pos_x) = origin_x;
         let printpdf::Mm(pos_y) = origin_y;
         Point::new(Mm(pos_x + posx), Mm(pos_y + posy))
@@ -312,11 +312,11 @@ fn draw_sidebadge(
 
     // Is the shape stroked? Is the shape closed? Is the shape filled?
     let line1 = Line {
-        points : points1,
-        is_closed : true,
-        has_fill : true,
-        has_stroke : true,
-        is_clipping_path : false,
+        points: points1,
+        is_closed: true,
+        has_fill: true,
+        has_stroke: true,
+        is_clipping_path: false,
     };
 
     // draw
@@ -338,11 +338,11 @@ fn draw_sidebadge(
 }
 
 fn add_bitmap_to_layer(
-    current_layer : &printpdf::PdfLayerReference,
-    posx : Option<printpdf::Mm>,
-    posy : Option<printpdf::Mm>,
-    scalex : Option<f64>,
-    scaley : Option<f64>,
+    current_layer: &printpdf::PdfLayerReference,
+    posx: Option<printpdf::Mm>,
+    posy: Option<printpdf::Mm>,
+    scalex: Option<f64>,
+    scaley: Option<f64>,
 ) {
     use image::bmp::BMPDecoder;
     use printpdf::*;
@@ -385,11 +385,11 @@ fn sample_graphical_page() {
 
     // Is the shape stroked? Is the shape closed? Is the shape filled?
     let line1 = Line {
-        points : points1,
-        is_closed : true,
-        has_fill : true,
-        has_stroke : true,
-        is_clipping_path : false,
+        points: points1,
+        is_closed: true,
+        has_fill: true,
+        has_stroke: true,
+        is_clipping_path: false,
     };
 
     // Triangle shape
@@ -443,9 +443,9 @@ fn sample_graphical_page() {
 
 #[derive(Debug, Clone, Eq, PartialEq, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct Receiver {
-    pub nickname : String,
-    pub group : String,
-    pub role : Role,
+    pub nickname: String,
+    pub group: String,
+    pub role: Role,
 }
 
 /// Used for the sidebadges

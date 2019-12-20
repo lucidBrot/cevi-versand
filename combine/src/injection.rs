@@ -2,8 +2,8 @@ use pdfgen::CouvertInfo;
 use std::fs::OpenOptions;
 use std::io::{Read, Write};
 
-pub const INJECTION_YAML_FILE_PATH : &str = "inject_people.yaml";
-const INJECTION_YAML_FILE_TEMPLATE : &str = r###"---
+pub const INJECTION_YAML_FILE_PATH: &str = "inject_people.yaml";
+const INJECTION_YAML_FILE_TEMPLATE: &str = r###"---
 # remove the following line (or comment it out):
 []
 # and replace it with something like this:
@@ -38,8 +38,8 @@ const INJECTION_YAML_FILE_TEMPLATE : &str = r###"---
 
 // mostly for debug purposes
 #[allow(dead_code)]
-fn serialize_couvert_infos(yaml_text : &str) {
-    let c_i_list : Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(yaml_text);
+fn serialize_couvert_infos(yaml_text: &str) {
+    let c_i_list: Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(yaml_text);
     match c_i_list {
         Ok(_rec) => println!("success"),
         Err(e) => println!("failure: {:?}", e),
@@ -48,8 +48,8 @@ fn serialize_couvert_infos(yaml_text : &str) {
 
 /// Reads from `inject_people.yaml` and adds those persons to the parameter `couvert_infos`
 pub fn inject_couvert_infos(
-    mut couvert_infos : &mut Vec<CouvertInfo>,
-    user_interface : &dyn ui::UserInteractor,
+    mut couvert_infos: &mut Vec<CouvertInfo>,
+    user_interface: &dyn ui::UserInteractor,
 ) {
     // create empty-ish template file iff there is no current file there
     let fi = OpenOptions::new()
@@ -111,11 +111,11 @@ pub fn inject_couvert_infos(
 }
 
 fn parse_and_append(
-    text : &str,
-    couvert_infos : &mut Vec<CouvertInfo>,
-    user_interface : &dyn ui::UserInteractor,
+    text: &str,
+    couvert_infos: &mut Vec<CouvertInfo>,
+    user_interface: &dyn ui::UserInteractor,
 ) {
-    let content_result : Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(text);
+    let content_result: Result<Vec<CouvertInfo>, serde_yaml::Error> = serde_yaml::from_str(text);
     match content_result {
         Ok(mut content) => {
             couvert_infos.append(&mut content);
