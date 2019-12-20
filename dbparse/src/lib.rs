@@ -18,11 +18,16 @@ const MAPPING_YAML_FILE: &str = "mapping.yaml";
 const VERBOSITY: Verbosity = Verbosity::No;
 
 const CONFIG_YAML_FILE: &str = "config.yaml";
+/// used for generating the template.
+/// Don't confuse this with the placeholder that is supposed to be used within the template links
+/// which is inserted at runtime.
+const PLACEHOLDER_API_TOKEN: &str = "{the_api_token}";
+const PLACEHOLDER_LOGIN_NAME: &str = "{the_login_name}";
 const CONFIG_YAML_FILLABLE_TEMPLATE: &str = r###"db_conf:
     # paste your api_token here
-    api_token: "th1s1sY0ur70k3n"
+    api_token: "{the_api_token}"
     # der Ceviname zum einloggen in der db.cevi.ch
-    login_name: "GenerischerCeviname"
+    login_name: "{the_login_name}"
     # die e-mail adresse zum einloggen in der db.cevi.ch
     login_email: "irgendwer@irgendwas.ch"
     # Der link zu den Leuten in der datenbank. Relevant für dich als user sind nur die Zahlen.
@@ -69,11 +74,11 @@ pub fn run_with_reasonable_dataset(
     let loaded_group_mapping: GroupMapping = match yaml_group_mapping {
         Ok(mapping) => {
             mapping::create_map_from_yaml(&mapping).expect("Creating map from yaml failed")
-        },
+        }
         Err(e) => {
             println!("problem loading yaml mapping: {}.\nRecreating it...", e);
             GroupMapping::new()
-        },
+        }
     };
     // create mapping from Database
     let db_group_mapping: GroupMapping = GroupMapping::from_set(&dataset.groups);
@@ -101,10 +106,14 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
     let fil = match fs::File::open(filename) {
         Ok(f) => f,
         Err(e) => {
-            let _result = generate_template_config_file(filename.to_string());
+            let _result = generate_template_config_file(
+                filename.to_string(),
+                "th1s1sY0ur70k3n",
+                "GenerischerCeviname",
+            );
             ui.error_missing_config_file(filename.to_string());
             panic!("failed to find {}: {:?}", filename, e);
-        },
+        }
     };
     let yaml: serde_yaml::Value = serde_yaml::from_reader(fil).expect("file should be proper YAML");
 
@@ -114,9 +123,18 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
     return db_conf;
 }
 
-fn generate_template_config_file(filename: String) -> Result<(), std::io::Error> {
+fn generate_template_config_file(
+    filename: String,
+    api_token_placeholder: &str,
+    login_name_placeholder: &str,
+) -> Result<(), std::io::Error> {
     let mut file = File::create(filename)?;
-    file.write_all(CONFIG_YAML_FILLABLE_TEMPLATE.as_bytes())?;
+    file.write_all(
+        CONFIG_YAML_FILLABLE_TEMPLATE
+            .replace(PLACEHOLDER_API_TOKEN, api_token_placeholder)
+            .replace(PLACEHOLDER_LOGIN_NAME, login_name_placeholder)
+            .as_bytes(),
+    )?;
     println!("generated config.yaml template - please fill it in");
     Ok(())
 }

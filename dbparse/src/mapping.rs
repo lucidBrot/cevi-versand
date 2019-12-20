@@ -32,11 +32,11 @@ pub fn create_yaml_from_map(map: &GroupMapping) -> Option<String> {
                 println!("yaml: \n{}", content_string);
             }
             return Some(content_string);
-        },
+        }
         Err(e) => {
             println!("yaml serializing error: \n{}", e);
             return None;
-        },
+        }
     };
 }
 
