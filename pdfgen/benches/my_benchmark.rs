@@ -5,7 +5,7 @@ use criterion::black_box;
 use criterion::Criterion;
 use pdfgen;
 
-fn fibonacci(n: u64) -> u64 {
+fn fibonacci(n : u64) -> u64 {
     match n {
         0 => 1,
         1 => 1,
@@ -13,7 +13,7 @@ fn fibonacci(n: u64) -> u64 {
     }
 }
 
-fn criterion_benchmark(c: &mut Criterion) {
+fn criterion_benchmark(c : &mut Criterion) {
     c.bench_function("simple sample", |b| b.iter(pdfgen::main));
 }
 

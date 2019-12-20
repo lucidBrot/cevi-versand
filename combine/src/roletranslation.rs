@@ -10,7 +10,7 @@ use pdfgen;
 // Or perhaps simply ignore everything that is not obviously
 // Leiter/Teilnehmer/Traegerkreis/Ehemalig. No user interaction required.
 //
-pub fn role_to_role(dbrole: &dbparse::Role) -> pdfgen::Role {
+pub fn role_to_role(dbrole : &dbparse::Role) -> pdfgen::Role {
     match dbrole.role_type.as_ref() {
         "Teilnehmer/-in" => pdfgen::Role::Teilnehmer,
         //"Traegerkreis" => pdfgen::Role::Traegerkreis, // Trägerkreis is not a role, but a group. Roles would either be "Externe/-r" or "Verantwortliche/-r"
@@ -59,7 +59,7 @@ mod tests {
             String::from("fake layer group"),
         );
 
-        let pdf_role: pdfgen::Role = super::role_to_role(&db_role);
+        let pdf_role : pdfgen::Role = super::role_to_role(&db_role);
 
         assert_eq!(pdf_role, pdfgen::Role::Teilnehmer);
     }
@@ -78,7 +78,7 @@ mod tests {
             String::from("fake layer group"),
         );
 
-        let pdf_role: pdfgen::Role = super::role_to_role(&db_role);
+        let pdf_role : pdfgen::Role = super::role_to_role(&db_role);
 
         assert_eq!(pdf_role, pdfgen::Role::Nothing);
     }

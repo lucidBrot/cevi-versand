@@ -1,1 +1,3 @@
 match_block_trailing_comma = true
+space_after_colon = true
+space_before_colon = true

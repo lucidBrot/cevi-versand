@@ -3,19 +3,19 @@ use super::{Verbosity, VERBOSITY};
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 
-const ABTEILUNG: &str = " Pfäffikon-Fehraltorf-Hittnau-Russikon";
-const VERBOSE: bool = false;
+const ABTEILUNG : &str = " Pfäffikon-Fehraltorf-Hittnau-Russikon";
+const VERBOSE : bool = false;
 
 /// turns a given yaml String into a GroupMapping
-pub fn create_map_from_yaml(yaml_str: &str) -> Result<GroupMapping, serde_yaml::Error> {
-    let map_opt: Result<GroupMapping, serde_yaml::Error> = serde_yaml::from_str(yaml_str);
+pub fn create_map_from_yaml(yaml_str : &str) -> Result<GroupMapping, serde_yaml::Error> {
+    let map_opt : Result<GroupMapping, serde_yaml::Error> = serde_yaml::from_str(yaml_str);
     return map_opt;
 }
 
 /// merges the two maps. When both maps contain the same key, the entry from `priority_map` is
 /// taken.
-pub fn store_map_in_map(priority_map: &GroupMapping, old_map: &GroupMapping) -> GroupMapping {
-    let mut new_map: GroupMapping = (*priority_map).clone();
+pub fn store_map_in_map(priority_map : &GroupMapping, old_map : &GroupMapping) -> GroupMapping {
+    let mut new_map : GroupMapping = (*priority_map).clone();
     for (key, value) in old_map.map.iter() {
         if let None = priority_map.map.get(key) {
             new_map.map.insert(key.to_owned(), value.clone());
@@ -24,8 +24,8 @@ pub fn store_map_in_map(priority_map: &GroupMapping, old_map: &GroupMapping) -> 
     return new_map;
 }
 
-pub fn create_yaml_from_map(map: &GroupMapping) -> Option<String> {
-    let my_yaml: Result<String, _> = serde_yaml::to_string(&map);
+pub fn create_yaml_from_map(map : &GroupMapping) -> Option<String> {
+    let my_yaml : Result<String, _> = serde_yaml::to_string(&map);
     match my_yaml {
         Ok(content_string) => {
             if VERBOSITY.value() >= Verbosity::ABit.value() {
@@ -43,16 +43,16 @@ pub fn create_yaml_from_map(map: &GroupMapping) -> Option<String> {
 type GroupID = String;
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GroupNames {
-    original_name: String,
-    display_name: Option<String>,
+    original_name : String,
+    display_name : Option<String>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GroupMapping {
-    pub map: HashMap<GroupID, GroupNames>,
+    pub map : HashMap<GroupID, GroupNames>,
 }
 impl GroupMapping {
-    pub fn get_display_name(&self, group_id: &GroupID) -> Option<String> {
-        let entry: Option<&GroupNames> = self.map.get(group_id);
+    pub fn get_display_name(&self, group_id : &GroupID) -> Option<String> {
+        let entry : Option<&GroupNames> = self.map.get(group_id);
         match entry {
             None => None,
             Some(group_names) => group_names.display_name.clone(),
@@ -61,29 +61,29 @@ impl GroupMapping {
 
     pub fn new() -> Self {
         GroupMapping {
-            map: HashMap::new(),
+            map : HashMap::new(),
         }
     }
 
-    pub fn from_set(set: &HashSet<ReasonableGroup>) -> Self {
+    pub fn from_set(set : &HashSet<ReasonableGroup>) -> Self {
         let mut group_mapping = GroupMapping::new();
         for group in set.iter() {
             group_mapping.map.insert(
                 group.inner_group.id.clone(),
                 GroupNames {
-                    original_name: group.inner_group.name.clone(),
-                    display_name: Some(Self::autocorrect_group_name(&*group.inner_group.name)),
+                    original_name : group.inner_group.name.clone(),
+                    display_name : Some(Self::autocorrect_group_name(&*group.inner_group.name)),
                 },
             );
         }
         return group_mapping;
     }
 
-    fn autocorrect_group_name(name: &str) -> String {
+    fn autocorrect_group_name(name : &str) -> String {
         // automapping specific to Abteilung PFA, and
         // remove (F)  and (M)
-        const F: &str = " (F)";
-        const M: &str = " (M)";
+        const F : &str = " (F)";
+        const M : &str = " (M)";
         // Abteilung could also be found generically by searching for a group with group_type
         // Ortsgruppe and taking its name
         let mut result = String::from(

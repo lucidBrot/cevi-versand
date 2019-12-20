@@ -14,16 +14,16 @@ use mapping::GroupMapping;
 // config.yaml is stored both in examples dir and in dbparse dir, currently. Because it is read
 // from the working dir
 
-const MAPPING_YAML_FILE: &str = "mapping.yaml";
-const VERBOSITY: Verbosity = Verbosity::No;
+const MAPPING_YAML_FILE : &str = "mapping.yaml";
+const VERBOSITY : Verbosity = Verbosity::No;
 
-const CONFIG_YAML_FILE: &str = "config.yaml";
+const CONFIG_YAML_FILE : &str = "config.yaml";
 /// used for generating the template.
 /// Don't confuse this with the placeholder that is supposed to be used within the template links
 /// which is inserted at runtime.
-const PLACEHOLDER_API_TOKEN: &str = "{the_api_token}";
-const PLACEHOLDER_LOGIN_NAME: &str = "{the_login_name}";
-const CONFIG_YAML_FILLABLE_TEMPLATE: &str = r###"db_conf:
+const PLACEHOLDER_API_TOKEN : &str = "{the_api_token}";
+const PLACEHOLDER_LOGIN_NAME : &str = "{the_login_name}";
+const CONFIG_YAML_FILLABLE_TEMPLATE : &str = r###"db_conf:
     # paste your api_token here
     api_token: "{the_api_token}"
     # der Ceviname zum einloggen in der db.cevi.ch
@@ -35,7 +35,7 @@ const CONFIG_YAML_FILLABLE_TEMPLATE: &str = r###"db_conf:
     versand_endpoint_fmtstr: "https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email={login_email}&user_token={api_token}"
 "###;
 
-const SIGNIN_POST_URL: &str = "https://db.cevi.ch/users/sign_in.json";
+const SIGNIN_POST_URL : &str = "https://db.cevi.ch/users/sign_in.json";
 
 pub enum Verbosity {
     No,
@@ -53,27 +53,27 @@ impl Verbosity {
 }
 
 pub struct MainReturns {
-    pub file: File,
-    pub group_mapping: GroupMapping,
-    pub dataset: ReasonableDataset,
+    pub file : File,
+    pub group_mapping : GroupMapping,
+    pub dataset : ReasonableDataset,
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-pub fn run(user_interface: &dyn DbparseInteractor) -> Result<MainReturns, Box<dyn Error>> {
+pub fn run(user_interface : &dyn DbparseInteractor) -> Result<MainReturns, Box<dyn Error>> {
     // load database API token
     let config = setup_config(user_interface);
-    let dataset: ReasonableDataset = get_data_for_versand(&config).expect("WTF in main!");
+    let dataset : ReasonableDataset = get_data_for_versand(&config).expect("WTF in main!");
     user_interface.on_download_finished();
     return run_with_reasonable_dataset(dataset);
 }
 
 pub fn run_with_reasonable_dataset(
-    dataset: ReasonableDataset,
+    dataset : ReasonableDataset,
 ) -> Result<MainReturns, Box<dyn Error>> {
     // load yaml mapping from file if exists
-    let yaml_group_mapping: Result<String, std::io::Error> = read_to_string(MAPPING_YAML_FILE);
+    let yaml_group_mapping : Result<String, std::io::Error> = read_to_string(MAPPING_YAML_FILE);
     // combine with new groups from database
-    let loaded_group_mapping: GroupMapping = match yaml_group_mapping {
+    let loaded_group_mapping : GroupMapping = match yaml_group_mapping {
         Ok(mapping) => {
             mapping::create_map_from_yaml(&mapping).expect("Creating map from yaml failed")
         },
@@ -83,27 +83,27 @@ pub fn run_with_reasonable_dataset(
         },
     };
     // create mapping from Database
-    let db_group_mapping: GroupMapping = GroupMapping::from_set(&dataset.groups);
+    let db_group_mapping : GroupMapping = GroupMapping::from_set(&dataset.groups);
     // merge mappings
-    let merged_group_mapping: GroupMapping =
+    let merged_group_mapping : GroupMapping =
         mapping::store_map_in_map(&loaded_group_mapping, &db_group_mapping);
     // save new mapping to file
-    let new_yaml_group_mapping: String = mapping::create_yaml_from_map(&merged_group_mapping)
+    let new_yaml_group_mapping : String = mapping::create_yaml_from_map(&merged_group_mapping)
         .expect("Generating yaml for group mapping failed");
     let mut file = File::create(MAPPING_YAML_FILE).expect("Writing mapping failed");
     let res = file.write_all(new_yaml_group_mapping.as_bytes());
 
     return match res {
         Ok(_) => Ok(MainReturns {
-            file: file,
-            group_mapping: merged_group_mapping,
-            dataset: dataset,
+            file : file,
+            group_mapping : merged_group_mapping,
+            dataset : dataset,
         }),
         Err(e) => Err(Box::new(e)),
     };
 }
 
-fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
+fn setup_config(ui : &dyn DbparseInteractor) -> DB_Conf {
     let filename = CONFIG_YAML_FILE;
     let fil = match fs::File::open(filename) {
         Ok(f) => f,
@@ -113,18 +113,19 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
             panic!("failed to find {}: {:?}", filename, e);
         },
     };
-    let yaml: serde_yaml::Value = serde_yaml::from_reader(fil).expect("file should be proper YAML");
+    let yaml : serde_yaml::Value =
+        serde_yaml::from_reader(fil).expect("file should be proper YAML");
 
-    let db_conf_in_yaml: &serde_yaml::Value = yaml.get("db_conf").unwrap();
-    let db_conf: DB_Conf = serde_yaml::from_value(db_conf_in_yaml.clone()).unwrap();
+    let db_conf_in_yaml : &serde_yaml::Value = yaml.get("db_conf").unwrap();
+    let db_conf : DB_Conf = serde_yaml::from_value(db_conf_in_yaml.clone()).unwrap();
     println!("deserialized = {:?}", db_conf);
     return db_conf;
 }
 
 fn generate_template_config_file_at(
-    filename: String,
-    api_token_placeholder: &str,
-    login_name_placeholder: &str,
+    filename : String,
+    api_token_placeholder : &str,
+    login_name_placeholder : &str,
 ) -> Result<(), std::io::Error> {
     let mut file = File::create(filename)?;
     file.write_all(
@@ -137,11 +138,14 @@ fn generate_template_config_file_at(
     Ok(())
 }
 
-fn generate_template_config_file(login_name: &str, api_token: &str) -> Result<(), std::io::Error> {
+fn generate_template_config_file(
+    login_name : &str,
+    api_token : &str,
+) -> Result<(), std::io::Error> {
     generate_template_config_file_at(CONFIG_YAML_FILE.to_string(), api_token, login_name)
 }
 
-fn get_auth_token_url_data(login_email: &str, password: &str) -> String {
+fn get_auth_token_url_data(login_email : &str, password : &str) -> String {
     let data2 = r#"{
     "person[email]": "{email}",
     "person[password]: "{password}"
@@ -153,9 +157,9 @@ fn get_auth_token_url_data(login_email: &str, password: &str) -> String {
         .to_string()
 }
 
-pub fn get_auth_token(login_email: &str, password: &str) -> Result<String, std::io::Error> {
+pub fn get_auth_token(login_email : &str, password : &str) -> Result<String, std::io::Error> {
     let url = SIGNIN_POST_URL;
-    let data: String = get_auth_token_url_data(login_email, password);
+    let data : String = get_auth_token_url_data(login_email, password);
     let body = chttp::post(url, data)?.into_body().text();
     return body;
 }
@@ -163,17 +167,17 @@ pub fn get_auth_token(login_email: &str, password: &str) -> Result<String, std::
 #[derive(Serialize, Deserialize, Debug)]
 #[allow(non_camel_case_types)]
 struct DB_Conf {
-    login_name: String,
-    api_token: String,
-    login_email: String,
-    versand_endpoint_fmtstrs: Vec<String>,
+    login_name : String,
+    api_token : String,
+    login_email : String,
+    versand_endpoint_fmtstrs : Vec<String>,
 }
 impl DB_Conf {
     // used in yaml to be filled in at runtime
-    const PLACEHOLDER_API_TOKEN: &'static str = "{api_token}";
-    const PLACEHOLDER_LOGIN_EMAIL: &'static str = "{login_email}";
+    const PLACEHOLDER_API_TOKEN : &'static str = "{api_token}";
+    const PLACEHOLDER_LOGIN_EMAIL : &'static str = "{login_email}";
 
-    fn format_versand_endpoint(&self, s: String) -> String {
+    fn format_versand_endpoint(&self, s : String) -> String {
         s.replace(DB_Conf::PLACEHOLDER_LOGIN_EMAIL, &self.login_email)
             .replace(DB_Conf::PLACEHOLDER_API_TOKEN, &self.api_token)
     }
@@ -188,7 +192,7 @@ impl DB_Conf {
 
 #[cfg(not(target_arch = "wasm32"))]
 fn get_data_for_versand(
-    db_conf: &DB_Conf,
+    db_conf : &DB_Conf,
 ) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {
     let mut endpoints = db_conf.versand_endpoints();
     let endpoint = endpoints.next();
@@ -208,9 +212,9 @@ fn get_data_for_versand(
     return Ok(reasonable_dataset);
 }
 
-fn reasonablify_body(body: &String) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {
+fn reasonablify_body(body : &String) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {
     // deserialize the json data into a struct
-    let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(body.as_ref())
+    let dese : PeopleRequest = serde_json::from_str::<PeopleRequest>(body.as_ref())
         .expect("dbparse: The request response is not well-formatted.");
 
     let mut i = 0;
@@ -223,7 +227,7 @@ fn reasonablify_body(body: &String) -> Result<ReasonableDataset, Box<dyn std::er
     }
 
     // transform the Person into a ReasonablePerson, which directly contains all relevant data
-    let reasonable_dataset: ReasonableDataset = dese.to_reasonable_dataset();
+    let reasonable_dataset : ReasonableDataset = dese.to_reasonable_dataset();
     if reasonable_dataset.people.len() < 1 {
         panic!("There are no people in the dataset!");
     }
@@ -233,8 +237,8 @@ fn reasonablify_body(body: &String) -> Result<ReasonableDataset, Box<dyn std::er
 
 #[derive(Serialize, Deserialize, Debug)]
 struct PeopleRequest {
-    people: Vec<Person>,
-    linked: Linked,
+    people : Vec<Person>,
+    linked : Linked,
 }
 
 // deserialize "linked" : "roles" : []   as a map
@@ -242,9 +246,9 @@ struct PeopleRequest {
 #[derive(Serialize, Deserialize, Debug)]
 struct Linked {
     #[serde(with = "items_serder_set", rename = "groups")]
-    groups: HashSet<Group>,
+    groups : HashSet<Group>,
     #[serde(with = "items_serder_map", rename = "roles")]
-    roles_map: StringHashMap<Role>, // actual roles in a hashmap
+    roles_map : StringHashMap<Role>, // actual roles in a hashmap
 }
 
 /// stored in "people": []
@@ -284,38 +288,38 @@ struct Linked {
 #[derive(Serialize, Deserialize, Debug)]
 struct Person {
     #[serde(deserialize_with = "serde_aux::field_attributes::deserialize_number_from_string")]
-    id: usize,
+    id : usize,
     #[serde(with = "null_str_serder")]
-    href: String,
+    href : String,
     #[serde(with = "null_str_serder")]
-    first_name: String,
+    first_name : String,
     #[serde(with = "null_str_serder")]
-    last_name: String,
+    last_name : String,
     #[serde(with = "null_str_serder")]
-    nickname: String,
+    nickname : String,
     #[serde(with = "null_str_serder")]
-    address: String,
+    address : String,
     #[serde(with = "null_str_serder")]
-    zip_code: String,
+    zip_code : String,
     #[serde(with = "null_str_serder")]
-    town: String,
+    town : String,
     #[serde(with = "null_str_serder")]
-    name_parents: String,
-    links: PersonLinks,
+    name_parents : String,
+    links : PersonLinks,
 }
 
 /// stored within Person struct
 #[derive(Serialize, Deserialize, Debug)]
 struct PersonLinks {
-    roles: Vec<String>, // ids of roles
+    roles : Vec<String>, // ids of roles
 }
 
 /// stored within Role struct
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash, Clone)]
 pub struct RoleLinks {
     #[serde(rename = "group")]
-    pub group_id: String,
-    pub layer_group: String,
+    pub group_id : String,
+    pub layer_group : String,
 }
 
 /// stored in "linked" : "groups" : []
@@ -333,9 +337,9 @@ pub struct RoleLinks {
 /// * "Fröschli"
 #[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq, Hash)]
 pub struct Group {
-    pub id: String,
-    pub name: String,       // Gruppenname
-    pub group_type: String, // Ortsgruppe/Untergruppe/Mitglieder/Jungschar/Verein...
+    pub id : String,
+    pub name : String,       // Gruppenname
+    pub group_type : String, // Ortsgruppe/Untergruppe/Mitglieder/Jungschar/Verein...
 }
 
 /// `role_type` can be things like "Teilnehmer/-in", "Gruppenleiter/-in", "Minigruppenleiter/-in", "Mitglied",
@@ -345,26 +349,26 @@ pub struct Group {
 /// or "Stufenleiter/-in"
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Hash, Clone)]
 pub struct Role {
-    id: Rc<str>,
-    pub role_type: String,
-    label: Option<String>,
-    links: RoleLinks,
+    id : Rc<str>,
+    pub role_type : String,
+    label : Option<String>,
+    links : RoleLinks,
 }
 impl Role {
     pub fn new(
-        id: Rc<str>,
-        role_type: String,
-        label: Option<String>,
-        group_id: String,
-        layer_group: String,
+        id : Rc<str>,
+        role_type : String,
+        label : Option<String>,
+        group_id : String,
+        layer_group : String,
     ) -> Self {
         Role {
-            id: id,
-            role_type: role_type,
-            label: label,
-            links: RoleLinks {
-                group_id: group_id,
-                layer_group: layer_group,
+            id : id,
+            role_type : role_type,
+            label : label,
+            links : RoleLinks {
+                group_id : group_id,
+                layer_group : layer_group,
             },
         }
     }
@@ -376,16 +380,16 @@ pub struct StringHashMap<V>(StringHashMapType<V>);
 /// implement HashMap<Rc<str>, Role>::get() for a String instead of only a &str
 /// See https://www.reddit.com/r/rust/comments/2snn7a/hashmaprcstring_v/
 impl<V> StringHashMap<V> {
-    pub fn gett(&self, s: String) -> Option<&V> {
+    pub fn gett(&self, s : String) -> Option<&V> {
         return self.get(&*s);
     }
-    pub fn gettt(&self, s: &String) -> Option<&V> {
+    pub fn gettt(&self, s : &String) -> Option<&V> {
         return self.get(&**s);
     }
     pub fn new() -> Self {
         return StringHashMap(StringHashMapType::<V>::new());
     }
-    pub fn insertt(&mut self, k: String, v: V) -> Option<V> {
+    pub fn insertt(&mut self, k : String, v : V) -> Option<V> {
         return self.insert(Rc::from(&*k), v);
     }
 }
@@ -411,16 +415,16 @@ mod items_serder_map {
     use serde::ser::Serializer;
     use std::rc::Rc;
 
-    pub fn serialize<S>(map: &StringHashMap<Role>, serializer: S) -> Result<S::Ok, S::Error>
+    pub fn serialize<S>(map : &StringHashMap<Role>, serializer : S) -> Result<S::Ok, S::Error>
     where
-        S: Serializer,
+        S : Serializer,
     {
         serializer.collect_seq(map.values())
     }
 
-    pub fn deserialize<'de, D>(deserializer: D) -> Result<StringHashMap<Role>, D::Error>
+    pub fn deserialize<'de, D>(deserializer : D) -> Result<StringHashMap<Role>, D::Error>
     where
-        D: Deserializer<'de>,
+        D : Deserializer<'de>,
     {
         let mut map = StringHashMap::<Role>::new();
         for item in Vec::<Role>::deserialize(deserializer)? {
@@ -438,16 +442,16 @@ mod items_serder_set {
     use serde::ser::Serializer;
     use std::collections::HashSet;
 
-    pub fn serialize<S>(set: &HashSet<Group>, serializer: S) -> Result<S::Ok, S::Error>
+    pub fn serialize<S>(set : &HashSet<Group>, serializer : S) -> Result<S::Ok, S::Error>
     where
-        S: Serializer,
+        S : Serializer,
     {
         serializer.collect_seq(set.iter())
     }
 
-    pub fn deserialize<'de, D>(deserializer: D) -> Result<HashSet<Group>, D::Error>
+    pub fn deserialize<'de, D>(deserializer : D) -> Result<HashSet<Group>, D::Error>
     where
-        D: Deserializer<'de>,
+        D : Deserializer<'de>,
     {
         let mut set = HashSet::<Group>::new();
         for item in Vec::<Group>::deserialize(deserializer)? {
@@ -462,16 +466,16 @@ mod null_str_serder {
     use serde::de::{Deserialize, Deserializer};
     use serde::ser::Serializer;
 
-    pub fn serialize<S>(stringthing: &String, serializer: S) -> Result<S::Ok, S::Error>
+    pub fn serialize<S>(stringthing : &String, serializer : S) -> Result<S::Ok, S::Error>
     where
-        S: Serializer,
+        S : Serializer,
     {
         serializer.serialize_str(stringthing)
     }
 
-    pub fn deserialize<'de, D>(deserializer: D) -> Result<String, D::Error>
+    pub fn deserialize<'de, D>(deserializer : D) -> Result<String, D::Error>
     where
-        D: Deserializer<'de>,
+        D : Deserializer<'de>,
     {
         let optstr = Option::<String>::deserialize(deserializer)?;
         match optstr {
@@ -483,17 +487,17 @@ mod null_str_serder {
 
 #[derive(Eq, Debug, PartialEq, Clone, Hash)]
 pub struct ReasonableGroup {
-    pub inner_group: Group,
+    pub inner_group : Group,
 }
 impl From<Group> for ReasonableGroup {
-    fn from(g: Group) -> Self {
-        ReasonableGroup { inner_group: g }
+    fn from(g : Group) -> Self {
+        ReasonableGroup { inner_group : g }
     }
 }
 #[derive(Clone, Debug)]
 pub struct ReasonableDataset {
-    pub people: Vec<ReasonablePerson>,
-    groups: HashSet<ReasonableGroup>,
+    pub people : Vec<ReasonablePerson>,
+    groups : HashSet<ReasonableGroup>,
 }
 impl ReasonableDataset {
     fn get_groups(&self) -> &HashSet<ReasonableGroup> {
@@ -501,7 +505,7 @@ impl ReasonableDataset {
     }
 
     /// ADDS people from new dataset, does not perform any checks whether they are already included
-    fn extend(&mut self, other: &Self) {
+    fn extend(&mut self, other : &Self) {
         self.people.extend(other.people.clone());
         self.groups = self.groups.union(other.get_groups()).cloned().collect();
     }
@@ -511,20 +515,20 @@ impl ReasonableDataset {
 
 #[derive(Debug, Clone)]
 pub struct ReasonablePerson {
-    pub first_name: String,
-    pub last_name: String,
-    pub nickname: String,
-    pub address: String,
-    pub zip_code: String,
-    pub town: String,
-    pub name_parents: String,
-    pub roles: HashSet<Role>,
-    pub groups: HashSet<ReasonableGroup>,
+    pub first_name : String,
+    pub last_name : String,
+    pub nickname : String,
+    pub address : String,
+    pub zip_code : String,
+    pub town : String,
+    pub name_parents : String,
+    pub roles : HashSet<Role>,
+    pub groups : HashSet<ReasonableGroup>,
 }
 impl PeopleRequest {
     fn to_reasonable_dataset(&self) -> ReasonableDataset {
-        let mut all_groups: HashSet<ReasonableGroup> = HashSet::new();
-        let mut all_people: Vec<ReasonablePerson> = Vec::<ReasonablePerson>::new();
+        let mut all_groups : HashSet<ReasonableGroup> = HashSet::new();
+        let mut all_people : Vec<ReasonablePerson> = Vec::<ReasonablePerson>::new();
         if self.people.len() < 1 {
             panic!("There are no people in the dataset!");
         }
@@ -532,21 +536,21 @@ impl PeopleRequest {
         print!("---\n");
         for p in self.people.iter() {
             let mut reasonable_person = ReasonablePerson {
-                first_name: p.first_name.trim().to_string(),
-                last_name: p.last_name.trim().to_string(),
-                nickname: p.nickname.trim().to_string(),
-                address: p.address.trim().to_string(),
-                zip_code: p.zip_code.trim().to_string(),
-                town: p.town.trim().to_string(),
-                name_parents: p.name_parents.trim().to_string(),
-                roles: HashSet::<Role>::new(),
-                groups: HashSet::<ReasonableGroup>::new(),
+                first_name : p.first_name.trim().to_string(),
+                last_name : p.last_name.trim().to_string(),
+                nickname : p.nickname.trim().to_string(),
+                address : p.address.trim().to_string(),
+                zip_code : p.zip_code.trim().to_string(),
+                town : p.town.trim().to_string(),
+                name_parents : p.name_parents.trim().to_string(),
+                roles : HashSet::<Role>::new(),
+                groups : HashSet::<ReasonableGroup>::new(),
             };
 
             // get roles directly
             for role_id in p.links.roles.iter() {
                 //let strx: String = as_string(role_id);
-                let role: &Role = self
+                let role : &Role = self
                     .linked
                     .roles_map
                     .gettt(role_id)
@@ -554,7 +558,7 @@ impl PeopleRequest {
                 reasonable_person.roles.insert(role.clone());
 
                 // get group corresponding to role (linked in Role links) (This could be optimized)
-                let group: Group = self
+                let group : Group = self
                     .linked
                     .groups
                     .iter()
@@ -564,7 +568,7 @@ impl PeopleRequest {
                         role.links.group_id
                     ))
                     .clone();
-                let reasonable_group: ReasonableGroup = group.into();
+                let reasonable_group : ReasonableGroup = group.into();
                 reasonable_person.groups.insert(reasonable_group.clone());
                 // store group if it appeared at least once also at the top level of the dataset
                 all_groups.insert(reasonable_group);
@@ -579,13 +583,13 @@ impl PeopleRequest {
         }
 
         ReasonableDataset {
-            people: all_people,
-            groups: all_groups,
+            people : all_people,
+            groups : all_groups,
         }
     }
 }
 
 pub trait DbparseInteractor {
     fn on_download_finished(&self);
-    fn error_missing_config_file(&self, filename: String);
+    fn error_missing_config_file(&self, filename : String);
 }
