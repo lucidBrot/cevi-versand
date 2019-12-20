@@ -150,8 +150,8 @@ fn get_auth_token_url (login_email: &str, password: &str) -> String {
 }
 
 pub fn get_auth_token (login_email: &str, password: &str) -> Result<String, std::io::Error> {
-    let endpoint : String = get_auth_token_url;
-    let body = chttp::get(endpoint)?.into_body().text()?;
+    let endpoint : String = get_auth_token_url(login_email, password);
+    let body = chttp::get(endpoint)?.into_body().text();
     return body;
 }
 
