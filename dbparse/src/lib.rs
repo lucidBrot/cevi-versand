@@ -142,10 +142,23 @@ fn generate_template_config_file(login_name: &str, api_token: &str) -> Result<()
     generate_template_config_file_at(CONFIG_YAML_FILE.to_string(), api_token, login_name)
 }
 
+fn get_auth_token_url (login_email: &str, password: &str) -> String {
+    "person[email]={email}&person[password]={password}"
+        .replace("{email}", login_email)
+        .replace("{password}", password)
+        .to_string()
+}
+
+pub fn get_auth_token (login_email: &str, password: &str) -> Result<String, std::io::Error> {
+    let endpoint : String = get_auth_token_url;
+    let body = chttp::get(endpoint)?.into_body().text()?;
+    return body;
+}
+
+
 #[derive(Serialize, Deserialize, Debug)]
 #[allow(non_camel_case_types)]
 struct DB_Conf {
-    // TODO: accept DB_Conf as parameter
     login_name: String,
     api_token: String,
     login_email: String,
