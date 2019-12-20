@@ -107,9 +107,8 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
         Ok(f) => f,
         Err(e) => {
             let _result = generate_template_config_file(
-                filename.to_string(),
-                "th1s1sY0ur70k3n",
                 "GenerischerCeviname",
+                "th1s1sY0ur70k3n"
             );
             ui.error_missing_config_file(filename.to_string());
             panic!("failed to find {}: {:?}", filename, e);
@@ -123,7 +122,7 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
     return db_conf;
 }
 
-fn generate_template_config_file(
+fn generate_template_config_file_at(
     filename: String,
     api_token_placeholder: &str,
     login_name_placeholder: &str,
@@ -137,6 +136,10 @@ fn generate_template_config_file(
     )?;
     println!("generated config.yaml template - please fill it in");
     Ok(())
+}
+
+fn generate_template_config_file(login_name: &str, api_token: &str) -> Result<(), std::io::Error> {
+    generate_template_config_file_at(CONFIG_YAML_FILE.to_string(), api_token, login_name)
 }
 
 #[derive(Serialize, Deserialize, Debug)]
