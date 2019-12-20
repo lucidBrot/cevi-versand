@@ -35,6 +35,8 @@ const CONFIG_YAML_FILLABLE_TEMPLATE: &str = r###"db_conf:
     versand_endpoint_fmtstr: "https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email={login_email}&user_token={api_token}"
 "###;
 
+const SIGNIN_POST_URL: &str = "https://db.cevi.ch/users/sign_in.json";
+
 pub enum Verbosity {
     No,
     ABit,
@@ -142,16 +144,21 @@ fn generate_template_config_file(login_name: &str, api_token: &str) -> Result<()
     generate_template_config_file_at(CONFIG_YAML_FILE.to_string(), api_token, login_name)
 }
 
-fn get_auth_token_url (login_email: &str, password: &str) -> String {
-    "person[email]={email}&person[password]={password}"
-        .replace("{email}", login_email)
+fn get_auth_token_url_data (login_email: &str, password: &str) -> String {
+    let data2 = r#"{
+    "person[email]": "{email}",
+    "person[password]: "{password}"
+}"#;
+
+    data2.replace("{email}", login_email)
         .replace("{password}", password)
         .to_string()
 }
 
 pub fn get_auth_token (login_email: &str, password: &str) -> Result<String, std::io::Error> {
-    let endpoint : String = get_auth_token_url(login_email, password);
-    let body = chttp::get(endpoint)?.into_body().text();
+    let url = SIGNIN_POST_URL;
+    let data : String = get_auth_token_url_data(login_email, password);
+    let body = chttp::post(url, data)?.into_body().text();
     return body;
 }
 

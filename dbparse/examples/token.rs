@@ -1,8 +1,8 @@
 fn main() {
-    println!(
+    dbg!(
     dbparse::get_auth_token(
-            "eric@mink.li",
-            "pass"
+            "",
+            ""
         )
     );
 }
