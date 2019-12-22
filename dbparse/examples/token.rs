@@ -9,7 +9,8 @@ fn main() {
     let mut input_pass = String::new();
     let _bytes_read = std::io::stdin().read_line(&mut input_pass).expect("Non-utf8 string input!");
 
-    let token = dbparse::get_auth_token(input_email.as_ref(), input_pass.as_ref());
+    let token = dbparse::get_auth_token(input_email.trim().as_ref(), input_pass.trim().as_ref());
+    // TODO: trim will be a problem if the password contains whitespace
     println!("token: {}", token.unwrap());
 
 }
