@@ -141,22 +141,25 @@ fn generate_template_config_file(login_name: &str, api_token: &str) -> Result<()
     generate_template_config_file_at(CONFIG_YAML_FILE.to_string(), api_token, login_name)
 }
 
-fn get_auth_token_url_data(login_email: &str, password: &str) -> String {
-    let data2 = r#"{
-    "person[email]": "{email}",
-    "person[password]: "{password}"
-}"#;
+/// Wrapper for generate_template_config_file. Sets up config.yaml with your auth token, given your
+/// password. Does so by calling get_auth_token
+fn generate_config_file(login_email: &str, password: &str) -> Result<(), std::io::Error>{
+    let auth_token = get_auth_token(login_email, password)?;
+    generate_template_config_file(login_email, auth_token.as_ref())
+}
 
-    data2
+fn get_auth_token_url_data(login_email: &str, password: &str) -> String {
+    let data = r#"person[email]={email}&person[password]={password}"#;
+
+    data
         .replace("{email}", login_email)
         .replace("{password}", password)
         .to_string()
 }
 
 pub fn get_auth_token(login_email: &str, password: &str) -> Result<String, std::io::Error> {
-    let url = SIGNIN_POST_URL;
     let data: String = get_auth_token_url_data(login_email, password);
-    let body = chttp::post(url, data)?.into_body().text();
+    let body = chttp::post(SIGNIN_POST_URL, data)?.into_body().text();
     return body;
 }
 
