@@ -22,14 +22,12 @@ const CONFIG_YAML_FILE: &str = "config.yaml";
 /// Don't confuse this with the placeholder that is supposed to be used within the template links
 /// which is inserted at runtime.
 const PLACEHOLDER_API_TOKEN: &str = "{the_api_token}";
-const PLACEHOLDER_LOGIN_NAME: &str = "{the_login_name}";
+const PLACEHOLDER_LOGIN_EMAIL: &str = "{the_login_email}";
 const CONFIG_YAML_FILLABLE_TEMPLATE: &str = r###"db_conf:
     # paste your api_token here
     api_token: "{the_api_token}"
-    # der Ceviname zum einloggen in der db.cevi.ch
-    login_name: "{the_login_name}"
     # die e-mail adresse zum einloggen in der db.cevi.ch
-    login_email: "irgendwer@irgendwas.ch"
+    login_email: {the_login_email}"
     # Der link zu den Leuten in der datenbank. Relevant für dich als user sind nur die Zahlen.
     # Ersetze sie durch die gruppen-id und filter-id, die du verwenden möchtest.
     versand_endpoint_fmtstr: "https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email={login_email}&user_token={api_token}"
@@ -121,24 +119,25 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
     return db_conf;
 }
 
+/// specify the text that should be in the file as placeholders until the user edits it
 fn generate_template_config_file_at(
     filename: String,
     api_token_placeholder: &str,
-    login_name_placeholder: &str,
+    login_email_placeholder : &str,
 ) -> Result<(), std::io::Error> {
     let mut file = File::create(filename)?;
     file.write_all(
         CONFIG_YAML_FILLABLE_TEMPLATE
             .replace(PLACEHOLDER_API_TOKEN, api_token_placeholder)
-            .replace(PLACEHOLDER_LOGIN_NAME, login_name_placeholder)
+            .replace(PLACEHOLDER_LOGIN_EMAIL, login_email_placeholder)
             .as_bytes(),
     )?;
     println!("generated config.yaml template - please fill it in");
     Ok(())
 }
 
-fn generate_template_config_file(login_name: &str, api_token: &str) -> Result<(), std::io::Error> {
-    generate_template_config_file_at(CONFIG_YAML_FILE.to_string(), api_token, login_name)
+fn generate_template_config_file(login_email: &str, api_token: &str) -> Result<(), std::io::Error> {
+    generate_template_config_file_at(CONFIG_YAML_FILE.to_string(), api_token, login_email)
 }
 
 /// Wrapper for generate_template_config_file. Sets up config.yaml with your auth token, given your
@@ -166,7 +165,6 @@ pub fn get_auth_token(login_email: &str, password: &str) -> Result<String, std::
 #[derive(Serialize, Deserialize, Debug)]
 #[allow(non_camel_case_types)]
 struct DB_Conf {
-    login_name: String,
     api_token: String,
     login_email: String,
     versand_endpoint_fmtstrs: Vec<String>,
