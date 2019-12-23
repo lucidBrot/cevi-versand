@@ -127,7 +127,7 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
     let fil = match fs::File::open(filename) {
         Ok(f) => f,
         Err(e) => {
-            let _result = generate_template_config_file("generisch@cevi.ch", "th1s1sY0ur70k3n");
+            let _result = generate_template_config_file("generisch@cevi.ch", "th1s1sY0ur70k3n", "th1s1sY0ur53rvic370k3n");
             ui.error_missing_config_file(filename.to_string());
             panic!("failed to find {}: {:?}", filename, e);
         },
@@ -145,27 +145,29 @@ fn generate_template_config_file_at(
     filename: String,
     api_token_placeholder: &str,
     login_email_placeholder: &str,
+    service_token_placeholder: &str,
 ) -> Result<(), std::io::Error> {
     let mut file = File::create(filename)?;
     file.write_all(
         CONFIG_YAML_FILLABLE_TEMPLATE
             .replace(PLACEHOLDER_API_TOKEN, api_token_placeholder)
             .replace(PLACEHOLDER_LOGIN_EMAIL, login_email_placeholder)
+            .replace(PLACEHOLDER_SERVICE_TOKEN, service_token_placeholder)
             .as_bytes(),
     )?;
     println!("generated config.yaml template - please fill it in");
     Ok(())
 }
 
-fn generate_template_config_file(login_email: &str, api_token: &str) -> Result<(), std::io::Error> {
-    generate_template_config_file_at(CONFIG_YAML_FILE.to_string(), api_token, login_email)
+fn generate_template_config_file(login_email: &str, api_token: &str, service_token: &str) -> Result<(), std::io::Error> {
+    generate_template_config_file_at(CONFIG_YAML_FILE.to_string(), api_token, login_email, service_token)
 }
 
 /// Wrapper for generate_template_config_file. Sets up config.yaml with your auth token, given your
 /// password. Does so by calling get_auth_token
 fn generate_config_file(login_email: &str, password: &str) -> Result<(), std::io::Error> {
     let auth_token = get_auth_token(login_email, password)?;
-    generate_template_config_file(login_email, auth_token.as_ref())
+    generate_template_config_file(login_email, auth_token.as_ref(), "th1s1sY0ur53rvic370k3n")
 }
 
 fn get_auth_token_url_data(login_email: &str, password: &str) -> String {
@@ -199,6 +201,7 @@ impl DB_Conf {
     // used in yaml to be filled in at runtime
     const PLACEHOLDER_API_TOKEN: &'static str = "{api_token}";
     const PLACEHOLDER_LOGIN_EMAIL: &'static str = "{login_email}";
+    const PLACEHOLDER_SERVICE_TOKEN: &'static str = "{service_token}";
 
     fn format_versand_endpoint(&self, s: String) -> String {
         s.replace(DB_Conf::PLACEHOLDER_LOGIN_EMAIL, &self.login_email)
