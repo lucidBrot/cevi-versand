@@ -28,7 +28,7 @@ const CONFIG_YAML_FILLABLE_TEMPLATE: &str = r###"db_conf:
     # --- SECURE LOGIN ---
     # Das service-token muss manuell eingerichtet werden, z.B. unter db.cevi.ch/groups/115/service_tokens
     #    ( Ersetze die Zahl 115 durch die entsprechende Gruppe, der alle endpoint Gruppen untergeordnet sind )
-    # Dieses service-token benötigt die Permissions "Personen von Untergruppen" und "Gruppen dieser Gruppe"
+    # Dieses service-token benötigt die Permissions "Personen von Untergruppen"
     # Falls das service_token gesetzt ist, kann in den ENDPOINTS service_token als placeholder verwendet werden.
     service_token: "{the_service_token}"
     # --- USERTOKEN LOGIN ---
