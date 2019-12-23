@@ -9,7 +9,7 @@ mod roletranslation;
 ///
 /// This is a function instead of a `pub const` because constants cannot allocate a Vec
 #[allow(non_snake_case)]
-pub fn get_USER_RELEVANT_FILES() -> Vec<&'static AsRef<std::path::Path>> {
+pub fn get_USER_RELEVANT_FILES() -> Vec<&'static dyn AsRef<std::path::Path>> {
     vec![
         &dbparse::MAPPING_YAML_FILE,
         &dbparse::CONFIG_YAML_FILE,

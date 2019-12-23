@@ -27,10 +27,10 @@ const CONFIG_YAML_FILLABLE_TEMPLATE: &str = r###"db_conf:
     # paste your api_token here
     api_token: "{the_api_token}"
     # die e-mail adresse zum einloggen in der db.cevi.ch
-    login_email: {the_login_email}"
+    login_email: "{the_login_email}"
     # Der link zu den Leuten in der datenbank. Relevant für dich als user sind nur die Zahlen.
     # Ersetze sie durch die gruppen-id und filter-id, die du verwenden möchtest.
-    versand_endpoint_fmtstr:
+    versand_endpoint_fmtstrs:
         - "https://db.cevi.ch/groups/2423/people.json?user_email={login_email}&user_token={api_token}"
         - "https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email={login_email}&user_token={api_token}"
 "###;
@@ -108,7 +108,7 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
     let fil = match fs::File::open(filename) {
         Ok(f) => f,
         Err(e) => {
-            let _result = generate_template_config_file("GenerischerCeviname", "th1s1sY0ur70k3n");
+            let _result = generate_template_config_file("generisch@cevi.ch", "th1s1sY0ur70k3n");
             ui.error_missing_config_file(filename.to_string());
             panic!("failed to find {}: {:?}", filename, e);
         },
