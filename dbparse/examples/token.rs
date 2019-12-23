@@ -19,10 +19,16 @@ fn main() -> Result<(), std::io::Error> {
     let token = dbparse::get_auth_token(input_email.trim().as_ref(), pass.trim().as_ref()).unwrap();
     // TODO: trim will be a problem if the password contains whitespace
     println!("token: {}", &token);
-    
-    let yaml : serde_yaml::Value = serde_yaml::from_str(token.as_ref()).unwrap();
-    let auth_token : &serde_yaml::Value = yaml.get("people").unwrap().get(0).unwrap().get("authentication_token").unwrap();
-                                   println!("Auth Token: {:?}", auth_token);
+
+    let yaml: serde_yaml::Value = serde_yaml::from_str(token.as_ref()).unwrap();
+    let auth_token: &serde_yaml::Value = yaml
+        .get("people")
+        .unwrap()
+        .get(0)
+        .unwrap()
+        .get("authentication_token")
+        .unwrap();
+    println!("Auth Token: {:?}", auth_token);
 
     Ok(())
 }

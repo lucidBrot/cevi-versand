@@ -74,11 +74,11 @@ pub fn run_with_reasonable_dataset(
     let loaded_group_mapping: GroupMapping = match yaml_group_mapping {
         Ok(mapping) => {
             mapping::create_map_from_yaml(&mapping).expect("Creating map from yaml failed")
-        }
+        },
         Err(e) => {
             println!("problem loading yaml mapping: {}.\nRecreating it...", e);
             GroupMapping::new()
-        }
+        },
     };
     // create mapping from Database
     let db_group_mapping: GroupMapping = GroupMapping::from_set(&dataset.groups);
@@ -109,7 +109,7 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
             let _result = generate_template_config_file("GenerischerCeviname", "th1s1sY0ur70k3n");
             ui.error_missing_config_file(filename.to_string());
             panic!("failed to find {}: {:?}", filename, e);
-        }
+        },
     };
     let yaml: serde_yaml::Value = serde_yaml::from_reader(fil).expect("file should be proper YAML");
 
