@@ -23,13 +23,32 @@ pub const CONFIG_YAML_FILE: &str = "config.yaml";
 /// which is inserted at runtime.
 const PLACEHOLDER_API_TOKEN: &str = "{the_api_token}";
 const PLACEHOLDER_LOGIN_EMAIL: &str = "{the_login_email}";
+const PLACEHOLDER_SERVICE_TOKEN: &str = "{the_service_token}";
 const CONFIG_YAML_FILLABLE_TEMPLATE: &str = r###"db_conf:
-    # paste your api_token here
+    # --- SECURE LOGIN ---
+    # Das service-token muss manuell eingerichtet werden, z.B. unter db.cevi.ch/groups/115/service_tokens
+    #    ( Ersetze die Zahl 115 durch die entsprechende Gruppe, der alle endpoint Gruppen untergeordnet sind )
+    # Dieses service-token benötigt die Permissions "Personen von Untergruppen" und "Gruppen dieser Gruppe"
+    # Falls das service_token gesetzt ist, kann in den ENDPOINTS service_token als placeholder verwendet werden.
+    service_token: "{the_service_token}"
+    # --- USERTOKEN LOGIN ---
+    # Das user-token kann automatisch geholt werden. Das ist der einzige Vorteil davon. Dafür ist es weniger
+    # sicher, weil es für den ganzen Nutzer das selbe ist, egal für welche Anwendung.
+    # Das user-token wird hier auch api-token genannt.
     api_token: "{the_api_token}"
     # die e-mail adresse zum einloggen in der db.cevi.ch
     login_email: "{the_login_email}"
-    # Der link zu den Leuten in der datenbank. Relevant für dich als user sind nur die Zahlen.
+    # 
+    # --- ENDPOINTS ---
+    # Der link zu den Leuten in der datenbank. Relevant für dich als user sind nur die Zahlen für die gruppen,
+    # sowie die filter_id
     # Ersetze sie durch die gruppen-id und filter-id, die du verwenden möchtest.
+    # Bei login-type SECURE sind die links generell von der Form
+    #    https://db.cevi.ch/groups/2423/people.json?token=[api_token]
+    # nur mit geschweiften Klammern {} statt eckigen Klammern [].
+    # Bei login-type USERTOKEN sind die links generell von der Form
+    #    https://db.cevi.ch/groups/2423/people.json?user_email=[login_email]&user_token=[api_token]
+    # nur mit geschweiften Klammern {} statt eckigen Klammern [].
     versand_endpoint_fmtstrs:
         - "https://db.cevi.ch/groups/2423/people.json?user_email={login_email}&user_token={api_token}"
         - "https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email={login_email}&user_token={api_token}"
@@ -165,10 +184,16 @@ pub fn get_auth_token(login_email: &str, password: &str) -> Result<String, std::
 
 #[derive(Serialize, Deserialize, Debug)]
 #[allow(non_camel_case_types)]
+/// the `login_email`/`api_token` combination which might soon be deprecated by the database team
+/// in favor of the `service_token` (23.12.2019)
+///
+/// If any of these is not in use, its content is ignored but must still exist. So I recommend the
+/// empty string.
 struct DB_Conf {
     api_token: String,
     login_email: String,
     versand_endpoint_fmtstrs: Vec<String>,
+    service_token: String,
 }
 impl DB_Conf {
     // used in yaml to be filled in at runtime
@@ -178,6 +203,7 @@ impl DB_Conf {
     fn format_versand_endpoint(&self, s: String) -> String {
         s.replace(DB_Conf::PLACEHOLDER_LOGIN_EMAIL, &self.login_email)
             .replace(DB_Conf::PLACEHOLDER_API_TOKEN, &self.api_token)
+            .replace(DB_Conf::PLACEHOLDER_SERVICE_TOKEN, &self.service_token)
     }
 
     fn versand_endpoints(&self) -> impl Iterator<Item = String> + '_ {
