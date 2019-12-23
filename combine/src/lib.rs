@@ -4,6 +4,19 @@ use regex;
 mod injection;
 mod roletranslation;
 
+/// all files that the user might modify to set config
+/// used in --info and in --clean
+///
+/// This is a function instead of a `pub const` because constants cannot allocate a Vec
+#[allow(non_snake_case)]
+pub fn get_USER_RELEVANT_FILES() -> Vec<&'static AsRef<std::path::Path>> {
+    vec![
+        &dbparse::MAPPING_YAML_FILE,
+        &dbparse::CONFIG_YAML_FILE,
+        &crate::injection::INJECTION_YAML_FILE_PATH,
+    ]
+}
+
 #[cfg(not(target_arch = "wasm32"))]
 pub fn main() {
     use ui::UserInteractor;
@@ -309,16 +322,10 @@ impl<'a> dbparse::DbparseInteractor for DbparseRedirector<'a> {
 /// remove ALL settings if remove_config is true, otherwise only remove all files that are not
 /// required for the program to "successfully" run. That is, the program might generate crappy
 /// couverts, but it should still generate couverts.
-pub fn clean(remove_config: bool) -> std::io::Result<()>{
-   let _documentationstring_files_to_clean = vec![
-        dbparse::MAPPING_YAML_FILE,
-        dbparse::CONFIG_YAML_FILE,
-        crate::injection::INJECTION_YAML_FILE_PATH,
-   ];
-
-   // delete injection file
+pub fn clean(remove_config: bool) -> std::io::Result<()> {
+    // delete injection file
     std::fs::remove_file(crate::injection::INJECTION_YAML_FILE_PATH)?;
-   // create empty injection file template
+    // create empty injection file template
     crate::injection::create_injection_yaml_file_template()?;
 
     // delete mapping yaml file

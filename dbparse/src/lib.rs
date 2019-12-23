@@ -74,11 +74,11 @@ pub fn run_with_reasonable_dataset(
     let loaded_group_mapping: GroupMapping = match yaml_group_mapping {
         Ok(mapping) => {
             mapping::create_map_from_yaml(&mapping).expect("Creating map from yaml failed")
-        },
+        }
         Err(e) => {
             println!("problem loading yaml mapping: {}.\nRecreating it...", e);
             GroupMapping::new()
-        },
+        }
     };
     // create mapping from Database
     let db_group_mapping: GroupMapping = GroupMapping::from_set(&dataset.groups);
@@ -109,7 +109,7 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
             let _result = generate_template_config_file("GenerischerCeviname", "th1s1sY0ur70k3n");
             ui.error_missing_config_file(filename.to_string());
             panic!("failed to find {}: {:?}", filename, e);
-        },
+        }
     };
     let yaml: serde_yaml::Value = serde_yaml::from_reader(fil).expect("file should be proper YAML");
 
@@ -123,7 +123,7 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
 fn generate_template_config_file_at(
     filename: String,
     api_token_placeholder: &str,
-    login_email_placeholder : &str,
+    login_email_placeholder: &str,
 ) -> Result<(), std::io::Error> {
     let mut file = File::create(filename)?;
     file.write_all(
@@ -142,7 +142,7 @@ fn generate_template_config_file(login_email: &str, api_token: &str) -> Result<(
 
 /// Wrapper for generate_template_config_file. Sets up config.yaml with your auth token, given your
 /// password. Does so by calling get_auth_token
-fn generate_config_file(login_email: &str, password: &str) -> Result<(), std::io::Error>{
+fn generate_config_file(login_email: &str, password: &str) -> Result<(), std::io::Error> {
     let auth_token = get_auth_token(login_email, password)?;
     generate_template_config_file(login_email, auth_token.as_ref())
 }
@@ -150,8 +150,7 @@ fn generate_config_file(login_email: &str, password: &str) -> Result<(), std::io
 fn get_auth_token_url_data(login_email: &str, password: &str) -> String {
     let data = r#"person[email]={email}&person[password]={password}"#;
 
-    data
-        .replace("{email}", login_email)
+    data.replace("{email}", login_email)
         .replace("{password}", password)
         .to_string()
 }
