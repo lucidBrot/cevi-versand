@@ -127,7 +127,11 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
     let fil = match fs::File::open(filename) {
         Ok(f) => f,
         Err(e) => {
-            let _result = generate_template_config_file("generisch@cevi.ch", "th1s1sY0ur70k3n", "th1s1sY0ur53rvic370k3n");
+            let _result = generate_template_config_file(
+                "generisch@cevi.ch",
+                "th1s1sY0ur70k3n",
+                "th1s1sY0ur53rvic370k3n",
+            );
             ui.error_missing_config_file(filename.to_string());
             panic!("failed to find {}: {:?}", filename, e);
         },
@@ -159,8 +163,17 @@ fn generate_template_config_file_at(
     Ok(())
 }
 
-fn generate_template_config_file(login_email: &str, api_token: &str, service_token: &str) -> Result<(), std::io::Error> {
-    generate_template_config_file_at(CONFIG_YAML_FILE.to_string(), api_token, login_email, service_token)
+fn generate_template_config_file(
+    login_email: &str,
+    api_token: &str,
+    service_token: &str,
+) -> Result<(), std::io::Error> {
+    generate_template_config_file_at(
+        CONFIG_YAML_FILE.to_string(),
+        api_token,
+        login_email,
+        service_token,
+    )
 }
 
 /// Wrapper for generate_template_config_file. Sets up config.yaml with your auth token, given your

@@ -291,7 +291,7 @@ impl Prioritized for dbparse::ReasonableGroup {
             //--- end useless stuff ---
             "Ten-Sing" => Priority(80),
             "Gremium" => Priority(81), // e.g. "C-Gruppe", "Cevi Plus Team"
-            "Externe" => match self.inner_group.name.as_str() { 
+            "Externe" => match self.inner_group.name.as_str() {
                 "Trägerkreis Mitglieder" => Priority(89),
                 "J+S-Coaches" => Priority(88),
                 "Leiter ehemalig" => Priority(87),
