@@ -6,8 +6,9 @@ fn main() -> Result<(), std::io::Error> {
     let _bytes_read = std::io::stdin().read_line(&mut input_email).expect("Non-utf8 string input!");
 
     print!("Type a pass: ");
-    let pass = "TODO".to_string(); //passwd::read_password(); // TODO: how to read password without displaying it?
-    println!("Your password is {}", pass);
+    let mut pass = String::new();
+    let _bytes_read = std::io::stdin().read_line(&mut pass).expect("Non-utf8 string input for password!");
+    // TODO: how to read password without displaying it?
     std::io::stdout().flush()?;
 
     let token = dbparse::get_auth_token(input_email.trim().as_ref(), pass.trim().as_ref());

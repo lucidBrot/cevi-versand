@@ -306,5 +306,21 @@ impl<'a> dbparse::DbparseInteractor for DbparseRedirector<'a> {
     }
 }
 
+/// remove ALL settings
+pub fn clean() -> std::io::Result<()>{
+   let _documentationstring_files_to_clean = vec![
+        dbparse::MAPPING_YAML_FILE,
+        dbparse::CONFIG_YAML_FILE,
+        crate::injection::INJECTION_YAML_FILE_PATH,
+   ];
+
+   // delete injection file
+    std::fs::remove_file(crate::injection::INJECTION_YAML_FILE_PATH)?;
+   // create empty injection file template
+    crate::injection::create_injection_yaml_file_template()?;
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {}

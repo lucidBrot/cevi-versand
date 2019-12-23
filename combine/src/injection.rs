@@ -46,17 +46,21 @@ fn serialize_couvert_infos(yaml_text: &str) {
     };
 }
 
+pub fn create_injection_yaml_file_template() -> Result<std::fs::File, std::io::Error>{
+    OpenOptions::new()
+        .write(true)
+        .read(true)
+        .create_new(true)
+        .open(INJECTION_YAML_FILE_PATH)
+}
+
 /// Reads from `inject_people.yaml` and adds those persons to the parameter `couvert_infos`
 pub fn inject_couvert_infos(
     mut couvert_infos: &mut Vec<CouvertInfo>,
     user_interface: &dyn ui::UserInteractor,
 ) {
     // create empty-ish template file iff there is no current file there
-    let fi = OpenOptions::new()
-        .write(true)
-        .read(true)
-        .create_new(true)
-        .open(INJECTION_YAML_FILE_PATH);
+    let fi = create_injection_yaml_file_template();
 
     if let Err(_) = fi {
         // if failed to create a new file, it was already there. That's good.

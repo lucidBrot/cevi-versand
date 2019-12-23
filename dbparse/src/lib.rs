@@ -14,10 +14,10 @@ use mapping::GroupMapping;
 // config.yaml is stored both in examples dir and in dbparse dir, currently. Because it is read
 // from the working dir
 
-const MAPPING_YAML_FILE: &str = "mapping.yaml";
+pub const MAPPING_YAML_FILE: &str = "mapping.yaml";
 const VERBOSITY: Verbosity = Verbosity::No;
 
-const CONFIG_YAML_FILE: &str = "config.yaml";
+pub const CONFIG_YAML_FILE: &str = "config.yaml";
 /// used for generating the template.
 /// Don't confuse this with the placeholder that is supposed to be used within the template links
 /// which is inserted at runtime.
