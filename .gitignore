@@ -2,4 +2,5 @@
 target
 output_versand.pdf
 config.yaml
+config.yaml.bak
 mapping.yaml

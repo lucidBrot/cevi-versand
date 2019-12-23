@@ -30,7 +30,9 @@ const CONFIG_YAML_FILLABLE_TEMPLATE: &str = r###"db_conf:
     login_email: {the_login_email}"
     # Der link zu den Leuten in der datenbank. Relevant für dich als user sind nur die Zahlen.
     # Ersetze sie durch die gruppen-id und filter-id, die du verwenden möchtest.
-    versand_endpoint_fmtstr: "https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email={login_email}&user_token={api_token}"
+    versand_endpoint_fmtstr:
+        - "https://db.cevi.ch/groups/2423/people.json?user_email={login_email}&user_token={api_token}"
+        - "https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email={login_email}&user_token={api_token}"
 "###;
 
 const SIGNIN_POST_URL: &str = "https://db.cevi.ch/users/sign_in.json";
