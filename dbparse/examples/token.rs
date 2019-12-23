@@ -28,7 +28,9 @@ fn main() -> Result<(), std::io::Error> {
         .unwrap()
         .get("authentication_token")
         .unwrap();
-    println!("Auth Token: {:?}", auth_token);
+
+    let auth_token_str = auth_token.as_str().unwrap();
+    println!("Auth Token: {:?}", auth_token_str);
 
     Ok(())
 }
