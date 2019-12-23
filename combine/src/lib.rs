@@ -275,6 +275,8 @@ impl Prioritized for pdfgen::Role {
 
 impl Prioritized for dbparse::ReasonableGroup {
     /// Higher priority for more specific groups
+    /// I try to use distinct priorities, so that the same dataset will always produce the same
+    /// output. That does not hold for non-matches `_`.
     fn priority(&self) -> Priority {
         match self.inner_group.group_type.as_str() {
             "Dachverband" => Priority(10),
@@ -288,8 +290,20 @@ impl Prioritized for dbparse::ReasonableGroup {
             "Mitglieder" => Priority(71),
             //--- end useless stuff ---
             "Ten-Sing" => Priority(80),
-            "Gremium" => Priority(85), // e.g. "C-Gruppe", "Cevi Plus Team"
-            "Externe" => Priority(89), // e.g. "Gebetsgruppe", "C-Newsletter", "Leiter ehemalig", "Ehemalige", "Trägerkreis"
+            "Gremium" => Priority(81), // e.g. "C-Gruppe", "Cevi Plus Team"
+            "Externe" => match self.inner_group.name.as_str() { 
+                "Trägerkreis Mitglieder" => Priority(89),
+                "J+S-Coaches" => Priority(88),
+                "Leiter ehemalig" => Priority(87),
+                "Ehemalige" => Priority(87),
+                "Gebetsbrunch" => Priority(86),
+                "C-Newsletter" => Priority(85),
+                "Freie Mitarbeiter" => Priority(84),
+                "Z_Import Optigem" => Priority(1),
+                "Admin GS 2019" => Priority(3),
+                "EXT: Y-Card Aktiv und Gültig" => Priority(2),
+                _ => Priority(83),
+            },
             "Vorstand" => Priority(90), // if somebody is in a group and in vorstand, we want the group
             "Untergruppe" => Priority(100), // We want always this. It's e.g. Holon.
             "Fröschli" => Priority(100), // Whyever this exists
