@@ -126,14 +126,17 @@ fn setup_config(ui: &dyn DbparseInteractor) -> DB_Conf {
     let filename = CONFIG_YAML_FILE;
     let fil = match fs::File::open(filename) {
         Ok(f) => f,
-        Err(e) => {
+        Err(_e) => {
             let _result = generate_template_config_file(
                 "generisch@cevi.ch",
                 "th1s1sY0ur70k3n",
                 "th1s1sY0ur53rvic370k3n",
             );
             ui.error_missing_config_file(filename.to_string());
-            panic!("failed to find {}: {:?}", filename, e);
+            panic!(
+                "Make sure the {} file is set up correctly, then try again.",
+                filename
+            );
         },
     };
     let yaml: serde_yaml::Value = serde_yaml::from_reader(fil).expect("file should be proper YAML");
@@ -280,8 +283,7 @@ fn get_data_for_versand(
 
 fn reasonablify_body(body: &String) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {
     // deserialize the json data into a struct
-    let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(body.as_ref())
-        .expect("dbparse: The request response is not well-formatted.");
+    let dese: PeopleRequest = serde_json::from_str::<PeopleRequest>(body.as_ref())?;
 
     let mut i = 0;
 
