@@ -5,7 +5,7 @@ use clap::*;
 /// This doc string acts as a help message when the user runs '--help'
 /// as do all doc strings on fields
 #[derive(Clap)]
-#[clap(version = "1.0", author = "Kevin K.")]
+#[clap(version = "1.0", author = "Eric Mink v/o Levanzo", name = "cevi-versand", about = "cevi-versand generiert Couverts, warnt vor fehlenden infos, kombiniert Personen die zusammen wohnen in einen einzelnen Umschlag, und fügt relevante Informationen für das Versandteam hinzu.")]
 struct Opts {
     /// Sets a custom config file. Could have been an Option<T> with no default too
     #[clap(short = "c", long = "config", default_value = "default.conf")]
