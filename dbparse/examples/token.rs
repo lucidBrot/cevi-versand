@@ -16,21 +16,13 @@ fn main() -> Result<(), std::io::Error> {
     // TODO: how to read password without displaying it?
     std::io::stdout().flush()?;
 
-    let token = dbparse::get_auth_token(input_email.trim().as_ref(), pass.trim().as_ref()).unwrap();
-    // TODO: trim will be a problem if the password contains whitespace
-    println!("token: {}", &token);
-
-    let yaml: serde_yaml::Value = serde_yaml::from_str(token.as_ref()).unwrap();
-    let auth_token: &serde_yaml::Value = yaml
-        .get("people")
-        .unwrap()
-        .get(0)
-        .unwrap()
-        .get("authentication_token")
-        .unwrap();
-
-    let auth_token_str = auth_token.as_str().unwrap();
-    println!("Auth Token: {:?}", auth_token_str);
-
-    Ok(())
+    let auth_token = dbparse::get_auth_token(input_email.trim().as_ref(), pass.trim().as_ref());
+    match auth_token {
+        Err(e) => { println!("Problem fetching token: {:?}", e); Err(e) }
+        Ok(token) => {
+            // TODO: trim will be a problem if the password contains whitespace
+            println!("Auth Token: {:?}", token);
+            Ok(())
+        }
+    }
 }

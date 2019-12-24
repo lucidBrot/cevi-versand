@@ -192,9 +192,18 @@ fn get_auth_token_url_data(login_email: &str, password: &str) -> String {
 }
 
 pub fn get_auth_token(login_email: &str, password: &str) -> Result<String, std::io::Error> {
+    use std::io::ErrorKind;
     let data: String = get_auth_token_url_data(login_email, password);
-    let body = chttp::post(SIGNIN_POST_URL, data)?.into_body().text();
-    return body;
+    let body = chttp::post(SIGNIN_POST_URL, data)?.into_body().text()?;
+
+    let yaml: serde_yaml::Value = serde_yaml::from_str(body.as_ref()).unwrap();
+    let auth_token: &serde_yaml::Value = yaml
+        .get("people").ok_or(std::io::Error::new(ErrorKind::InvalidData, "People not found"))?
+        .get(0).ok_or(std::io::Error::new(ErrorKind::InvalidData, "No people found"))?
+        .get("authentication_token").ok_or(std::io::Error::new(ErrorKind::InvalidData, "Auth token not found"))?;
+
+    let auth_token_str = auth_token.as_str().ok_or(std::io::Error::new(ErrorKind::InvalidData, "Auth token not a string"))?;
+    return Ok(auth_token_str.to_string());
 }
 
 #[derive(Serialize, Deserialize, Debug)]
