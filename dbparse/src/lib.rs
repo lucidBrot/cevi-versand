@@ -159,11 +159,13 @@ fn generate_template_config_file_at(
             .replace(PLACEHOLDER_SERVICE_TOKEN, service_token_placeholder)
             .as_bytes(),
     )?;
-    println!("generated config.yaml template - please fill it in");
+    println!(
+        "generated config.yaml template - please have a look at it and potentially fill in missing info and edit the endpoints"
+    );
     Ok(())
 }
 
-fn generate_template_config_file(
+pub fn generate_template_config_file(
     login_email: &str,
     api_token: &str,
     service_token: &str,

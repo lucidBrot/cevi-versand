@@ -9,7 +9,7 @@ pub trait UserInteractor {
     fn error_missing_config_file(&self, _filename: String) {}
     fn error_injecting_couverts(&self, _error: &dyn std::error::Error) {}
     fn error_fetching_auth_token(&self, _error: &std::io::Error) {}
-    fn interactively_get_auth_token(&self) -> Result<String, std::io::Error>;
+    fn interactively_get_auth_token(&self) -> Result<AuthTokenData, std::io::Error>;
 }
 
 /// Simplistic default user interface
@@ -65,7 +65,7 @@ UI: There was an error while trying to inject additional people:
         }
     }
 
-    fn interactively_get_auth_token(&self) -> Result<String, std::io::Error> {
+    fn interactively_get_auth_token(&self) -> Result<AuthTokenData, std::io::Error> {
         use std::io::Write;
         print!("e-mail: ");
         std::io::stdout().flush()?;
@@ -73,6 +73,7 @@ UI: There was an error while trying to inject additional people:
         let _bytes_read = std::io::stdin()
             .read_line(&mut input_email)
             .expect("Non-utf8 string input!");
+        let input_email = input_email.trim();
 
         print!("Type a pass: ");
         std::io::stdout().flush()?;
@@ -80,10 +81,11 @@ UI: There was an error while trying to inject additional people:
         let _bytes_read = std::io::stdin()
             .read_line(&mut pass)
             .expect("Non-utf8 string input for password!");
+        let pass = pass.trim();
         // TODO: how to read password without displaying it?
         std::io::stdout().flush()?;
 
-        let auth_token = dbparse::get_auth_token(input_email.trim().as_ref(), pass.trim().as_ref());
+        let auth_token = dbparse::get_auth_token(input_email.as_ref(), pass.as_ref());
         match auth_token {
             Err(e) => {
                 self.error_fetching_auth_token(&e);
@@ -92,8 +94,16 @@ UI: There was an error while trying to inject additional people:
             Ok(token) => {
                 // TODO: trim will be a problem if the password contains whitespace
                 println!("Auth Token: {:?}", token);
-                Ok(token.to_string())
+                Ok(AuthTokenData {
+                    login_email: input_email.to_string(),
+                    user_token: token.to_string(),
+                })
             },
         }
     }
+}
+
+pub struct AuthTokenData {
+    pub login_email: String,
+    pub user_token: String,
 }
