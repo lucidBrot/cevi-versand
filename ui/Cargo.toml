@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 dbparse = { path = "../dbparse" }
+clap = { git = "https://github.com/clap-rs/clap.git", rev = "fc359e3", features = ["color", "suggestions", "derive"] }
