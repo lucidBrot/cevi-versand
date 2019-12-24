@@ -198,11 +198,26 @@ pub fn get_auth_token(login_email: &str, password: &str) -> Result<String, std::
 
     let yaml: serde_yaml::Value = serde_yaml::from_str(body.as_ref()).unwrap();
     let auth_token: &serde_yaml::Value = yaml
-        .get("people").ok_or(std::io::Error::new(ErrorKind::InvalidData, "People not found"))?
-        .get(0).ok_or(std::io::Error::new(ErrorKind::InvalidData, "No people found"))?
-        .get("authentication_token").ok_or(std::io::Error::new(ErrorKind::InvalidData, "Auth token not found"))?;
+        .get("people")
+        .ok_or(std::io::Error::new(
+            ErrorKind::InvalidData,
+            "People not found",
+        ))?
+        .get(0)
+        .ok_or(std::io::Error::new(
+            ErrorKind::InvalidData,
+            "No people found",
+        ))?
+        .get("authentication_token")
+        .ok_or(std::io::Error::new(
+            ErrorKind::InvalidData,
+            "Auth token not found",
+        ))?;
 
-    let auth_token_str = auth_token.as_str().ok_or(std::io::Error::new(ErrorKind::InvalidData, "Auth token not a string"))?;
+    let auth_token_str = auth_token.as_str().ok_or(std::io::Error::new(
+        ErrorKind::InvalidData,
+        "Auth token not a string",
+    ))?;
     return Ok(auth_token_str.to_string());
 }
 

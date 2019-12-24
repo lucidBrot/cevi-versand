@@ -18,11 +18,21 @@ fn main() -> Result<(), std::io::Error> {
 
     let auth_token = dbparse::get_auth_token(input_email.trim().as_ref(), pass.trim().as_ref());
     match auth_token {
-        Err(e) => { println!("Problem fetching token: {:?}", e); Err(e) }
+        Err(e) => {
+            println!("Problem fetching token: {:?}", e);
+            match e.kind() {
+                std::io::ErrorKind::Other => println!("Perhaps your internet connection is down?"),
+                std::io::ErrorKind::InvalidData => println!(
+                    "Perhaps the credentials were wrong, perhaps the database is down, ..."
+                ),
+                _ => (),
+            }
+            Ok(())
+        },
         Ok(token) => {
             // TODO: trim will be a problem if the password contains whitespace
             println!("Auth Token: {:?}", token);
             Ok(())
-        }
+        },
     }
 }
