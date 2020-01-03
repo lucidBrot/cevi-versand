@@ -183,7 +183,7 @@ pub fn generate_template_config_file(
 
 /// Wrapper for generate_template_config_file. Sets up config.yaml with your auth token, given your
 /// password. Does so by calling get_auth_token
-/// 
+///
 /// Not currently in use because the database will deprecate api-tokens, and service tokens cannot
 /// be set up with password and login alone automatically
 #[allow(dead_code)]

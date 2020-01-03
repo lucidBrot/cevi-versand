@@ -94,11 +94,17 @@ fn main() {
             ui.inform_user("Done. If above output looks problematic - check the output pdf anyway. Perhaps the program fixed everything on its own.");
         },
         SubCommand::setup(s) => {
-            let api_token = 
-                if s.service_token.is_none() && ( s.email.is_none() || s.password.is_none() ) {
-                    ui.interactively_get_auth_token().expect("Failed to get authentication token data. Aborting.").user_token
+            let api_token =
+                if s.service_token.is_none() && (s.email.is_none() || s.password.is_none()) {
+                    ui.interactively_get_auth_token()
+                        .expect("Failed to get authentication token data. Aborting.")
+                        .user_token
                 } else if s.email.is_some() && s.password.is_some() {
-                    dbparse::get_auth_token(s.email.clone().unwrap().as_ref(), s.password.unwrap().as_ref()).expect("Failed to get authentication token. Aborting!")
+                    dbparse::get_auth_token(
+                        s.email.clone().unwrap().as_ref(),
+                        s.password.unwrap().as_ref(),
+                    )
+                    .expect("Failed to get authentication token. Aborting!")
                 } else {
                     "".to_string()
                 };
@@ -114,9 +120,10 @@ fn main() {
                 s.email.unwrap().as_ref(),
                 api_token.as_ref(),
                 service_token.as_ref(),
-                ).expect("Something went wrong while generating the config file. Sorry!");
+            )
+            .expect("Something went wrong while generating the config file. Sorry!");
             ui.inform_user("Set Up config file. Try the subcommand `run` now.");
-            }
+        },
     }
 
     // more program logic goes here...
