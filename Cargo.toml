@@ -3,5 +3,7 @@
 members = [
     "dbparse",
     "pdfgen",
-    "combine"
+    "combine",
+    "ui",
+    "cli",
 ]
