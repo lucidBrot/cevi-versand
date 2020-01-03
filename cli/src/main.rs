@@ -94,21 +94,30 @@ fn main() {
             ui.inform_user("Done. If above output looks problematic - check the output pdf anyway. Perhaps the program fixed everything on its own.");
         },
         SubCommand::setup(s) => {
-            let api_token =
-                if s.service_token.is_none() && (s.email.is_none() || s.password.is_none()) {
-                    ui.inform_user("You would be better off running this with command line arguments. Providing a service token there is advised btw. However, I'll now ask you at least for your email and password so that we can get a soon-to-be-deprecated api token.");
-                    ui.interactively_get_auth_token()
-                        .expect("Failed to get authentication token data. Aborting.")
-                        .user_token
-                } else if s.email.is_some() && s.password.is_some() {
-                    dbparse::get_auth_token(
-                        s.email.clone().unwrap().as_ref(),
-                        s.password.unwrap().as_ref(),
-                    )
-                    .expect("Failed to get authentication token. Aborting!")
-                } else {
-                    "".to_string()
-                };
+            let mut email: Option<String> = s.email.clone();
+            let api_token = if s.service_token.is_none()
+                && (s.email.is_none() || s.password.is_none())
+            {
+                ui.inform_user("You would be better off running this with command line arguments. Providing a service token there is advised btw. However, I'll now ask you at least for your email and password so that we can get a soon-to-be-deprecated api token.");
+                let retval = ui
+                    .interactively_get_auth_token()
+                    .expect("Failed to get authentication token data. Aborting.");
+
+                email = Some(retval.login_email);
+                retval.user_token
+            } else if s.email.is_some() && s.password.is_some() {
+                dbparse::get_auth_token(
+                    s.email.clone().unwrap().as_ref(),
+                    s.password.unwrap().as_ref(),
+                )
+                .expect("Failed to get authentication token. Aborting!")
+            } else {
+                "".to_string()
+            };
+
+            if email.is_none() {
+                email = Some("".to_string());
+            }
 
             let service_token = if s.service_token.is_none() {
                 "".to_string()
@@ -118,12 +127,12 @@ fn main() {
 
             ui.inform_user("Overwriting config file...");
             dbparse::generate_template_config_file(
-                s.email.unwrap().as_ref(),
+                email.unwrap().as_ref(),
                 api_token.as_ref(),
                 service_token.as_ref(),
             )
             .expect("Something went wrong while generating the config file. Sorry!");
-            ui.inform_user("Set Up config file. Try the subcommand `run` now.");
+            ui.inform_user("Set Up config file. Open it up, specify your endpoints, then try the subcommand `run`.");
         },
     }
 
