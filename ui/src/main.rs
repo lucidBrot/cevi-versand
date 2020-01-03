@@ -21,16 +21,15 @@ struct Opts {
 
 #[derive(Clap)]
 enum SubCommand {
-    Test(Test),
+    clean(Clean),
 }
 
-/// A subcommand for controlling testing
+/// A subcommand for cleaning files
 #[derive(Clap)]
-#[clap(name = "test", version = "1.3", author = "Someone Else")]
-struct Test {
-    /// Print debug info
-    #[clap(short = "d")]
-    debug: bool,
+struct Clean {
+    /// Testrun, Only show what would be removed
+    #[clap(short = "n", long = "test-run" )]
+    test_run: bool,
 }
 
 fn main() {
@@ -52,8 +51,8 @@ fn main() {
     // You can handle information about subcommands by requesting their matches by name
     // (as below), requesting just the name used, or both at the same time
     match opts.subcmd {
-        SubCommand::Test(t) => {
-            if t.debug {
+        SubCommand::clean(t) => {
+            if t.test_run {
                 println!("Printing debug info...");
             } else {
                 println!("Printing normally...");
