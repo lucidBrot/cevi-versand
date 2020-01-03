@@ -10,7 +10,9 @@ pub trait UserInteractor {
     fn error_injecting_couverts(&self, _error: &dyn std::error::Error) {}
     fn error_fetching_auth_token(&self, _error: &std::io::Error) {}
     fn interactively_get_auth_token(&self) -> Result<AuthTokenData, std::io::Error>;
-    fn inform_user(&self, msg: &str) { println!("{}",msg); }
+    fn inform_user(&self, msg: &str) {
+        println!("{}", msg);
+    }
 }
 
 /// Simplistic default user interface
