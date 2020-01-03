@@ -20,13 +20,14 @@ struct Opts {
 }
 
 #[derive(Clap)]
+#[allow(non_camel_case_types)]
 enum SubCommand {
-    clean(Clean),
+    clean(CleanSubcommand),
 }
 
 /// A subcommand for cleaning files
 #[derive(Clap)]
-struct Clean {
+struct CleanSubcommand {
     /// Testrun, Only show what would be removed
     #[clap(short = "n", long = "test-run" )]
     test_run: bool,
