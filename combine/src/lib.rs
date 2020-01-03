@@ -347,6 +347,7 @@ pub fn clean(remove_config: bool, test_run: bool, uiopt: Option<ui::UserInteract
     crate::injection::create_injection_yaml_file_template()?;
     } else {
 
+    uiopt.and_then(|ui| ui.inform_user(format!("Would remove Injection File: {}", crate::injection::INJECTION_YAML_FILE_PATH));
     }
 
     // delete mapping yaml file
@@ -355,6 +356,7 @@ pub fn clean(remove_config: bool, test_run: bool, uiopt: Option<ui::UserInteract
     std::fs::remove_file(dbparse::MAPPING_YAML_FILE)?;
     } else {
 
+    uiopt.and_then(|ui| ui.inform_user(format!("Would remove Mapping File: {}", dbparse::MAPPING_YAML_FILE));
     }
 
     // delete config.yaml file
@@ -365,6 +367,7 @@ pub fn clean(remove_config: bool, test_run: bool, uiopt: Option<ui::UserInteract
     }
     } else {
 
+        uiopt.and_then(|ui| ui.inform_user(format!("Would remove Config File (necessary to run): {}", dbparse::CONFIG_YAML_FILE));
     }
 
     Ok(())
