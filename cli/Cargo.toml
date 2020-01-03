@@ -7,7 +7,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-clap = { git = "https://github.com/clap-rs/clap.git", rev = "fc359e3", features = ["color", "suggestions", "derive"] }
+clap = { git = "https://github.com/clap-rs/clap.git", rev = "f402f7a", features = ["color", "suggestions", "derive"] }
 combine = { path = "../combine" }
 ui = { path = "../ui" }
 dbparse = { path = "../dbparse" }
