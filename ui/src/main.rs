@@ -29,7 +29,7 @@ enum SubCommand {
 #[derive(Clap)]
 struct CleanSubcommand {
     /// Testrun, Only show what would be removed
-    #[clap(short = "n", long = "test-run", default_value = "False" )]
+    #[clap(short = "n", long = "test-run" )]
     test_run: bool,
 }
 
@@ -54,9 +54,10 @@ fn main() {
     match opts.subcmd {
         SubCommand::clean(t) => {
             if t.test_run {
-                println!("Printing debug info...");
+                println!("Cleaning Test Run Started...");
+
             } else {
-                println!("Printing normally...");
+                println!("Cleaning For Real...");
             }
         },
     }
