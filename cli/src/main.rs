@@ -27,6 +27,7 @@ struct Opts {
 #[allow(non_camel_case_types)]
 enum SubCommand {
     clean(CleanSubcommand),
+    run(RunSubcommand),
 }
 
 /// A subcommand for cleaning files
@@ -40,6 +41,10 @@ struct CleanSubcommand {
     #[clap(short = "a", long = "remove-all")]
     remove_required: bool,
 }
+
+/// A subcommand for running when config.yaml is set up
+#[derive(Clap)]
+struct RunSubcommand {}
 
 fn main() {
     let opts: Opts = Opts::parse();
@@ -57,18 +62,23 @@ fn main() {
     }
 
     use ui::UserInteractor;
-    let user_interface = ui::CliUi {};
+    let ui = ui::CliUi {};
 
     // You can handle information about subcommands by requesting their matches by name
     // (as below), requesting just the name used, or both at the same time
     match opts.subcmd {
         SubCommand::clean(t) => {
             if t.not_test_run {
-                println!("Cleaning For Real...");
+                ui.inform_user("Cleaning For Real...");
             } else {
-                println!("Cleaning Test Run Started. Re-run with -r to run for real...");
+                ui.inform_user("Cleaning Test Run Started. Re-run with -r to run for real...");
             }
-            combine::clean(t.remove_required, !t.not_test_run, Some(&user_interface)).expect("Failed cleaning. You might need to delete some files manually. Run a test run to see which files all would be removed. Might have failed because those files were not there in the first place.");
+            combine::clean(t.remove_required, !t.not_test_run, Some(&ui)).expect("Failed cleaning. You might need to delete some files manually. Run a test run to see which files all would be removed. Might have failed because those files were not there in the first place.");
+        },
+        SubCommand::run(c) => {
+            ui.inform_user("Running... - If you have not set up config.yaml, you will need to fill in the template after this finishes, then try again.");
+
+            combine::main(&ui);
         },
     }
 

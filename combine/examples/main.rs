@@ -1,3 +1,3 @@
 fn main() {
-    combine::main()
+    combine::main_cli_ui()
 }
