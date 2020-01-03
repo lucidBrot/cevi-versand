@@ -22,6 +22,16 @@ enum SubCommand {
     clean(CleanSubcommand),
     run(RunSubcommand),
     setup(SetupSubcommand),
+    Test(Test),
+}
+
+/// A subcommand for controlling testing
+#[derive(Clap)]
+#[clap(name = "test", version = "1.3", author = "Someone Else")]
+struct Test {
+    /// Print debug info
+    #[clap(short = "d")]
+    debug: bool
 }
 
 /// A subcommand for cleaning files
@@ -117,6 +127,7 @@ fn main() {
             .expect("Something went wrong while generating the config file. Sorry!");
             ui.inform_user("Set Up config file. Open it up, specify your endpoints, then try the subcommand `run`.");
         },
+        SubCommand::Test(t) => (),
     }
 
     // more program logic goes here...

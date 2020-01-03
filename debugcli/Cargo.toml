@@ -1,0 +1,10 @@
+[package]
+name = "debugcli"
+version = "0.1.0"
+authors = ["Eric Mink <eric@mink.li>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = { git = "https://github.com/clap-rs/clap.git", rev = "f402f7a", features = ["color", "suggestions", "derive"] }
