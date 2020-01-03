@@ -183,6 +183,10 @@ pub fn generate_template_config_file(
 
 /// Wrapper for generate_template_config_file. Sets up config.yaml with your auth token, given your
 /// password. Does so by calling get_auth_token
+/// 
+/// Not currently in use because the database will deprecate api-tokens, and service tokens cannot
+/// be set up with password and login alone automatically
+#[allow(dead_code)]
 fn generate_config_file(login_email: &str, password: &str) -> Result<(), std::io::Error> {
     let auth_token = get_auth_token(login_email, password)?;
     generate_template_config_file(login_email, auth_token.as_ref(), "th1s1sY0ur53rvic370k3n")

@@ -1,4 +1,3 @@
-#[macro_use]
 extern crate clap;
 use clap::*;
 use combine;
@@ -75,7 +74,7 @@ fn main() {
             }
             combine::clean(t.remove_required, !t.not_test_run, Some(&ui)).expect("Failed cleaning. You might need to delete some files manually. Run a test run to see which files all would be removed. Might have failed because those files were not there in the first place.");
         },
-        SubCommand::run(c) => {
+        SubCommand::run(_c) => {
             ui.inform_user("Running...");
 
             combine::main(&ui);

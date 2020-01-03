@@ -18,7 +18,6 @@ pub fn get_USER_RELEVANT_FILES() -> Vec<&'static dyn AsRef<std::path::Path>> {
 }
 
 pub fn main_cli_ui() {
-    use ui::UserInteractor;
     let user_interface = ui::CliUi {};
     main(&user_interface);
 }
