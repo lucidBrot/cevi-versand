@@ -96,6 +96,7 @@ fn main() {
         SubCommand::setup(s) => {
             let api_token =
                 if s.service_token.is_none() && (s.email.is_none() || s.password.is_none()) {
+                    ui.inform_user("You would be better off running this with command line arguments. Providing a service token there is advised btw. However, I'll now ask you at least for your email and password so that we can get a soon-to-be-deprecated api token.");
                     ui.interactively_get_auth_token()
                         .expect("Failed to get authentication token data. Aborting.")
                         .user_token
