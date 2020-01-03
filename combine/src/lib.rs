@@ -336,18 +336,32 @@ impl<'a> dbparse::DbparseInteractor for DbparseRedirector<'a> {
 /// remove ALL settings if remove_config is true, otherwise only remove all files that are not
 /// required for the program to "successfully" run. That is, the program might generate crappy
 /// couverts, but it should still generate couverts.
-pub fn clean(remove_config: bool) -> std::io::Result<()> {
+///
+/// if `test_run` is set, does not remove anything, only prints
+pub fn clean(remove_config: bool, test_run: bool, uiopt: Option<ui::UserInteractor>) -> std::io::Result<()> {
     // delete injection file
+    if !test_run {
     std::fs::remove_file(crate::injection::INJECTION_YAML_FILE_PATH)?;
     // create empty injection file template
     crate::injection::create_injection_yaml_file_template()?;
+    } else {
+
+    }
 
     // delete mapping yaml file
+    if !test_run {
     std::fs::remove_file(dbparse::MAPPING_YAML_FILE)?;
+    } else {
 
+    }
+
+    if !test_run {
     if remove_config {
         // delete config.yaml file
         std::fs::remove_file(dbparse::CONFIG_YAML_FILE)?;
+    }
+    } else {
+
     }
 
     Ok(())

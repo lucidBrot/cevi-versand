@@ -29,7 +29,7 @@ enum SubCommand {
 #[derive(Clap)]
 struct CleanSubcommand {
     /// Testrun, Only show what would be removed
-    #[clap(short = "n", long = "test-run" )]
+    #[clap(short = "n", long = "test-run", default_value = "False" )]
     test_run: bool,
 }
 
