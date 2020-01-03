@@ -68,7 +68,7 @@ fn main() {
             } else {
                 println!("Cleaning Test Run Started. Re-run with -r to run for real...");
             }
-                combine::clean(t.remove_required, !t.not_test_run, Some(&user_interface));
+            combine::clean(t.remove_required, !t.not_test_run, Some(&user_interface));
         },
     }
 

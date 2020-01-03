@@ -345,60 +345,68 @@ pub fn clean(
 ) -> std::io::Result<()> {
     // delete injection file
     if !test_run {
-        let _r : Option<()> = uiopt.and_then(|ui| {
+        let _r: Option<()> = uiopt.and_then(|ui| {
             ui.inform_user(&*format!(
                 "Removing Injection File: {}",
                 crate::injection::INJECTION_YAML_FILE_PATH
-            )); None
+            ));
+            None
         });
         std::fs::remove_file(crate::injection::INJECTION_YAML_FILE_PATH)?;
         // create empty injection file template
         crate::injection::create_injection_yaml_file_template()?;
     } else {
-        let _r : Option<()> = uiopt.and_then(|ui| {
+        let _r: Option<()> = uiopt.and_then(|ui| {
             ui.inform_user(&*format!(
                 "Would remove Injection File: {}",
                 crate::injection::INJECTION_YAML_FILE_PATH
-            )); None
+            ));
+            None
         });
     }
 
     // delete mapping yaml file
     if !test_run {
-        let _r : Option<()> = uiopt.and_then(|ui| {
+        let _r: Option<()> = uiopt.and_then(|ui| {
             ui.inform_user(&*format!(
                 "Removing Mapping File: {}",
                 dbparse::MAPPING_YAML_FILE
-            )); None
+            ));
+            None
         });
         std::fs::remove_file(dbparse::MAPPING_YAML_FILE)?;
     } else {
-        let _r : Option<()> = uiopt.and_then(|ui| {
+        let _r: Option<()> = uiopt.and_then(|ui| {
             ui.inform_user(&*format!(
                 "Would remove Mapping File: {}",
                 dbparse::MAPPING_YAML_FILE
-            )); None
+            ));
+            None
         });
     }
 
     // delete config.yaml file
     if !test_run {
         if remove_config {
-            let _r : Option<()> = uiopt.and_then(|ui| {
+            let _r: Option<()> = uiopt.and_then(|ui| {
                 ui.inform_user(&*format!(
                     "Removing Config File (necessary to run): {}",
                     dbparse::CONFIG_YAML_FILE
-                )); None
+                ));
+                None
             });
             std::fs::remove_file(dbparse::CONFIG_YAML_FILE)?;
         }
     } else {
-        let _r : Option<()> = uiopt.and_then(|ui| {
-            ui.inform_user(&*format!(
-                "Would remove Config File (necessary to run): {}",
-                dbparse::CONFIG_YAML_FILE
-            )); None
-        });
+        if remove_config {
+            let _r: Option<()> = uiopt.and_then(|ui| {
+                ui.inform_user(&*format!(
+                    "Would remove Config File (necessary to run): {}",
+                    dbparse::CONFIG_YAML_FILE
+                ));
+                None
+            });
+        }
     }
 
     Ok(())
