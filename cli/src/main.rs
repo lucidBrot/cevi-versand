@@ -68,7 +68,7 @@ fn main() {
             } else {
                 println!("Cleaning Test Run Started. Re-run with -r to run for real...");
             }
-            combine::clean(t.remove_required, !t.not_test_run, Some(&user_interface));
+            combine::clean(t.remove_required, !t.not_test_run, Some(&user_interface)).expect("Failed cleaning. You might need to delete some files manually. Run a test run to see which files all would be removed. Might have failed because those files were not there in the first place.");
         },
     }
 

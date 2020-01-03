@@ -1,4 +1,5 @@
 ./people.json
+inject_people.yaml
 target
 output_versand.pdf
 config.yaml
