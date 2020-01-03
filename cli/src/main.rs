@@ -42,8 +42,8 @@ struct CleanSubcommand {
     remove_required: bool,
 }
 
-/// A subcommand for running when config.yaml is set up
 #[derive(Clap)]
+/// A subcommand for running when config.yaml is set up
 struct RunSubcommand {}
 
 fn main() {
@@ -76,9 +76,11 @@ fn main() {
             combine::clean(t.remove_required, !t.not_test_run, Some(&ui)).expect("Failed cleaning. You might need to delete some files manually. Run a test run to see which files all would be removed. Might have failed because those files were not there in the first place.");
         },
         SubCommand::run(c) => {
-            ui.inform_user("Running... - If you have not set up config.yaml, you will need to fill in the template after this finishes, then try again.");
+            ui.inform_user("Running...");
 
             combine::main(&ui);
+
+            ui.inform_user("Done. If above output looks problematic - check the output pdf anyway. Perhaps the program fixed everything on its own.");
         },
     }
 
