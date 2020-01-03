@@ -47,10 +47,10 @@ fn serialize_couvert_infos(yaml_text: &str) {
 }
 
 pub fn create_injection_yaml_file_template() -> Result<(), std::io::Error> {
-        let mut fi = create_injection_yaml_file_empty()?;
-        // if new file created, write template string to it
-        fi.write_all(INJECTION_YAML_FILE_TEMPLATE.as_bytes())?;
-        Ok(())
+    let mut fi = create_injection_yaml_file_empty()?;
+    // if new file created, write template string to it
+    fi.write_all(INJECTION_YAML_FILE_TEMPLATE.as_bytes())?;
+    Ok(())
 }
 
 pub fn create_injection_yaml_file_empty() -> Result<std::fs::File, std::io::Error> {

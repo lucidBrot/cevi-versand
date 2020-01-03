@@ -26,7 +26,12 @@ enum SubCommand {
 
 /// A subcommand for cleaning files
 #[derive(Clap)]
-#[clap(name = "clean", version = "1.3", author = "Someone Else", about = "ASDF")]
+#[clap(
+    name = "clean",
+    version = "1.3",
+    author = "Someone Else",
+    about = "ASDF"
+)]
 struct CleanSubcommand {
     /// Testrun, Only show what would be removed
     #[clap(short = "r", long = "not-test-run")]
