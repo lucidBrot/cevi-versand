@@ -16,14 +16,13 @@ struct Opts {
 }
 
 #[derive(Clap)]
-#[allow(non_camel_case_types)]
 enum SubCommand {
     Test(Test),
 }
 
 /// A subcommand for controlling testing
 #[derive(Clap)]
-#[clap(name = "test", version = "1.3", author = "Someone Else")]
+#[clap(name = "test", version = "1.3", author = "Someone Else", about = "about text")]
 struct Test {
     /// Print debug info
     #[clap(short = "d")]
