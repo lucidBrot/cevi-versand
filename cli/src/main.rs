@@ -56,6 +56,9 @@ fn main() {
         3 | _ => println!("Don't be crazy"),
     }
 
+    use ui::UserInteractor;
+    let user_interface = ui::CliUi {};
+
     // You can handle information about subcommands by requesting their matches by name
     // (as below), requesting just the name used, or both at the same time
     match opts.subcmd {
@@ -65,7 +68,7 @@ fn main() {
             } else {
                 println!("Cleaning Test Run Started. Re-run with -r to run for real...");
             }
-                combine::clean(t.remove_required, !t.not_test_run, None);
+                combine::clean(t.remove_required, !t.not_test_run, Some(&user_interface));
         },
     }
 
