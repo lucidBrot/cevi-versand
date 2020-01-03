@@ -164,6 +164,9 @@ dependencies = [
 [[package]]
 name = "cli"
 version = "0.1.0"
+dependencies = [
+ "clap 3.0.0-beta.1 (git+https://github.com/clap-rs/clap.git?rev=fc359e3)",
+]
 
 [[package]]
 name = "cloudabi"
