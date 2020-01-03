@@ -12,12 +12,6 @@ use combine;
     about = "cevi-versand generiert Couverts, warnt vor fehlenden infos, kombiniert Personen die zusammen wohnen in einen einzelnen Umschlag, und fügt relevante Informationen für das Versandteam hinzu."
 )]
 struct Opts {
-    /// Sets a custom config file. Could have been an Option<T> with no default too
-    #[clap(short = "c", long = "config", default_value = "default.conf")]
-    config: String,
-    /// A level of verbosity, and can be used multiple times
-    #[clap(short = "v", long = "verbose", parse(from_occurrences))]
-    verbose: i32,
     #[clap(subcommand)]
     subcmd: SubCommand,
 }
@@ -32,6 +26,7 @@ enum SubCommand {
 
 /// A subcommand for cleaning files
 #[derive(Clap)]
+#[clap(name = "test", version = "1.3", author = "Someone Else", about = "ASDF")]
 struct CleanSubcommand {
     /// Testrun, Only show what would be removed
     #[clap(short = "r", long = "not-test-run")]
@@ -59,18 +54,6 @@ struct SetupSubcommand {
 
 fn main() {
     let opts: Opts = Opts::parse();
-
-    // Gets a value for config if supplied by user, or defaults to "default.conf"
-    println!("Value for config: {}", opts.config);
-
-    // Vary the output based on how many times the user used the "verbose" flag
-    // (i.e. 'myprog -v -v -v' or 'myprog -vvv' vs 'myprog -v'
-    match opts.verbose {
-        0 => println!("No verbose info"),
-        1 => println!("Some verbose info"),
-        2 => println!("Tons of verbose info"),
-        3 | _ => println!("Don't be crazy"),
-    }
 
     use ui::UserInteractor;
     let ui = ui::CliUi {};
