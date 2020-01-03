@@ -27,6 +27,7 @@ struct Opts {
 enum SubCommand {
     clean(CleanSubcommand),
     run(RunSubcommand),
+    setup(SetupSubcommand),
 }
 
 /// A subcommand for cleaning files
@@ -44,6 +45,17 @@ struct CleanSubcommand {
 #[derive(Clap)]
 /// A subcommand for running when config.yaml is set up
 struct RunSubcommand {}
+
+#[derive(Clap)]
+/// A subcommand that helps you set up the config.yaml file
+struct SetupSubcommand {
+    #[clap(short = "e", long = "email")]
+    email: Option<String>,
+    #[clap(short = "p", long = "password")]
+    password: Option<String>,
+    #[clap(short = "t", long = "service-token")]
+    service_token: Option<String>,
+}
 
 fn main() {
     let opts: Opts = Opts::parse();
@@ -81,6 +93,30 @@ fn main() {
 
             ui.inform_user("Done. If above output looks problematic - check the output pdf anyway. Perhaps the program fixed everything on its own.");
         },
+        SubCommand::setup(s) => {
+            let api_token = 
+                if s.service_token.is_none() && ( s.email.is_none() || s.password.is_none() ) {
+                    ui.interactively_get_auth_token().expect("Failed to get authentication token data. Aborting.").user_token
+                } else if s.email.is_some() && s.password.is_some() {
+                    dbparse::get_auth_token(s.email.clone().unwrap().as_ref(), s.password.unwrap().as_ref()).expect("Failed to get authentication token. Aborting!")
+                } else {
+                    "".to_string()
+                };
+
+            let service_token = if s.service_token.is_none() {
+                "".to_string()
+            } else {
+                s.service_token.unwrap()
+            };
+
+            ui.inform_user("Overwriting config file...");
+            dbparse::generate_template_config_file(
+                s.email.unwrap().as_ref(),
+                api_token.as_ref(),
+                service_token.as_ref(),
+                ).expect("Something went wrong while generating the config file. Sorry!");
+            ui.inform_user("Set Up config file. Try the subcommand `run` now.");
+            }
     }
 
     // more program logic goes here...

@@ -10,3 +10,4 @@ edition = "2018"
 clap = { git = "https://github.com/clap-rs/clap.git", rev = "fc359e3", features = ["color", "suggestions", "derive"] }
 combine = { path = "../combine" }
 ui = { path = "../ui" }
+dbparse = { path = "../dbparse" }
