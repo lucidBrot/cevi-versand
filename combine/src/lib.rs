@@ -346,6 +346,12 @@ pub fn clean(
     test_run: bool,
     uiopt: Option<&dyn ui::UserInteractor>,
 ) -> std::io::Result<()> {
+    // in order to delete the files, we create the files first if they don't exist. Because that's
+    // the easiest, if hackiest, way to avoid crashing because we try to remove a file that isn't
+    // there. I know that somebody could delete the file in the meantime... well if they do that,
+    // they deserve the crash!
+    use std::fs::OpenOptions;
+
     // delete injection file
     if !test_run {
         let _r: Option<()> = uiopt.and_then(|ui| {
@@ -355,6 +361,13 @@ pub fn clean(
             ));
             None
         });
+        // see note at the start of this function
+        {
+            let _file = OpenOptions::new()
+                .write(true)
+                .create(true)
+                .open(crate::injection::INJECTION_YAML_FILE_PATH);
+        }
         std::fs::remove_file(crate::injection::INJECTION_YAML_FILE_PATH)?;
         // create empty injection file template
         crate::injection::create_injection_yaml_file_template()?;
@@ -377,6 +390,13 @@ pub fn clean(
             ));
             None
         });
+        // see note at the start of this function
+        {
+            let _file = OpenOptions::new()
+                .write(true)
+                .create(true)
+                .open(dbparse::MAPPING_YAML_FILE);
+        }
         std::fs::remove_file(dbparse::MAPPING_YAML_FILE)?;
     } else {
         let _r: Option<()> = uiopt.and_then(|ui| {
@@ -398,6 +418,13 @@ pub fn clean(
                 ));
                 None
             });
+            // see note at the start of this function
+            {
+                let _file = OpenOptions::new()
+                    .write(true)
+                    .create(true)
+                    .open(dbparse::CONFIG_YAML_FILE);
+            }
             std::fs::remove_file(dbparse::CONFIG_YAML_FILE)?;
         }
     } else {
