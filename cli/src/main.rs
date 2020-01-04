@@ -19,8 +19,13 @@ struct Opts {
 #[derive(Clap)]
 #[allow(non_camel_case_types)]
 enum SubCommand {
+    /// Removes configuration files and replaces them with an empty template.
     clean(CleanSubcommand),
+    /// Runs the whole chain and sets up template files for any configuration files that are
+    /// missing.
     run(RunSubcommand),
+    /// Helps you set up the config.yaml file to some extent. You WILL have to manually edit it
+    /// though, for adding the endpoints. So might as well do everything manually.
     setup(SetupSubcommand),
 }
 
