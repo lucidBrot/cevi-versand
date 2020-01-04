@@ -39,13 +39,13 @@ pub fn main() {
         });
     }
 
-    let address = vec!["Familie Mink", "Neuwiesenstr. 2", "8332 Russikon"];
+    let address = vec!["Familie Muster", "Musterstr. 2", "8332 Mustrikon"];
     let mut couverts: Vec<CouvertInfo> = vec![CouvertInfo {
         receivers: receivers,
         address: vec_str_to_vec_string(&address),
     }];
 
-    let doc_generated: printpdf::PdfDocumentReference = generate_couverts(&mut couverts, None);
+    let doc_generated: printpdf::PdfDocumentReference = generate_couverts(&mut couverts, None, true);
     let mut buf = std::io::BufWriter::new(std::fs::File::create(filename).expect("What?"));
     doc_generated.save(&mut buf).expect("The Fuck?");
 }
@@ -67,6 +67,7 @@ pub fn vec_str_to_vec_string(v: &Vec<&str>) -> Vec<String> {
 pub fn generate_couverts(
     couverts: &mut Vec<CouvertInfo>,
     user_interface: Option<&dyn ui::UserInteractor>,
+    print_sidebadges: bool,
 ) -> printpdf::PdfDocumentReference {
     use printpdf::*;
 
@@ -194,26 +195,28 @@ pub fn generate_couverts(
             current_layer.end_text_section();
         }
 
-        // numbers in sidebadge
-        let rolecount_dict: HashMap<Role, usize> = couvert.receivers.iter().fold(
-            /*init:*/ HashMap::new(),
-            /*f(map, item):*/
-            |mut map, Receiver { role: item, .. }| {
-                map.insert(item.clone(), 1 + map.get(&item).unwrap_or(&0));
-                return map;
-            },
-        );
+        if print_sidebadges {
+            // numbers in sidebadge
+            let rolecount_dict: HashMap<Role, usize> = couvert.receivers.iter().fold(
+                /*init:*/ HashMap::new(),
+                /*f(map, item):*/
+                |mut map, Receiver { role: item, .. }| {
+                    map.insert(item.clone(), 1 + map.get(&item).unwrap_or(&0));
+                    return map;
+                },
+            );
 
-        // position sample sidebadge
-        let badge_spacing_y = Mm(15.0);
-        draw_sidebadges(
-            &current_layer,
-            &font_calibri,
-            badge_text_font_size,
-            (border_wh, border_wh),
-            badge_spacing_y,
-            rolecount_dict,
-        );
+            // position sidebadge
+            let badge_spacing_y = Mm(15.0);
+            draw_sidebadges(
+                &current_layer,
+                &font_calibri,
+                badge_text_font_size,
+                (border_wh, border_wh),
+                badge_spacing_y,
+                rolecount_dict,
+            );
+        }
     }
 
     if let Some(ui) = user_interface {
