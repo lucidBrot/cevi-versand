@@ -7,7 +7,7 @@ struct Opts {
     #[clap(short = "d", conflicts_with = "not_debug")]
     debug: bool,
     /// Explicitly disable debug printing
-    #[clap(short = "D", conflicts_with = "debug")]
+    #[clap(short = "D")]
     not_debug: bool,
 
 }
