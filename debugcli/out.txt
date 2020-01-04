@@ -1,0 +1,53 @@
+Friendly_Name /cygdrive/c/Users/eric/Documents/projects/cevi-versand/debugcli (develop)
+$ cargo run -- -h
+    Finished dev [unoptimized + debuginfo] target(s) in 0.06s
+     Running `target\debug\debugcli.exe -h`
+debugcli 0.1.0
+Eric Mink <eric@mink.li>
+
+USAGE:
+    debugcli.exe [FLAGS]
+
+FLAGS:
+    -d               Print debug info
+    -h, --help       Prints help information
+    -D               Explicitly disable debug printing
+    -V, --version    Prints version information
+
+Friendly_Name /cygdrive/c/Users/eric/Documents/projects/cevi-versand/debugcli (develop)
+$ cargo run --
+    Finished dev [unoptimized + debuginfo] target(s) in 0.07s
+     Running `target\debug\debugcli.exe`
+Defaulting to testing with debug output off
+Friendly_Name /cygdrive/c/Users/eric/Documents/projects/cevi-versand/debugcli (develop)
+$ cargo run -- -D
+    Finished dev [unoptimized + debuginfo] target(s) in 0.06s
+     Running `target\debug\debugcli.exe -D`
+testing with debug output off.
+Friendly_Name /cygdrive/c/Users/eric/Documents/projects/cevi-versand/debugcli (develop)
+$ cargo run -- -d
+    Finished dev [unoptimized + debuginfo] target(s) in 0.06s
+     Running `target\debug\debugcli.exe -d`
+testing with debug output on.
+Friendly_Name /cygdrive/c/Users/eric/Documents/projects/cevi-versand/debugcli (develop)
+$ cargo run -- -dD
+    Finished dev [unoptimized + debuginfo] target(s) in 0.06s
+     Running `target\debug\debugcli.exe -dD`
+error: The argument '-d' cannot be used with '-d'
+
+USAGE:
+    debugcli.exe [FLAGS]
+
+For more information try --help
+error: process didn't exit successfully: `target\debug\debugcli.exe -dD` (exit code: 1)
+Friendly_Name /cygdrive/c/Users/eric/Documents/projects/cevi-versand/debugcli (develop)
+$ cargo run -- -Dd
+    Finished dev [unoptimized + debuginfo] target(s) in 0.06s
+     Running `target\debug\debugcli.exe -Dd`
+error: The argument '-D' cannot be used with '-D'
+
+USAGE:
+    debugcli.exe [FLAGS]
+
+For more information try --help
+error: process didn't exit successfully: `target\debug\debugcli.exe -Dd` (exit code: 1)
