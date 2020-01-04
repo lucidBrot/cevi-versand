@@ -30,7 +30,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "clap"
 version = "3.0.0-beta.1"
-source = "git+https://github.com/clap-rs/clap.git?rev=f402f7a#f402f7a113a4ca85fc1e35676239fd56df6b015e"
+source = "git+https://github.com/clap-rs/clap.git?rev=1c3958c#1c3958c56eca35235ed6837c666adb8ede979961"
 dependencies = [
  "ansi_term 0.12.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "atty 0.2.13 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -57,7 +57,7 @@ dependencies = [
 name = "debugcli"
 version = "0.1.0"
 dependencies = [
- "clap 3.0.0-beta.1 (git+https://github.com/clap-rs/clap.git?rev=f402f7a)",
+ "clap 3.0.0-beta.1 (git+https://github.com/clap-rs/clap.git?rev=1c3958c)",
 ]
 
 [[package]]
@@ -151,7 +151,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum atty 0.2.13 (registry+https://github.com/rust-lang/crates.io-index)" = "1803c647a3ec87095e7ae7acfca019e98de5ec9a7d01343f611cf3152ed71a90"
 "checksum autocfg 0.1.7 (registry+https://github.com/rust-lang/crates.io-index)" = "1d49d90015b3c36167a20fe2810c5cd875ad504b39cff3d4eae7977e6b7c1cb2"
 "checksum bitflags 1.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693"
-"checksum clap 3.0.0-beta.1 (git+https://github.com/clap-rs/clap.git?rev=f402f7a)" = "<none>"
+"checksum clap 3.0.0-beta.1 (git+https://github.com/clap-rs/clap.git?rev=1c3958c)" = "<none>"
 "checksum clap_derive 0.3.0 (git+https://github.com/clap-rs/clap_derive)" = "<none>"
 "checksum indexmap 1.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "712d7b3ea5827fcb9d4fda14bf4da5f136f0db2ae9c8f4bd4e2d1c6fde4e6db2"
 "checksum libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)" = "d515b1f41455adea1313a4a2ac8a8a477634fbae63cc6100e3aebb207ce61558"
