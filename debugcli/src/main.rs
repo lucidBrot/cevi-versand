@@ -23,7 +23,6 @@ enum SubCommand {
 }
 
 #[derive(Clap)]
-#[clap(name = "test", version = "1.3", author = "Someone Else", about = "about text")]
 struct Test {
     /// Print debug info
     #[clap(short = "d")]
