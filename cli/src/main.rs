@@ -31,12 +31,6 @@ enum SubCommand {
 
 /// A subcommand for cleaning files
 #[derive(Clap)]
-#[clap(
-    name = "clean",
-    version = "1.3",
-    author = "Someone Else",
-    about = "ASDF"
-)]
 struct CleanSubcommand {
     /// Testrun, Only show what would be removed
     #[clap(short = "r", long = "not-test-run")]
@@ -48,11 +42,9 @@ struct CleanSubcommand {
 }
 
 #[derive(Clap)]
-/// A subcommand for running when config.yaml is set up
 struct RunSubcommand {}
 
 #[derive(Clap)]
-/// A subcommand that helps you set up the config.yaml file
 struct SetupSubcommand {
     #[clap(short = "e", long = "email")]
     email: Option<String>,
