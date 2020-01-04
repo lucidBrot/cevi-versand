@@ -77,7 +77,7 @@ fn main() {
         SubCommand::run(_c) => {
             ui.inform_user("Running...");
 
-            combine::main(&ui);
+            combine::main(&ui, &combine::PrintingParameters::new());
 
             ui.inform_user("Done. If above output looks problematic - check the output pdf anyway. Perhaps the program fixed everything on its own.");
         },

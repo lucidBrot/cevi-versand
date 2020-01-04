@@ -19,11 +19,12 @@ pub fn get_USER_RELEVANT_FILES() -> Vec<&'static dyn AsRef<std::path::Path>> {
 
 pub fn main_cli_ui() {
     let user_interface = ui::CliUi {};
-    main(&user_interface);
+    let params = PrintingParameters::new().print_sidebadges(true);
+    main(&user_interface, &params);
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-pub fn main(user_interface: &dyn ui::UserInteractor) {
+pub fn main(user_interface: &dyn ui::UserInteractor, printing_parameters: &PrintingParameters) {
     let dbparse_interactor = DbparseRedirector {
         user_interface: Some(user_interface),
     };
@@ -51,7 +52,7 @@ pub fn main(user_interface: &dyn ui::UserInteractor) {
     let doc_generated = pdfgen::generate_couverts(
         &mut couvert_infos,
         Some(user_interface),
-        /*print sidebadges*/ true,
+        printing_parameters.print_sidebadges,
     );
     let mut outfile =
         std::io::BufWriter::new(std::fs::File::create(filename).expect("Failed to create file..."));
@@ -63,6 +64,22 @@ pub fn main(user_interface: &dyn ui::UserInteractor) {
 #[cfg(target_arch = "wasm32")]
 pub fn main() {
     println!("combine: main() not implemented for wasm32");
+}
+
+pub struct PrintingParameters {
+    print_sidebadges: bool,
+}
+impl PrintingParameters {
+    pub fn new() -> Self {
+        PrintingParameters {
+            print_sidebadges : true,
+        }
+    }
+
+    pub fn print_sidebadges(mut self, b: bool) -> Self {
+        self.print_sidebadges = b;
+        self
+    }
 }
 
 fn merge_households<'b>(
