@@ -45,7 +45,11 @@ struct CleanSubcommand {
 }
 
 #[derive(Clap)]
-struct RunSubcommand {}
+struct RunSubcommand {
+    /// Disables the printing of the flag-like sidebadges.
+    #[clap(short = "S", long = "disable-sidebadges")]
+    disable_sidebadges: bool,
+}
 
 #[derive(Clap)]
 struct SetupSubcommand {
@@ -74,10 +78,10 @@ fn main() {
             }
             combine::clean(t.remove_required, !t.not_test_run, Some(&ui)).expect("Failed cleaning. You might need to delete some files manually. Run a test run to see which files all would be removed. Might have failed because those files were not there in the first place.");
         },
-        SubCommand::run(_c) => {
+        SubCommand::run(c) => {
             ui.inform_user("Running...");
 
-            combine::main(&ui, &combine::PrintingParameters::new());
+            combine::main(&ui, &combine::PrintingParameters::new().print_sidebadges(!c.disable_sidebadges));
 
             ui.inform_user("Done. If above output looks problematic - check the output pdf anyway. Perhaps the program fixed everything on its own.");
         },
