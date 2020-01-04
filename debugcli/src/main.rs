@@ -17,10 +17,11 @@ struct Opts {
 
 #[derive(Clap)]
 enum SubCommand {
+    /// A subcommand for controlling testing
+    #[clap(name = "test", version = "1.3", author = "Someone Else", about = "about text")]
     Test(Test),
 }
 
-/// A subcommand for controlling testing
 #[derive(Clap)]
 #[clap(name = "test", version = "1.3", author = "Someone Else", about = "about text")]
 struct Test {
