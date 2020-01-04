@@ -47,8 +47,14 @@ struct CleanSubcommand {
 #[derive(Clap)]
 struct RunSubcommand {
     /// Disables the printing of the flag-like sidebadges.
-    #[clap(short = "S", long = "disable-sidebadges")]
+    #[clap(short = "S", long = "disable-sidebadges", conflicts_with = "enable_sidebadges")]
     disable_sidebadges: bool,
+
+    /// Enables the printing of the flag-like sidebadges. (default)
+    // Only there for nicer usage, does not do anything
+    #[clap(short = "s", long = "enable-sidebadges", conflicts_with = "disable_sidebadges")]
+    #[allow(dead_code)]
+    enable_sidebadges: bool,
 }
 
 #[derive(Clap)]
