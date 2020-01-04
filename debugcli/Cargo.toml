@@ -7,6 +7,6 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-clap = { git = "https://github.com/clap-rs/clap.git", rev = "1c3958c", features = ["color", "suggestions", "derive"] }
+clap = { git = "https://github.com/clap-rs/clap.git", rev = "1c3958c", features = ["debug", "color", "suggestions", "derive"] }
 
 [workspace]
