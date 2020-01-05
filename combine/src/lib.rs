@@ -41,7 +41,7 @@ pub fn main(user_interface: &dyn ui::UserInteractor, printing_parameters: &Print
     user_interface.on_parsing_finished();
 
     let mut couvert_infos: Vec<pdfgen::CouvertInfo> =
-        merge_households(&mut dataset.people, &mapping, user_interface);
+        merge_households(&mut dataset.people, &mapping, user_interface, !printing_parameters.merge_flatmates);
     injection::inject_couvert_infos(&mut couvert_infos, user_interface);
     couvert_infos.sort_by(|a: &pdfgen::CouvertInfo, b: &pdfgen::CouvertInfo| {
         a.receivers[0].group.cmp(&b.receivers[0].group)
@@ -73,13 +73,15 @@ pub struct PrintingParameters {
     print_sidebadges: bool,
     print_groups: bool,
     print_names: bool,
+    merge_flatmates: bool,
 }
 impl PrintingParameters {
     pub fn new() -> Self {
         PrintingParameters {
             print_sidebadges : true,
             print_groups: true,
-            print_names: true
+            print_names: true,
+            merge_flatmates: true,
         }
     }
 
@@ -97,12 +99,18 @@ impl PrintingParameters {
         self.print_names = b;
         self
     }
+
+    pub fn merge_flatmates (mut self, b: bool) -> Self {
+        self.merge_flatmates = b;
+        self
+    }
 }
 
 fn merge_households<'b>(
     people: &'b mut Vec<dbparse::ReasonablePerson>,
     mapping: &dbparse::mapping::GroupMapping,
     user_interface: &dyn ui::UserInteractor,
+    normalize_but_dont_merge: bool,
 ) -> Vec<pdfgen::CouvertInfo> {
     assert!(people.len() > 0);
 
@@ -149,7 +157,7 @@ fn merge_households<'b>(
         let addr_family = get_address(person, true);
         let receiver = into_receiver(person, &mapping);
 
-        if addr_family == previous_family_address {
+        if addr_family == previous_family_address && !normalize_but_dont_merge {
             // add to previous couvert another receiver
             couvert_infos.last_mut().unwrap().receivers.push(receiver);
             couvert_infos.last_mut().unwrap().address = addr_family;

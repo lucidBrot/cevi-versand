@@ -57,27 +57,38 @@ struct RunSubcommand {
     #[allow(dead_code)]
     enable_sidebadges: bool,
 
-    /// Disables the printing of the topside groups
+    /// Disables the printing of the topside groups.
     #[clap(short = "G", long = "disable-groups")]
     disable_groups: bool,
 
-    /// enables the printing of the topside groups
+    /// Enables the printing of the topside groups. (default)
     // Another default that does not do anything except tht it allows explicit specification of the
     // action because it makes -G error when -g is specified.
     #[clap(short = "g", long = "enable-groups", conflicts_with = "disable_groups")]
     #[allow(dead_code)]
     enable_groups: bool,
 
-    /// Disables the printing of the topside (nick-)names
+    /// Disables the printing of the topside (nick-)names.
     #[clap(short = "N", long = "disable-nicknames")]
     disable_nicknames: bool,
 
-    /// enables the printing of the topside (nick-)names
+    /// Enables the printing of the topside (nick-)names. (default)
     // Another default that does not do anything except tht it allows explicit specification of the
     // action because it makes -N error when -n is specified.
     #[clap(short = "n", long = "enable-nicknames", conflicts_with = "disable_nicknames")]
     #[allow(dead_code)]
     enable_nicknames: bool,
+
+    /// Disables merging people who live in the same household into one single envelope.
+    #[clap(short = "M", long = "disable-merging-flatmates")]
+    disable_merging_flatmates: bool,
+
+    /// Enables the merging of people who live in the same household into one single envelope.
+    /// (default)
+    // Another default. See above why this is ignored.
+    #[clap(short = "m", long = "enable-merging-flatmates", conflicts_with = "disable_merging_flatmates")]
+    #[allow(dead_code)]
+    enable_merging_flatmates: bool,
 
 }
 
@@ -111,7 +122,7 @@ fn main() {
         SubCommand::run(c) => {
             ui.inform_user("Running...");
 
-            combine::main(&ui, &combine::PrintingParameters::new().print_sidebadges(!c.disable_sidebadges).print_groups(!c.disable_groups).print_names(!c.disable_nicknames));
+            combine::main(&ui, &combine::PrintingParameters::new().print_sidebadges(!c.disable_sidebadges).print_groups(!c.disable_groups).print_names(!c.disable_nicknames).merge_flatmates(!c.disable_merging_flatmates));
 
             ui.inform_user("Done. If above output looks problematic - check the output pdf anyway. Perhaps the program fixed everything on its own.");
         },
