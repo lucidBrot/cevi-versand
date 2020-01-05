@@ -6,6 +6,7 @@ use std::env;
 const CALIBRI_FONT: &'static [u8] = include_bytes!("../res/fonts/calibri.ttf");
 const CALIBRI_LIGHT_FONT: &'static [u8] = include_bytes!("../res/fonts/calibriL.ttf");
 const LOGO_BMP_BYTES: &'static [u8] = include_bytes!("../res/images/logo.bmp");
+const TOOL_LOGO_PNG_BYTES: &'static [u8] = include_bytes!("../res/images/icon.bmp");
 
 const VERYBOSE: bool = false;
 
@@ -95,12 +96,12 @@ pub fn generate_couverts(
         PdfDocumentReference,
         indices::PdfPageIndex,
         indices::PdfLayerIndex,
-    ) = PdfDocument::new(
-        document_title,
-        page_width,
-        page_height,
-        /*initial_layer_name*/ "Layer 1",
-    );
+        ) = PdfDocument::new(
+            document_title,
+            page_width,
+            page_height,
+            /*initial_layer_name*/ "Layer 1",
+            );
 
     // load a font
     let mut font_reader = std::io::Cursor::new(CALIBRI_FONT.as_ref());
@@ -113,16 +114,26 @@ pub fn generate_couverts(
         .add_external_font(&mut font_reader_light)
         .expect("Failed to load font");
 
+    // draw logo on first page
+    let curr_info_page_layer = doc.get_page(info_page).get_layer(info_layer);
+    add_bitmap_to_layer(
+        &curr_info_page_layer,
+        Some(Mm(13.)),
+        Some(Mm(-21.)),
+        /*scaling x:*/ Some(8.0 * 0.16),
+        /*scaling y:*/ Some(8.0 * 0.16),
+        &TOOL_LOGO_PNG_BYTES
+        );
+
     // write debug info to page
     let curr_time = format!("Local Time: {}", chrono::offset::Local::now());
-    let curr_info_page_layer = doc.get_page(info_page).get_layer(info_layer);
     curr_info_page_layer.use_text(
         curr_time,
         debug_font_size,
         debug_offset_x,
         debug_offset_y,
         &font_calibri,
-    );
+        );
     let sorting_text = format!("Sortierung der (cevi-)Namen im selben Couvert alphabetisch.");
     let sorting_text_2 =
         format!("Sortierung der Couverts nach der Gruppe der ersten Person im Couvert.");
@@ -132,16 +143,16 @@ pub fn generate_couverts(
         debug_offset_x,
         debug_offset_y - Mm(18.0),
         &font_calibri,
-    );
+        );
     curr_info_page_layer.use_text(
         sorting_text_2,
         debug_font_size,
         debug_offset_x,
         debug_offset_y - Mm(18.0 + 10.0),
         &font_calibri,
-    );
+        );
 
-    let donation_texts = vec!["Lizenzierungschecks sind mühsam für alle, deshalb ist dieses Tool ohne DRM.", "Testet es gratis, und wenn es gut funktioniert, spendet mir was!", "PayPal: https://www.paypal.me/EricMink"];
+    let donation_texts = vec!["Lizenzierungschecks sind mühsam für alle, deshalb ist dieses Tool ohne DRM.", "Testet es gratis, und wenn es gut funktioniert, spendet mir was für jede Verwendung!", "PayPal: https://www.paypal.me/EricMink/20CHF"];
     let mut i: usize = 0;
     for donation_text in donation_texts {
         curr_info_page_layer.use_text(
@@ -176,7 +187,8 @@ pub fn generate_couverts(
             Some(page_height - Mm(16.0) - border_wh),
             /*scaling x:*/ Some(8.0 * 0.15),
             /*scaling y:*/ Some(8.0 * 0.15),
-        );
+            &LOGO_BMP_BYTES
+            );
 
         // draw names
         draw_names(
@@ -186,10 +198,10 @@ pub fn generate_couverts(
             (names_offset_x, names_offset_y),
             print_top_groups, print_top_names,
             couvert
-                .receivers
-                .iter()
-                .map(|r: &Receiver| (&r.nickname as &str, &r.group as &str)),
-        );
+            .receivers
+            .iter()
+            .map(|r: &Receiver| (&r.nickname as &str, &r.group as &str)),
+            );
 
         // position sample address
         {
@@ -203,7 +215,7 @@ pub fn generate_couverts(
             current_layer.set_text_rendering_mode(
                 /*Fill, Stroke, FillStroke, Invisible, FillClip, StrokeClip, FillStrokeClip, Clip*/
                 TextRenderingMode::Fill,
-            );
+                );
 
             for line in &(couvert.address) {
                 current_layer.write_text(line.clone(), &font_addresses);
@@ -222,7 +234,7 @@ pub fn generate_couverts(
                     map.insert(item.clone(), 1 + map.get(&item).unwrap_or(&0));
                     return map;
                 },
-            );
+                );
 
             // position sidebadge
             let badge_spacing_y = Mm(15.0);
@@ -233,7 +245,7 @@ pub fn generate_couverts(
                 (border_wh, border_wh),
                 badge_spacing_y,
                 rolecount_dict,
-            );
+                );
         }
     }
 
@@ -371,10 +383,11 @@ fn add_bitmap_to_layer(
     posy: Option<printpdf::Mm>,
     scalex: Option<f64>,
     scaley: Option<f64>,
+    image_bytes: &dyn AsRef<[u8]>
 ) {
     use image::bmp::BMPDecoder;
     use printpdf::*;
-    let mut logo_reader = std::io::Cursor::new(LOGO_BMP_BYTES.as_ref());
+    let mut logo_reader = std::io::Cursor::new(image_bytes.as_ref());
     let decoder = BMPDecoder::new(&mut logo_reader).unwrap();
     let image = Image::try_from(decoder).unwrap();
     // translate x, translate y, rotate, scale x, scale y, dpi
