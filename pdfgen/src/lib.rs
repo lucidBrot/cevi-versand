@@ -118,10 +118,10 @@ pub fn generate_couverts(
     let curr_info_page_layer = doc.get_page(info_page).get_layer(info_layer);
     add_bitmap_to_layer(
         &curr_info_page_layer,
-        Some(Mm(13.)),
-        Some(Mm(-21.)),
-        /*scaling x:*/ Some(8.0 * 0.16),
-        /*scaling y:*/ Some(8.0 * 0.16),
+        Some(Mm(65.)),
+        Some(Mm(-10.)),
+        /*scaling x:*/ Some(8.0 * 0.08),
+        /*scaling y:*/ Some(8.0 * 0.08),
         &TOOL_LOGO_PNG_BYTES
         );
 
@@ -152,7 +152,7 @@ pub fn generate_couverts(
         &font_calibri,
         );
 
-    let donation_texts = vec!["Lizenzierungschecks sind mühsam für alle, deshalb ist dieses Tool ohne DRM.", "Testet es gratis, und wenn es gut funktioniert, spendet mir was für jede Verwendung!", "PayPal: https://www.paypal.me/EricMink/20CHF"];
+    let donation_texts = vec!["Lizenzierungschecks sind mühsam für alle, deshalb ist dieses Tool ohne DRM.", "Testet es gratis, und wenn es gut funktioniert, spendet mir was für jede Verwendung!", "PayPal: https://www.paypal.me/EricMink/20CHF", "Lg Levanzo];
     let mut i: usize = 0;
     for donation_text in donation_texts {
         curr_info_page_layer.use_text(
