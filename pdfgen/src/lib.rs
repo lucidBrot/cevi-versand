@@ -141,7 +141,7 @@ pub fn generate_couverts(
         &font_calibri,
     );
 
-    let donation_texts = vec!["Lizenzierungschecks sind mühsam für alle, deshalb ist dieses Tool ohne DRM.", "Testet es gratis, und wenn es gut funktioniert, spendet mir was!"];
+    let donation_texts = vec!["Lizenzierungschecks sind mühsam für alle, deshalb ist dieses Tool ohne DRM.", "Testet es gratis, und wenn es gut funktioniert, spendet mir was!", "PayPal: https://www.paypal.me/EricMink"];
     let mut i: usize = 0;
     for donation_text in donation_texts {
         curr_info_page_layer.use_text(
