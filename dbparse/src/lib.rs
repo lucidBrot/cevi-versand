@@ -44,7 +44,7 @@ const CONFIG_YAML_FILLABLE_TEMPLATE: &str = r###"db_conf:
     # sowie die filter_id
     # Ersetze sie durch die gruppen-id und filter-id, die du verwenden möchtest.
     # Bei login-type SECURE sind die links generell von der Form
-    #    https://db.cevi.ch/groups/2423/people.json?token=[api_token]
+    #    https://db.cevi.ch/groups/2423/people.json?token=[service_token]
     # nur mit geschweiften Klammern {} statt eckigen Klammern [].
     # Bei login-type USERTOKEN sind die links generell von der Form
     #    https://db.cevi.ch/groups/2423/people.json?user_email=[login_email]&user_token=[api_token]

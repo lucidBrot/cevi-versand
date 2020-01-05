@@ -3,87 +3,90 @@ A better tool for generating envelopes from our database
 
 ![icon](./ui_/icon.png)
 
+### Quick Start
+
+```bash
+cv.exe setup -t "MyS3rviceToken"
+vim config.yaml # add endpoints, as outlined in the section "Setup"
+cv.exe run
+```
+
+### Help
+
+Every subcommand features the `-h` flag for usage help. E.g. `cv.exe -h` or `cv.exe setup -h`.
+
 ## Setup
 
-Run the program once and it will generate you a `config.yaml` file that you should fill in.
+`cevi-versand` bietet zwei Authentifikationsmöglichkeiten:
 
-- [ ] TODO: Guide the user through the process of getting a token and a filter link, then automatically re-run
+* `cv.exe setup -e levanzo@cevi.ch -p meinP4sswort` holt ein user-token von der Datenbank und speichert dieses in `config.yaml`. So ist das Passwort nicht gespeichert. Wer möchte, kann `config.yaml` auch selber einrichten, braucht dafür aber natürlich das user-token von der Datenbank.
+  Dieses user-token gibt dem Programm alle Rechte, die der Nutzer auch hat. Deshalb wird diese Authentifikationsart vermutlich mittelfristig von der cevi-db nicht mehr unterstützt.
+* `cv.exe setup -t meinS3rviceToken` erlaubt feineres Management der Rechte, und falls dieses token in die falschen Hände gelangt, ist es einfach, es wieder zu deaktivieren.
+  Um ein service-token einzurichten, siehe den Tab "API-Keys" auf der relevanten Ebene. Der link sieht ungefähr wie `https://db.cevi.ch/groups/115/service_tokens` aus, nur muss `115` ersetzt werden durch die korrekte Ebenen-ID.
+  Das service-token benötigt nur die Rechte "Personen von Untergruppen Lesen".
+* `cv.exe setup -t meinS3rviceToken -e levanzo@cevi.ch -p meinP4sswort`
+  um beide Versionen in `config.yaml` zu hinterlegen.
+
+Die Personen werden von den Datenbank-Endpoints geholt, die von dir in `config.yaml` spezifiziert werden. Dies **muss manuell gemacht werden**.
+Folgende placeholder werden in den Endpoint links automatisch eingesetzt:
+
+* `{api_token}`: Das user-token
+* `{login_email}`: Die e-mail adresse
+* `{service_token}`: Das service-token
+
+Wenn du etwas davon nicht spezifizieren möchtest, setze es auf `""`.
+Beispiel:
 
 ```yaml
 #config.yaml
 db_conf:
-    # paste your api_token here
-    api_token: "th1s1sY0ur70k3n"
-    # der Ceviname zum einloggen in der db.cevi.ch
-    login_name: "GenerischerCeviname"
+    # --- SECURE LOGIN ---
+    # Das service-token muss manuell eingerichtet werden, z.B. unter db.cevi.ch/groups/115/service_tokens
+    #    ( Ersetze die Zahl 115 durch die entsprechende Gruppe, der alle endpoint Gruppen untergeordnet sind )
+    # Dieses service-token benötigt die Permissions "Personen von Untergruppen"
+    # Falls das service_token gesetzt ist, kann in den ENDPOINTS service_token als placeholder verwendet werden.
+    service_token: "asdfasdfasdfasdfa"
+    # --- USERTOKEN LOGIN ---
+    # Das user-token kann automatisch geholt werden. Das ist der einzige Vorteil davon. Dafür ist es weniger
+    # sicher, weil es für den ganzen Nutzer das selbe ist, egal für welche Anwendung.
+    # Das user-token wird hier auch api-token genannt.
+    api_token: "asdfasdfasdfasdf"
     # die e-mail adresse zum einloggen in der db.cevi.ch
-    login_email: "irgendwer@irgendwas.ch"
-    # Der link zu den Leuten in der datenbank. Relevant für dich als user sind nur die Zahlen.
+    login_email: "asdf@asdf.ch"
+    # 
+    # --- ENDPOINTS ---
+    # Der link zu den Leuten in der datenbank. Relevant für dich als user sind nur die Zahlen für die gruppen,
+    # sowie die filter_id
     # Ersetze sie durch die gruppen-id und filter-id, die du verwenden möchtest.
-    # Du kannst beliebig viele links verwenden.
+    # Bei login-type SECURE sind die links generell von der Form
+    #    https://db.cevi.ch/groups/2423/people.json?token=[service_token]
+    # nur mit geschweiften Klammern {} statt eckigen Klammern [].
+    # Bei login-type USERTOKEN sind die links generell von der Form
+    #    https://db.cevi.ch/groups/2423/people.json?user_email=[login_email]&user_token=[api_token]
+    # nur mit geschweiften Klammern {} statt eckigen Klammern [].
     versand_endpoint_fmtstrs:
-    	- "https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email={login_email}&user_token={api_token}"
-    	- "https://db.cevi.ch/groups/2423/people.json?user_email={login_email}&user_token={api_token}"
+        - "https://db.cevi.ch/groups/2423/people.json?token={service_token}"
+        - "https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email={login_email}&user_token={api_token}"
+
 ```
 
-When you have set this up, run the program again.
+### Modify
 
-It will tell you that `mapping.yaml` was missing and has been generated. From now on, running the program will look in `mapping.yaml` to replace any `original_name` with the corresponding `display_name`. That is a way for you to customize the generated pdfs - please only touch the `display_name`.
+Wenn einige der generierten Couverts nicht so aussehen wie gewollt, ist es möglich die vom Programm generierten Dateien zu ändern:
 
-The program might also inform you about any people that are broken. E.g. they lack an address. These are still included as envelopes in the PDF, but will likely cause problems when sending them per post.
+* In `mapping.yaml` können alle `display_name:` modifiziert werden. Beim nächsten Programmdurchlauf wird dann der `original_name` durch den spezifizierten `display_name` ersetzt. Die Zahlen und der `original_name` sollten unverändert gelassen werden.
+* In `inject_people.yaml` können Empfänger spezifiziert werden, die nicht in der Datenbank enthalten sind und trotzdem einen Umschlag erhalten sollen.
 
-The program will at this point also have generated an `inject_people.yaml` file which allows you to add more envelopes, for people that are not in the database.
+## Run
 
-## Targets
+`cv.exe run` ist kurz für `cv.exe run -gnsm` und generiert eine `output_versand.pdf` Datei. Die erste Seite enthält Informationen, die restlichen Seiten sind C5-Couverts.
 
-* [x] Extract data directly from database, or automatically fetch csv
-* [ ] Allow user to intuitively filter who should receive the consignment
-* [x] Generate PDF with relevant information for manual sending, in correct order
-* [x] No dependency on office if possible
-* [x] Acceptable couverts by post standards
+Wenn die Datenbank Personen enthält, deren Adressangaben unvollständig sind wird der Kommandozeilenoutput darüber informieren. Diese Personen werden trotzdem berücksichtigt beim generieren der Couverts, werden aber vermutlich Probleme beim per Post versenden verursachen.
 
-### Extract Data
+### Building
 
-Siehe [API docs](wiki.cevi.ch/index.php/CeviDB_API):
+Not relevant to the average user.
 
-> ### Erstes Login
->
-> Um sich anzumelden, muss ein POST-Request an https://db.cevi.ch/users/sign_in.json gesendet werden. Als Parameter müssen `person[email]` und `person[password]` übergeben werden.
->
-> ```
-> 1 import requests
-> 2 email = "ceviname@cevi.ch"
-> 3 passwort = "123456"
-> 4 res = requests.post('https://db.cevi.ch/users/sign_in.json?person[email]='+email+'&person[password]='+passwort)
-> 5 token = res.json()["people"][0]["authentication_token"]
-> ```
+If you want to clone this repository and build the executable yourself, you might need to install the dependencies for [winres](https://github.com/mxre/winres).
 
-endpoint Versand: https://db.cevi.ch/groups/116/people.json?filter_id=319
-
-sortiert Versand: https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email=secret@mail.ch&user_token=placeholder&sort=address
-
-mitgliederbeitragfilter: filter_id=591
-
-### Filter
-
-* Leiter 
-* Teilnehmer
-* Ehemalige Leiter
-* Ehemalige Alle
-* Trägerkreis
-
-Wer Leiter ist, ist nicht gleichzeitig Teilnehmer. Wer Ehemalig ist, ist nicht gleichzeitig Leiter oder Teilnehmer. Wer Trägerkreis ist, zählt nicht als Ehemalig.
-
-### PDF
-
-* Cevi Logo oben links
-* Namen/Cevinamen und Stufe aller Empfänger oben links, nach alter absteigend sortiert
-* Adresse in Adressfeld
-* Unten links Balken "# Leiter", "# Teilnehmer", "# Ehemalige" etc. Wenn Anzahl 0 dann nicht anzeigen
-* Ausgabe sortiert nach Stufen des ältesten Empfängers
-* Linker Rand: 12mm Abstand bis Werbebereich
-  Unten Rechts: Codierzone 140 x 15 mm
-  Rechter Rand: 12mm Abstand bis Adressfeld
-  Adressfeld: nicht mit Werbung überlappen, nicht mit codierzone überlappen
-  Adressfeld: min (10+38)mm abstand nach oben, min (12+22)mm abstand nach links
-  ![layout couvert post](.\post\screenshot1.png)
+Note that this repository is **currently not licensed to you**. The source code belongs to me, but I do hereby grant you explicit permission to use the executables.
