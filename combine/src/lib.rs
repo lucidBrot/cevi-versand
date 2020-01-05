@@ -53,6 +53,8 @@ pub fn main(user_interface: &dyn ui::UserInteractor, printing_parameters: &Print
         &mut couvert_infos,
         Some(user_interface),
         printing_parameters.print_sidebadges,
+        printing_parameters.print_groups,
+        printing_parameters.print_names,
     );
     let mut outfile =
         std::io::BufWriter::new(std::fs::File::create(filename).expect("Failed to create file..."));
@@ -66,18 +68,33 @@ pub fn main() {
     println!("combine: main() not implemented for wasm32");
 }
 
+/// A builder for cosmetic arguments
 pub struct PrintingParameters {
     print_sidebadges: bool,
+    print_groups: bool,
+    print_names: bool,
 }
 impl PrintingParameters {
     pub fn new() -> Self {
         PrintingParameters {
             print_sidebadges : true,
+            print_groups: true,
+            print_names: true
         }
     }
 
     pub fn print_sidebadges(mut self, b: bool) -> Self {
         self.print_sidebadges = b;
+        self
+    }
+
+    pub fn print_groups(mut self, b: bool) -> Self {
+        self.print_groups = b;
+        self
+    }
+
+    pub fn print_names (mut self, b: bool) -> Self {
+        self.print_names = b;
         self
     }
 }

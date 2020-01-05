@@ -45,7 +45,7 @@ pub fn main() {
         address: vec_str_to_vec_string(&address),
     }];
 
-    let doc_generated: printpdf::PdfDocumentReference = generate_couverts(&mut couverts, None, true);
+    let doc_generated: printpdf::PdfDocumentReference = generate_couverts(&mut couverts, None, true, true, true);
     let mut buf = std::io::BufWriter::new(std::fs::File::create(filename).expect("What?"));
     doc_generated.save(&mut buf).expect("The Fuck?");
 }
@@ -68,6 +68,8 @@ pub fn generate_couverts(
     couverts: &mut Vec<CouvertInfo>,
     user_interface: Option<&dyn ui::UserInteractor>,
     print_sidebadges: bool,
+    print_top_groups: bool,
+    print_top_names: bool,
 ) -> printpdf::PdfDocumentReference {
     use printpdf::*;
 
@@ -167,6 +169,7 @@ pub fn generate_couverts(
             &font_calibri,
             names_font_size,
             (names_offset_x, names_offset_y),
+            print_top_groups, print_top_names,
             couvert
                 .receivers
                 .iter()
@@ -231,20 +234,27 @@ fn draw_names<'a>(
     font: &printpdf::IndirectFontRef,
     font_size: i64,
     (start_x, start_y): (printpdf::Mm, printpdf::Mm),
+    print_groups: bool, print_names: bool,
     names_and_groups: impl Iterator<Item = (&'a str, &'a str)> + Clone,
 ) {
     let line_distance_y = printpdf::Mm(5.0);
 
-    let names_str = names_and_groups
+    let names_str = if print_names { names_and_groups
         .clone()
         .map(|(name, _group)| name)
         .collect::<Vec<&str>>()
-        .join(", ");
+        .join(", ")
+    } else {
+        "".to_string()
+    };
 
-    let groups_str = names_and_groups
+    let groups_str = if print_groups { names_and_groups
         .map(|(_name, group)| group)
         .collect::<Vec<&str>>()
-        .join(", ");
+        .join(", ")
+    } else {
+        "".to_string()
+    };
 
     // position the names
     current_layer.use_text(names_str, font_size, start_x, start_y, &font);
