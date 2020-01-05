@@ -77,6 +77,7 @@ pub fn generate_couverts(
     let document_title = "Versand";
     let address_font_size = 18;
     let debug_font_size = 18;
+    let donation_font_size = 13;
     let names_font_size = 11;
     let badge_text_font_size = 11;
     let page_width = Mm(229.0);
@@ -139,6 +140,20 @@ pub fn generate_couverts(
         debug_offset_y - Mm(18.0 + 10.0),
         &font_calibri,
     );
+
+    let donation_texts = vec!["Lizenzierungschecks sind mühsam für alle, deshalb ist dieses Tool ohne DRM.", "Testet es gratis, und wenn es gut funktioniert, spendet mir was!"];
+    let mut i: usize = 0;
+    for donation_text in donation_texts {
+        curr_info_page_layer.use_text(
+            donation_text,
+            donation_font_size,
+            debug_offset_x,
+            debug_offset_y - Mm(40.0 + i as f64),
+            &font_calibri,
+            );
+        i += 8;
+    }
+
 
     for (num, couvert) in couverts.iter_mut().enumerate() {
         // add new page
