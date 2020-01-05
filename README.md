@@ -80,6 +80,37 @@ Wenn einige der generierten Couverts nicht so aussehen wie gewollt, ist es mögl
 
 Wenn die Datenbank Personen enthält, deren Adressangaben unvollständig sind wird der Kommandozeilenoutput darüber informieren. Diese Personen werden trotzdem berücksichtigt beim generieren der Couverts, werden aber vermutlich Probleme beim per Post versenden verursachen.
 
+### Troubleshooting
+
+##### Clean
+
+Mach ein Backup von deinen Dateien und lass `clean` laufen, dann mach nochmal `setup`.
+
+```bash
+cp config.yaml config.yaml.bak
+cp inject_people.yaml inject_people.yaml.bak
+cp mapping.yaml mapping.yaml.bak
+cv.exe clean -ra
+cv.exe setup -t servicetoken -e email@mail.ch -p passwort
+# und dann die endpoints neu in config.yaml hinzufügen
+```
+
+##### Invalid Endpoint URL
+
+Wenn das Programm abbricht und den folgenden Error anzeigt, hier ein Paar Tips:
+
+```
+thread 'main' panicked at 'WTF in main! Perhaps the credentials or the endpoint url are invalid?: Error("missing field `people`", line: 1, column: 81)'
+```
+
+* Ist in `config.yaml` ein service-token hinterlegt, oder eine e-mail und ein api-token?
+* Ist in `config.yaml` mindestens ein Endpoint vorhanden?
+* Ist `config.yaml` korrekt yaml-formatiert?
+* Beinhaltet ein endpoint `user_token={service_token}` oder `service_token={service_token}` statt dem korrekten `token={service_token}`? 
+* Beinhaltet ein endpoint mit user-token `token={api_token}` statt `user_token={api_token}`?
+
+
+
 ### Building
 
 Not relevant to the average user.

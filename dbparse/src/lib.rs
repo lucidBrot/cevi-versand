@@ -81,7 +81,7 @@ pub struct MainReturns {
 pub fn run(user_interface: &dyn DbparseInteractor) -> Result<MainReturns, Box<dyn Error>> {
     // load database API token
     let config = setup_config(user_interface);
-    let dataset: ReasonableDataset = get_data_for_versand(&config).expect("WTF in main!");
+    let dataset: ReasonableDataset = get_data_for_versand(&config).expect("WTF in main! Perhaps the credentials or the endpoint url are invalid?");
     user_interface.on_download_finished();
     return run_with_reasonable_dataset(dataset);
 }
