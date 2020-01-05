@@ -1,8 +1,5 @@
 # cevi-versand
 A better tool for generating envelopes from our database
-
-![icon](./ui_/icon.png)
-
 ### Quick Start
 
 ```bash
@@ -10,7 +7,7 @@ cv.exe setup -t "MyS3rviceToken"
 vim config.yaml # add endpoints, as outlined in the section "Setup"
 cv.exe run
 ```
-
+![icon](./ui_/icon.png)
 ### Help
 
 Every subcommand features the `-h` flag for usage help. E.g. `cv.exe -h` or `cv.exe setup -h`.

@@ -50,7 +50,7 @@ const CONFIG_YAML_FILLABLE_TEMPLATE: &str = r###"db_conf:
     #    https://db.cevi.ch/groups/2423/people.json?user_email=[login_email]&user_token=[api_token]
     # nur mit geschweiften Klammern {} statt eckigen Klammern [].
     versand_endpoint_fmtstrs:
-        - "https://db.cevi.ch/groups/2423/people.json?user_email={login_email}&user_token={api_token}"
+        - "https://db.cevi.ch/groups/2423/people.json?token={service_token}"
         - "https://db.cevi.ch/groups/116/people.json?filter_id=319&user_email={login_email}&user_token={api_token}"
 "###;
 
