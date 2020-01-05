@@ -1,7 +1,7 @@
 # cevi-versand
 A better tool for generating envelopes from our database
 
-![image-20200105155146648](N:\Files\projects\cevi-versand\ui_\exampleEnvelope.png)
+![example envelope](./ui_/exampleEnvelope.png)
 
 ### Quick Start
 
