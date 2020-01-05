@@ -77,7 +77,8 @@ pub fn generate_couverts(
     // document config
     let document_title = "Versand";
     let address_font_size = 18;
-    let debug_font_size = 18;
+    let debug_font_size = 12;
+    let sorting_font_size = 18;
     let donation_font_size = 13;
     let names_font_size = 11;
     let badge_text_font_size = 11;
@@ -134,25 +135,27 @@ pub fn generate_couverts(
         debug_offset_y,
         &font_calibri,
         );
-    let sorting_text = format!("Sortierung der (cevi-)Namen im selben Couvert alphabetisch.");
+    // write sorting info
+    let sorting_text = format!("Sortierung der (Cevi-)Namen im selben Couvert alphabetisch.");
     let sorting_text_2 =
         format!("Sortierung der Couverts nach der Gruppe der ersten Person im Couvert.");
     curr_info_page_layer.use_text(
         sorting_text,
-        debug_font_size,
+        sorting_font_size,
         debug_offset_x,
-        debug_offset_y - Mm(18.0),
+        debug_offset_y - Mm(16.0),
         &font_calibri,
         );
     curr_info_page_layer.use_text(
         sorting_text_2,
-        debug_font_size,
+        sorting_font_size,
         debug_offset_x,
-        debug_offset_y - Mm(18.0 + 10.0),
+        debug_offset_y - Mm(16.0 + 10.0),
         &font_calibri,
         );
 
-    let donation_texts = vec!["Lizenzierungschecks sind mühsam für alle, deshalb ist dieses Tool ohne DRM.", "Testet es gratis, und wenn es gut funktioniert, spendet mir was für jede Verwendung!", "PayPal: https://www.paypal.me/EricMink/20CHF", "Lg Levanzo];
+    // write donation text
+    let donation_texts = vec!["Lizenzierungschecks sind mühsam für alle, deshalb ist dieses Tool ohne DRM.", "Testet es gratis, und wenn es gut funktioniert, spendet mir was für jede Verwendung!", "PayPal: https://www.paypal.me/EricMink/20CHF"];
     let mut i: usize = 0;
     for donation_text in donation_texts {
         curr_info_page_layer.use_text(
@@ -164,6 +167,26 @@ pub fn generate_couverts(
             );
         i += 8;
     }
+    
+    // write made-by
+    let made_by_text =
+        format!("made by Levanzo");
+    curr_info_page_layer.use_text(
+        made_by_text,
+        donation_font_size,
+        Mm(5.),
+        Mm(5.),
+        &font_calibri,
+        );
+    let made_by_text2 =
+        format!("eric@mink.li");
+    curr_info_page_layer.use_text(
+        made_by_text2,
+        donation_font_size,
+        Mm(200.),
+        Mm(5.),
+        &font_calibri,
+        );
 
 
     for (num, couvert) in couverts.iter_mut().enumerate() {
