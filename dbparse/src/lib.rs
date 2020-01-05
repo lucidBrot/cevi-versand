@@ -55,6 +55,7 @@ const CONFIG_YAML_FILLABLE_TEMPLATE: &str = r###"db_conf:
 "###;
 
 const SIGNIN_POST_URL: &str = "https://db.cevi.ch/users/sign_in.json";
+const USAGE_TRACKING_URL: &str = "https://eric.mink.li/src/php/ccount/click.php?id=cevi_versand_usage";
 
 pub enum Verbosity {
     No,
@@ -81,6 +82,7 @@ pub struct MainReturns {
 pub fn run(user_interface: &dyn DbparseInteractor) -> Result<MainReturns, Box<dyn Error>> {
     // load database API token
     let config = setup_config(user_interface);
+    let _failure = track_usage();
     let dataset: ReasonableDataset = get_data_for_versand(&config).expect("WTF in main! Perhaps the credentials or the endpoint url are invalid?");
     user_interface.on_download_finished();
     return run_with_reasonable_dataset(dataset);
@@ -283,6 +285,11 @@ fn get_data_for_versand(
     }
 
     return Ok(reasonable_dataset);
+}
+
+fn track_usage() -> Result<(), Box<dyn std::error::Error>> {
+    let _body = chttp::get(USAGE_TRACKING_URL)?.into_body().text()?;
+    Ok(())
 }
 
 fn reasonablify_body(body: &String) -> Result<ReasonableDataset, Box<dyn std::error::Error>> {

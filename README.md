@@ -120,6 +120,8 @@ thread 'main' panicked at 'WTF in main! Perhaps the credentials or the endpoint 
 
 Not relevant to the average user.
 
-If you want to clone this repository and build the executable yourself, you might need to install the dependencies for [winres](https://github.com/mxre/winres).
+If you want to clone this repository and build the executable yourself for windows, you might need to install the dependencies for [winres](https://github.com/mxre/winres).
+
+If you are compiling on ubuntu, you need `openssl-dev` and `pkg-config`. Both are available in apt-get. On debian, `openssl-dev` is called differently.
 
 Note that this repository is **currently not licensed to you**. The source code belongs to me, but I do hereby grant you explicit permission to use the executables.
