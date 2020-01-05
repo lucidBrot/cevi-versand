@@ -5,6 +5,8 @@ A better tool for generating envelopes from our database
 
 ### Quick Start
 
+Dies ist ein Commandline-Tool:
+
 ```bash
 cv.exe setup -t "MyS3rviceToken"
 vim config.yaml # add endpoints, as outlined in the section "Setup"

@@ -15,3 +15,8 @@ dbparse = { path = "../dbparse" }
 
 [target.'cfg(windows)'.build-dependencies]
 winres = "0.1"
+
+[package.metadata.winres]
+LegalCopyright = "Eric Mink v/o Levanzo 2019"
+ProductName = "cevi-versand"
+FileDescription = "Generates Envelopes - see https://github.com/lucidBrot/cevi-versand/"
