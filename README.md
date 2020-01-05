@@ -1,5 +1,5 @@
 # cevi-versand
-A better tool for generating envelopes from our database. It directly communicates with the db.cevi.ch which is using hitobito.
+A better tool for generating envelopes from our database. It directly communicates with the db.cevi.ch which is using hitobito. [Download exe](https://github.com/lucidBrot/cevi-versand/releases/download/1.0/cv.exe) [Download linux version](https://github.com/lucidBrot/cevi-versand/releases/download/1.0-linux/cv)
 
 ![example envelope](./ui_/exampleEnvelope.png)
 
