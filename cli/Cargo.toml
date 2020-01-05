@@ -3,6 +3,7 @@ name = "cli"
 version = "1.0.0"
 authors = ["Eric Mink <eric@mink.li>"]
 edition = "2018"
+build = "build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -11,3 +12,6 @@ clap = { git = "https://github.com/clap-rs/clap.git", rev = "f402f7a", features 
 combine = { path = "../combine" }
 ui = { path = "../ui" }
 dbparse = { path = "../dbparse" }
+
+[target.'cfg(windows)'.build-dependencies]
+winres = "0.1"
