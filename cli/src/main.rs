@@ -51,10 +51,34 @@ struct RunSubcommand {
     disable_sidebadges: bool,
 
     /// Enables the printing of the flag-like sidebadges. (default)
-    // Only there for nicer usage, does not do anything
+    // Only there for nicer usage, does not do anything, because it is the default in
+    // combine::PrintingParameters anyways
     #[clap(short = "s", long = "enable-sidebadges", conflicts_with = "disable_sidebadges")]
     #[allow(dead_code)]
     enable_sidebadges: bool,
+
+    /// Disables the printing of the topside groups
+    #[clap(short = "G", long = "disable-groups")]
+    disable_groups: bool,
+
+    /// enables the printing of the topside groups
+    // Another default that does not do anything except tht it allows explicit specification of the
+    // action because it makes -G error when -g is specified.
+    #[clap(short = "g", long = "enable-groups", conflicts_with = "disable_groups")]
+    #[allow(dead_code)]
+    enable_groups: bool,
+
+    /// Disables the printing of the topside (nick-)names
+    #[clap(short = "N", long = "disable-nicknames")]
+    disable_nicknames: bool,
+
+    /// enables the printing of the topside (nick-)names
+    // Another default that does not do anything except tht it allows explicit specification of the
+    // action because it makes -N error when -n is specified.
+    #[clap(short = "n", long = "enable-nicknames", conflicts_with = "disable_nicknames")]
+    #[allow(dead_code)]
+    enable_nicknames: bool,
+
 }
 
 #[derive(Clap)]
@@ -87,7 +111,7 @@ fn main() {
         SubCommand::run(c) => {
             ui.inform_user("Running...");
 
-            combine::main(&ui, &combine::PrintingParameters::new().print_sidebadges(!c.disable_sidebadges));
+            combine::main(&ui, &combine::PrintingParameters::new().print_sidebadges(!c.disable_sidebadges).print_groups(!c.disable_groups).print_names(!c.disable_nicknames));
 
             ui.inform_user("Done. If above output looks problematic - check the output pdf anyway. Perhaps the program fixed everything on its own.");
         },
