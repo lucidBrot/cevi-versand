@@ -14,7 +14,12 @@ cv.exe setup -t "MyS3rviceToken"
 vim config.yaml # add endpoints, as outlined in the section "Setup"
 cv.exe run
 ```
+Das resultierende `output_versand.pdf` mit Adobe Reader oder Google Chrome öffnen. Andere PDF-reader zeigen oft den Text nicht an.
+
 ![icon](./ui_/icon_small.png)
+
+
+
 ### Help
 
 Every subcommand features the `-h` flag for usage help. E.g. `cv.exe -h` or `cv.exe setup -h`.
