@@ -5,6 +5,8 @@ It can also be used to find broken address entries in the database
 
 ![example envelope](./ui_/exampleEnvelope.png)
 
+Consider this repository **Archived** because [the database API changed](https://github.com/lucidBrot/cevi-versand/issues). If you would use it if there were support for the new API, please open an issue.
+
 ### Quick Start
 
 Dies ist ein Commandline-Tool:
